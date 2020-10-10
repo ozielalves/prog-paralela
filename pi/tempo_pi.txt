@@ -1,0 +1,120 @@
+
+Cores Qtd: 2	Tamanho do Problema: 1000
+
+	Tempo: 1.64e-04 	Resultado: 3.176000
+	Tempo: 1.36e-04 	Resultado: 3.176000
+	Tempo: 1.37e-04 	Resultado: 3.176000
+	Tempo: 1.36e-04 	Resultado: 3.176000
+	Tempo: 1.99e-04 	Resultado: 3.176000
+
+Cores Qtd: 2	Tamanho do Problema: 10000
+
+	Tempo: 1.19e-03 	Resultado: 3.151200
+	Tempo: 1.18e-03 	Resultado: 3.151200
+	Tempo: 1.70e-03 	Resultado: 3.151200
+	Tempo: 1.21e-03 	Resultado: 3.151200
+	Tempo: 1.17e-03 	Resultado: 3.151200
+
+Cores Qtd: 4	Tamanho do Problema: 1000
+
+	Tempo: 1.36e-04 	Resultado: 3.176000
+	Tempo: 1.44e-04 	Resultado: 3.176000
+	Tempo: 1.37e-04 	Resultado: 3.176000
+	Tempo: 1.37e-04 	Resultado: 3.176000
+	Tempo: 1.36e-04 	Resultado: 3.176000
+
+Cores Qtd: 4	Tamanho do Problema: 10000
+
+	Tempo: 1.19e-03 	Resultado: 3.151200
+	Tempo: 1.20e-03 	Resultado: 3.151200
+	Tempo: 1.17e-03 	Resultado: 3.151200
+	Tempo: 1.18e-03 	Resultado: 3.151200
+	Tempo: 1.17e-03 	Resultado: 3.151200
+
+Cores Qtd: 8	Tamanho do Problema: 1000
+
+	Tempo: 1.36e-04 	Resultado: 3.176000
+	Tempo: 1.80e-04 	Resultado: 3.176000
+	Tempo: 1.79e-04 	Resultado: 3.176000
+	Tempo: 1.36e-04 	Resultado: 3.176000
+	Tempo: 1.75e-04 	Resultado: 3.176000
+
+Cores Qtd: 8	Tamanho do Problema: 10000
+
+	Tempo: 1.69e-03 	Resultado: 3.151200
+	Tempo: 3.03e-03 	Resultado: 3.151200
+	Tempo: 2.13e-03 	Resultado: 3.151200
+	Tempo: 1.47e-03 	Resultado: 3.151200
+	Tempo: 1.54e-03 	Resultado: 3.151200
+
+Tamanho do Problema: 750000000
+
+	Tempo: 8.71e+01 	Resultado: 3.141627
+	Tempo: 8.71e+01 	Resultado: 3.141627
+	Tempo: 8.69e+01 	Resultado: 3.141627
+	Tempo: 8.70e+01 	Resultado: 3.141627
+	Tempo: 8.75e+01 	Resultado: 3.141627
+
+Tamanho do Problema: 1000000000
+
+	Tempo: 1.16e+02 	Resultado: 3.141633
+	Tempo: 1.15e+02 	Resultado: 3.141633
+	Tempo: 1.15e+02 	Resultado: 3.141633
+	Tempo: 1.15e+02 	Resultado: 3.141633
+	Tempo: 1.15e+02 	Resultado: 3.141633
+
+Tamanho do Problema: 1500000000
+
+	Tempo: 1.73e+02 	Resultado: 3.141632
+	Tempo: 1.73e+02 	Resultado: 3.141632
+	Tempo: 1.74e+02 	Resultado: 3.141632
+	Tempo: 1.73e+02 	Resultado: 3.141632
+	Tempo: 1.73e+02 	Resultado: 3.141632
+
+Tamanho do Problema: 750000000
+
+	Tempo: 8.67e+01 	Resultado: 3.141627
+	Tempo: 8.66e+01 	Resultado: 3.141627
+	Tempo: 8.66e+01 	Resultado: 3.141627
+	Tempo: 8.67e+01 	Resultado: 3.141627
+	Tempo: 8.66e+01 	Resultado: 3.141627
+
+Tamanho do Problema: 1000000000
+
+	Tempo: 1.15e+02 	Resultado: 3.141633
+	Tempo: 1.15e+02 	Resultado: 3.141633
+	Tempo: 1.15e+02 	Resultado: 3.141633
+	Tempo: 1.16e+02 	Resultado: 3.141633
+	Tempo: 1.15e+02 	Resultado: 3.141633
+
+Tamanho do Problema: 1500000000
+
+	Tempo: 1.75e+02 	Resultado: 3.141632
+	Tempo: 1.73e+02 	Resultado: 3.141632
+	Tempo: 1.73e+02 	Resultado: 3.141632
+	Tempo: 1.73e+02 	Resultado: 3.141632
+	Tempo: 1.74e+02 	Resultado: 3.141632
+
+Tamanho do Problema: 750000000
+
+	Tempo: 8.76e+01 	Resultado: 3.141627
+	Tempo: 8.67e+01 	Resultado: 3.141627
+	Tempo: 8.65e+01 	Resultado: 3.141627
+	Tempo: 8.66e+01 	Resultado: 3.141627
+	Tempo: 8.67e+01 	Resultado: 3.141627
+
+Tamanho do Problema: 1000000000
+
+	Tempo: 1.15e+02 	Resultado: 3.141633
+	Tempo: 1.15e+02 	Resultado: 3.141633
+	Tempo: 1.15e+02 	Resultado: 3.141633
+	Tempo: 1.15e+02 	Resultado: 3.141633
+	Tempo: 1.15e+02 	Resultado: 3.141633
+
+Tamanho do Problema: 1500000000
+
+	Tempo: 1.73e+02 	Resultado: 3.141632
+	Tempo: 1.73e+02 	Resultado: 3.141632
+	Tempo: 1.76e+02 	Resultado: 3.141632
+	Tempo: 1.75e+02 	Resultado: 3.141632
+	Tempo: 1.73e+02 	Resultado: 3.141632

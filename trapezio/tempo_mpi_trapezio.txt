@@ -1,0 +1,48 @@
+
+Cores Qtd: 2	Tamanho do Problema: 10000
+
+	Tempo: 1.01e-01 	Resultado: 21333.384766
+	Tempo: 3.90e-02 	Resultado: 21333.384766
+	Tempo: 3.55e-02 	Resultado: 21333.384766
+	Tempo: 1.65e-01 	Resultado: 21333.384766
+	Tempo: 2.36e-02 	Resultado: 21333.384766
+
+Cores Qtd: 2	Tamanho do Problema: 100000
+
+	Tempo: 3.19e-02 	Resultado: 21350.099609
+	Tempo: 2.96e-02 	Resultado: 21350.099609
+	Tempo: 3.75e-02 	Resultado: 21350.099609
+	Tempo: 2.97e-02 	Resultado: 21350.099609
+	Tempo: 2.99e-02 	Resultado: 21350.099609
+
+Cores Qtd: 4	Tamanho do Problema: 10000
+
+	Tempo: 9.92e-02 	Resultado: 21333.896484
+	Tempo: 7.32e-02 	Resultado: 21333.896484
+	Tempo: 6.87e-02 	Resultado: 21333.896484
+	Tempo: 6.57e-02 	Resultado: 21333.896484
+	Tempo: 6.21e-02 	Resultado: 21333.896484
+
+Cores Qtd: 4	Tamanho do Problema: 100000
+
+	Tempo: 8.26e-02 	Resultado: 21340.957031
+	Tempo: 9.35e-02 	Resultado: 21340.957031
+	Tempo: 1.34e-01 	Resultado: 21340.957031
+	Tempo: 1.05e-01 	Resultado: 21340.957031
+	Tempo: 1.72e-01 	Resultado: 21340.957031
+
+Cores Qtd: 8	Tamanho do Problema: 10000
+
+	Tempo: 5.11e-01 	Resultado: 21333.666016
+	Tempo: 4.93e-01 	Resultado: 21333.666016
+	Tempo: 4.96e-01 	Resultado: 21333.666016
+	Tempo: 3.24e-01 	Resultado: 21333.666016
+	Tempo: 3.31e-01 	Resultado: 21333.666016
+
+Cores Qtd: 8	Tamanho do Problema: 100000
+
+	Tempo: 2.91e-01 	Resultado: 21337.408203
+	Tempo: 3.87e-01 	Resultado: 21337.408203
+	Tempo: 4.31e-01 	Resultado: 21337.408203
+	Tempo: 3.45e-01 	Resultado: 21337.408203
+	Tempo: 3.29e-01 	Resultado: 21337.408203

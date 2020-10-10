@@ -1,15 +1,14 @@
 #!/bin/bash
-
-#	INFORMAÇÕES- Para rodar no computador pessoal.
 # EXECUTAR NO TERMINAL: ./shellscript_start.sh
 # Permissão máxima ao este arquivo: chmod 777 shellscript_start.sh
 
 #OPCIONAL: apagar arquivos temporários (gerados ou não pelo .c).
-rm tempo_mpi_trapezio.txt
-rm mpi_trapezio
+rm ./trapezio/mpi_trapezio
+rm ./trapezio/trapezio
 
 #Compilação de Código. Modifique para o que mais se adequa a você.
-mpicc -g -o mpi_trapezio mpi_trapezio.cpp -lstdc++ -lm
+mpicc -g -o ./trapezio/mpi_trapezio ./trapezio/mpi_trapezio.cpp -lstdc++ -lm
+g++ -g -o ./trapezio/trapezio ./trapezio/trapezio.cpp
 
 #OBRIGATÓRIO: Laço de iteração para resgate dos tempos de acordo com "cores" e "size"
 
@@ -18,15 +17,15 @@ mpicc -g -o mpi_trapezio mpi_trapezio.cpp -lstdc++ -lm
 
 	for cores in 2 4 8 #números de cores utilizados
 	do
-			for size in 1000 10000 100000 #tamanho do problema
+			for size in 10000 100000 #10000 100000 #tamanho do problema
 			do   	
-				echo -e "\nCores Qtd: $cores\tTamanho do Problema: $size\t\t\c" >> "tempo_mpi_trapezio.txt" 
-
+				echo -e "\nCores Qtd: $cores\tTamanho do Problema: $size\n" >> "./trapezio/tempo_mpi_trapezio.txt" 
+				echo -e "\nTamanho do Problema: $size\n" >> "./trapezio/tempo_trapezio.txt" 
 				for tentativa in $(seq $tentativas) #Cria uma vetor de 1 a "tentativas"
 				do
 					#Executar o código. Modifique para o que mais se adequa a você.
-					mpirun -np  $cores ./mpi_trapezio $size 
-					#no meu PC, tive que utilizar "--oversubscrive" para rodar. No seu pode não ser necessário. 
+					mpirun -np  $cores ./trapezio/mpi_trapezio $size 
+					./trapezio/trapezio $size
 				done
 			done
 

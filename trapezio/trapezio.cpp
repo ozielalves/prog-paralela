@@ -6,6 +6,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <math.h>
+#include <sys/time.h>
 #include <limits>
 
 typedef std::numeric_limits< double > dbl;
@@ -32,7 +33,7 @@ double trapezioIntegralV1(double xa, double xb, int n, double (*f)(double)) {
     return area_total;
 };
 */
-double trapezioIntegral(double xa, double xb, long long int n, double (*f)(double)) {
+double trapezioIntegral(double xa, double xb, long long int n/* , double (*f)(double) */) {
     double x_i; // Passo do X
     double area_total = 0.0f; // Soma das areas
     double inc; // Incremento
@@ -53,12 +54,27 @@ double trapezioIntegral(double xa, double xb, long long int n, double (*f)(doubl
 
 
 int main(int argc, char* argv[]) {
-    
-    double area_total = trapezioIntegral(0.f, 40.f, (1000000- 1) / 2, f);
-    
-    cout.precision(dbl::max_digits10);
-    cout << "Area aproximada da figura: " << area_total << "\n";
+    double xa = 0.; 
+    double xb = 40.;
+    struct timeval start, stop;
 
-    //system("PAUSE");
+    gettimeofday(&start, 0);
+
+    double area_total = trapezioIntegral(xa, xb, atoll(argv[1]));
+
+    gettimeofday(&stop, 0);
+    FILE *fp;
+    char outputFilename[] = "./trapezio/tempo_trapezio.txt";
+
+    fp = fopen(outputFilename, "a");
+    if (fp == NULL) {
+        fprintf(stderr, "Can't open output file %s!\n", outputFilename);
+        exit(1);
+    }
+
+    fprintf(fp, "\tTempo: %1.2e \tResultado: %f\n", ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)), area_total);
+
+    fclose(fp);
+    
     return 0;
 }

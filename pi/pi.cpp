@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <limits>
+#include <sys/time.h>
 #include <random>
 
 typedef std::numeric_limits<double> dbl;
@@ -9,14 +10,6 @@ typedef std::numeric_limits<double> dbl;
 using namespace std;
 
 double calcPi(int termos) {
-    /* double pi = 0;
-    long long int aux = 1;
-    for (long long int i = 1; i <= termos; i++) {
-        if (i % 2 != 0) pi += 4 / aux;
-        else pi -= 4 / aux;
-        aux += 2;
-    }
-    return pi; */
     // Gerador Mersene twist, SEED: 42
     mt19937 mt(42);
     // Numero real pseudo-aleatorio
@@ -38,11 +31,26 @@ double calcPi(int termos) {
 }
 
 int main(int argc, char* argv[]) {
+    struct timeval start, stop;
 
-    double pi = calcPi(5000000);
+    gettimeofday(&start, 0);
     
-    cout.precision(dbl::max_digits10);
-    cout << "\nO valor de Pi: " << pi << "\n";
+    double pi = calcPi(atoi(argv[1])); //atoi: int atol:long atoll: long long
     
+    gettimeofday(&stop, 0);
+
+    FILE *fp;
+    char outputFilename[] = "./pi/tempo_pi.txt";
+
+    fp = fopen(outputFilename, "a");
+    if (fp == NULL) {
+        fprintf(stderr, "Can't open output file %s!\n", outputFilename);
+        exit(1);
+    }
+
+    fprintf(fp, "\tTempo: %1.2e \tResultado: %f\n", ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)), pi);
+
+    fclose(fp);
+
     return 0;
 }
