@@ -2,8 +2,8 @@
 # EXECUTAR NO TERMINAL: ./shellscript_start.sh
 # Permissão máxima ao este arquivo: chmod 777 shellscript_start.sh
 
-rm pi/pi
-rm pi/tempo_pi.txt
+rm ./pi/pi
+rm ./pi/tempo_pi.txt
 
 g++ -g -o ./pi/pi ./pi/pi.cpp
 

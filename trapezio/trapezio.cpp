@@ -1,6 +1,6 @@
 // Programação Paralela.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-// MPI - Compilar: mpicc -g -Wall -o <executavel> <compilável>.cpp 
+// MPI - Compilar: mpicc -g -Wall -o <executavel> <compilável>.cpp
 // MPI - Executar: mpiexec -n <nº de processos> ./<executavel> // p=1 não é serial
 
 #include <iostream>
@@ -9,39 +9,26 @@
 #include <sys/time.h>
 #include <limits>
 
-typedef std::numeric_limits< double > dbl;
+typedef std::numeric_limits<double> dbl;
 
 using namespace std;
 
-double f(double x) { 
-    //return 4 / (1 + pow(x, 2)); // Primitiva de ArcTg
+double f(double x)
+{
     return pow(x, 2);
 };
-/*
-double trapezioIntegralV1(double xa, double xb, int n, double (*f)(double)) {
-    double x_i; // Passo do X
+
+double trapezioIntegral(double xa, double xb, long long int n)
+{
+    double x_i;               // Passo do X
     double area_total = 0.0f; // Soma das areas
-    double inc; // Incremento
-
-    inc = (xb - xa) / n;
-
-    for (int i = 1; i < n; i++) {
-        x_i = xa + i * inc;
-        area_total += (f(x_i) + f(x_i + inc)) * inc / 2;
-    }
-
-    return area_total;
-};
-*/
-double trapezioIntegral(double xa, double xb, long long int n/* , double (*f)(double) */) {
-    double x_i; // Passo do X
-    double area_total = 0.0f; // Soma das areas
-    double inc; // Incremento
+    double inc;               // Incremento
 
     inc = (xb - xa) / n;
     area_total = (f(xa) + f(xb)) / 2;
 
-    for (long long int i = 1; i < n; i++) {
+    for (long long int i = 1; i < n; i++)
+    {
         x_i = xa + i * inc;
         area_total += f(x_i);
     }
@@ -51,10 +38,9 @@ double trapezioIntegral(double xa, double xb, long long int n/* , double (*f)(do
     return area_total;
 };
 
-
-
-int main(int argc, char* argv[]) {
-    double xa = 0.; 
+int main(int argc, char *argv[])
+{
+    double xa = 0.;
     double xb = 40.;
     struct timeval start, stop;
 
@@ -67,7 +53,8 @@ int main(int argc, char* argv[]) {
     char outputFilename[] = "./trapezio/tempo_trapezio.txt";
 
     fp = fopen(outputFilename, "a");
-    if (fp == NULL) {
+    if (fp == NULL)
+    {
         fprintf(stderr, "Can't open output file %s!\n", outputFilename);
         exit(1);
     }
@@ -75,6 +62,6 @@ int main(int argc, char* argv[]) {
     fprintf(fp, "\tTempo: %1.2e \tResultado: %f\n", ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)), area_total);
 
     fclose(fp);
-    
+
     return 0;
 }

@@ -1,0 +1,32 @@
+
+Tamanho do Problema: 374500000
+
+	Tempo: 4.32e+01 	Resultado: 3.141584
+	Tempo: 4.33e+01 	Resultado: 3.141584
+	Tempo: 4.32e+01 	Resultado: 3.141584
+	Tempo: 4.38e+01 	Resultado: 3.141584
+	Tempo: 4.33e+01 	Resultado: 3.141584
+
+Tamanho do Problema: 550000000
+
+	Tempo: 6.36e+01 	Resultado: 3.141587
+	Tempo: 6.45e+01 	Resultado: 3.141587
+	Tempo: 6.36e+01 	Resultado: 3.141587
+	Tempo: 6.36e+01 	Resultado: 3.141587
+	Tempo: 6.34e+01 	Resultado: 3.141587
+
+Tamanho do Problema: 900000000
+
+	Tempo: 1.04e+02 	Resultado: 3.141636
+	Tempo: 1.05e+02 	Resultado: 3.141636
+	Tempo: 1.04e+02 	Resultado: 3.141636
+	Tempo: 1.04e+02 	Resultado: 3.141636
+	Tempo: 1.04e+02 	Resultado: 3.141636
+
+Tamanho do Problema: 1500000000
+
+	Tempo: 1.73e+02 	Resultado: 3.141632
+	Tempo: 1.73e+02 	Resultado: 3.141632
+	Tempo: 1.73e+02 	Resultado: 3.141632
+	Tempo: 1.73e+02 	Resultado: 3.141632
+	Tempo: 1.73e+02 	Resultado: 3.141632

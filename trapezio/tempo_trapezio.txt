@@ -1,48 +1,32 @@
 
-Cores Qtd: 2	Tamanho do Problema: 10000
+Tamanho do Problema: 1200000000
 
-	Tempo: 5.11e-04 	Resultado: 21333.333440
-	Tempo: 4.23e-04 	Resultado: 21333.333440
-	Tempo: 4.13e-04 	Resultado: 21333.333440
-	Tempo: 4.22e-04 	Resultado: 21333.333440
-	Tempo: 4.14e-04 	Resultado: 21333.333440
+	Tempo: 4.57e+01 	Resultado: 21333.333333
+	Tempo: 4.57e+01 	Resultado: 21333.333333
+	Tempo: 4.56e+01 	Resultado: 21333.333333
+	Tempo: 4.57e+01 	Resultado: 21333.333333
+	Tempo: 4.57e+01 	Resultado: 21333.333333
 
-Cores Qtd: 2	Tamanho do Problema: 100000
+Tamanho do Problema: 4200000000
 
-	Tempo: 3.85e-03 	Resultado: 21333.333334
-	Tempo: 3.86e-03 	Resultado: 21333.333334
-	Tempo: 3.99e-03 	Resultado: 21333.333334
-	Tempo: 3.87e-03 	Resultado: 21333.333334
-	Tempo: 3.94e-03 	Resultado: 21333.333334
+	Tempo: 1.60e+02 	Resultado: 21333.333333
+	Tempo: 1.60e+02 	Resultado: 21333.333333
+	Tempo: 1.60e+02 	Resultado: 21333.333333
+	Tempo: 1.60e+02 	Resultado: 21333.333333
+	Tempo: 1.60e+02 	Resultado: 21333.333333
 
-Cores Qtd: 4	Tamanho do Problema: 10000
+Tamanho do Problema: 6200000000
 
-	Tempo: 4.26e-04 	Resultado: 21333.333440
-	Tempo: 4.41e-04 	Resultado: 21333.333440
-	Tempo: 4.12e-04 	Resultado: 21333.333440
-	Tempo: 4.16e-04 	Resultado: 21333.333440
-	Tempo: 4.16e-04 	Resultado: 21333.333440
+	Tempo: 2.36e+02 	Resultado: 21333.333333
+	Tempo: 2.36e+02 	Resultado: 21333.333333
+	Tempo: 2.36e+02 	Resultado: 21333.333333
+	Tempo: 2.36e+02 	Resultado: 21333.333333
+	Tempo: 2.36e+02 	Resultado: 21333.333333
 
-Cores Qtd: 4	Tamanho do Problema: 100000
+Tamanho do Problema: 8200000000
 
-	Tempo: 3.83e-03 	Resultado: 21333.333334
-	Tempo: 4.08e-03 	Resultado: 21333.333334
-	Tempo: 4.00e-03 	Resultado: 21333.333334
-	Tempo: 4.29e-03 	Resultado: 21333.333334
-	Tempo: 4.18e-03 	Resultado: 21333.333334
-
-Cores Qtd: 8	Tamanho do Problema: 10000
-
-	Tempo: 4.48e-04 	Resultado: 21333.333440
-	Tempo: 5.97e-04 	Resultado: 21333.333440
-	Tempo: 4.48e-04 	Resultado: 21333.333440
-	Tempo: 4.34e-04 	Resultado: 21333.333440
-	Tempo: 4.15e-04 	Resultado: 21333.333440
-
-Cores Qtd: 8	Tamanho do Problema: 100000
-
-	Tempo: 3.93e-03 	Resultado: 21333.333334
-	Tempo: 4.74e-03 	Resultado: 21333.333334
-	Tempo: 3.97e-03 	Resultado: 21333.333334
-	Tempo: 3.93e-03 	Resultado: 21333.333334
-	Tempo: 3.84e-03 	Resultado: 21333.333334
+	Tempo: 3.12e+02 	Resultado: 21333.333333
+	Tempo: 3.12e+02 	Resultado: 21333.333333
+	Tempo: 3.12e+02 	Resultado: 21333.333333
+	Tempo: 3.12e+02 	Resultado: 21333.333333
+	Tempo: 3.12e+02 	Resultado: 21333.333333

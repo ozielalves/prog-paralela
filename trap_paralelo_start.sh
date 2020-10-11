@@ -3,8 +3,8 @@
 # Permissão máxima ao este arquivo: chmod 777 shellscript_start.sh
 
 #OPCIONAL: apagar arquivos temporários (gerados ou não pelo .c).
-rm trapezio/mpi_trapezio
-rm trapezio/tempo_mpi_trapezio.txt
+rm ./trapezio/mpi_trapezio
+rm ./trapezio/tempo_mpi_trapezio.txt
 
 #Compilação de Código. Modifique para o que mais se adequa a você.
 mpicc -g -o ./trapezio/mpi_trapezio ./trapezio/mpi_trapezio.cpp -lstdc++ -lm
@@ -16,7 +16,7 @@ mpicc -g -o ./trapezio/mpi_trapezio ./trapezio/mpi_trapezio.cpp -lstdc++ -lm
 
 	for cores in 2 4 8 #números de cores utilizados
 	do
-			for size in 374500000 550000000 900000000 1500000000 #tamanho do problema
+			for size in 1200000000 4200000000 6200000000 8200000000 #tamanho do problema
 			do   	
 				echo -e "\nCores Qtd: $cores\tTamanho do Problema: $size\n" >> "./trapezio/tempo_mpi_trapezio.txt" 
 				for tentativa in $(seq $tentativas) #Cria uma vetor de 1 a "tentativas"

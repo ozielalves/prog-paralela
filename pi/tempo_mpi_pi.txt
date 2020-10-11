@@ -1,72 +1,96 @@
 
-Cores Qtd: 2	Tamanho do Problema: 750000000
+Cores Qtd: 2	Tamanho do Problema: 374500000
 
-	Tempo: 4.63e+01 	Resultado: 3.141588
-	Tempo: 4.69e+01 	Resultado: 3.141588
-	Tempo: 4.65e+01 	Resultado: 3.141588
-	Tempo: 4.73e+01 	Resultado: 3.141588
-	Tempo: 4.67e+01 	Resultado: 3.141588
+	Tempo: 2.40e+01 	Resultado: 3.141571
+	Tempo: 2.32e+01 	Resultado: 3.141571
+	Tempo: 2.37e+01 	Resultado: 3.141571
+	Tempo: 2.38e+01 	Resultado: 3.141571
+	Tempo: 2.47e+01 	Resultado: 3.141571
 
-Cores Qtd: 2	Tamanho do Problema: 1000000000
+Cores Qtd: 2	Tamanho do Problema: 550000000
 
-	Tempo: 6.16e+01 	Resultado: 3.141528
-	Tempo: 6.16e+01 	Resultado: 3.141528
-	Tempo: 6.15e+01 	Resultado: 3.141528
-	Tempo: 6.16e+01 	Resultado: 3.141528
-	Tempo: 6.17e+01 	Resultado: 3.141528
+	Tempo: 3.56e+01 	Resultado: 3.141605
+	Tempo: 3.61e+01 	Resultado: 3.141605
+	Tempo: 3.53e+01 	Resultado: 3.141605
+	Tempo: 3.58e+01 	Resultado: 3.141605
+	Tempo: 3.54e+01 	Resultado: 3.141605
+
+Cores Qtd: 2	Tamanho do Problema: 900000000
+
+	Tempo: 5.76e+01 	Resultado: 3.141544
+	Tempo: 5.79e+01 	Resultado: 3.141544
+	Tempo: 5.81e+01 	Resultado: 3.141544
+	Tempo: 5.78e+01 	Resultado: 3.141544
+	Tempo: 5.93e+01 	Resultado: 3.141544
 
 Cores Qtd: 2	Tamanho do Problema: 1500000000
 
-	Tempo: 9.32e+01 	Resultado: 3.141627
-	Tempo: 9.32e+01 	Resultado: 3.141627
-	Tempo: 9.32e+01 	Resultado: 3.141627
-	Tempo: 9.29e+01 	Resultado: 3.141627
-	Tempo: 9.31e+01 	Resultado: 3.141627
+	Tempo: 9.62e+01 	Resultado: 3.141627
+	Tempo: 9.50e+01 	Resultado: 3.141627
+	Tempo: 9.46e+01 	Resultado: 3.141627
+	Tempo: 9.46e+01 	Resultado: 3.141627
+	Tempo: 9.61e+01 	Resultado: 3.141627
 
-Cores Qtd: 4	Tamanho do Problema: 750000000
+Cores Qtd: 4	Tamanho do Problema: 374500000
 
-	Tempo: 3.37e+01 	Resultado: 3.141578
-	Tempo: 3.33e+01 	Resultado: 3.141578
-	Tempo: 3.36e+01 	Resultado: 3.141578
-	Tempo: 3.32e+01 	Resultado: 3.141578
-	Tempo: 3.33e+01 	Resultado: 3.141578
+	Tempo: 1.75e+01 	Resultado: 3.141617
+	Tempo: 1.75e+01 	Resultado: 3.141617
+	Tempo: 1.76e+01 	Resultado: 3.141617
+	Tempo: 1.76e+01 	Resultado: 3.141617
+	Tempo: 1.75e+01 	Resultado: 3.141617
 
-Cores Qtd: 4	Tamanho do Problema: 1000000000
+Cores Qtd: 4	Tamanho do Problema: 550000000
 
-	Tempo: 4.50e+01 	Resultado: 3.141644
-	Tempo: 4.50e+01 	Resultado: 3.141644
-	Tempo: 4.48e+01 	Resultado: 3.141644
-	Tempo: 4.50e+01 	Resultado: 3.141644
-	Tempo: 4.48e+01 	Resultado: 3.141644
+	Tempo: 2.59e+01 	Resultado: 3.141578
+	Tempo: 2.58e+01 	Resultado: 3.141578
+	Tempo: 2.61e+01 	Resultado: 3.141578
+	Tempo: 2.57e+01 	Resultado: 3.141578
+	Tempo: 2.57e+01 	Resultado: 3.141578
+
+Cores Qtd: 4	Tamanho do Problema: 900000000
+
+	Tempo: 4.22e+01 	Resultado: 3.141602
+	Tempo: 4.20e+01 	Resultado: 3.141602
+	Tempo: 4.24e+01 	Resultado: 3.141602
+	Tempo: 4.23e+01 	Resultado: 3.141602
+	Tempo: 4.20e+01 	Resultado: 3.141602
 
 Cores Qtd: 4	Tamanho do Problema: 1500000000
 
-	Tempo: 6.90e+01 	Resultado: 3.141588
-	Tempo: 6.88e+01 	Resultado: 3.141588
-	Tempo: 6.86e+01 	Resultado: 3.141588
-	Tempo: 6.80e+01 	Resultado: 3.141588
-	Tempo: 6.86e+01 	Resultado: 3.141588
+	Tempo: 7.01e+01 	Resultado: 3.141588
+	Tempo: 7.06e+01 	Resultado: 3.141588
+	Tempo: 7.02e+01 	Resultado: 3.141588
+	Tempo: 7.01e+01 	Resultado: 3.141588
+	Tempo: 7.04e+01 	Resultado: 3.141588
 
-Cores Qtd: 8	Tamanho do Problema: 750000000
+Cores Qtd: 8	Tamanho do Problema: 374500000
 
-	Tempo: 3.47e+01 	Resultado: 3.141614
-	Tempo: 3.42e+01 	Resultado: 3.141614
-	Tempo: 3.41e+01 	Resultado: 3.141614
-	Tempo: 3.39e+01 	Resultado: 3.141614
-	Tempo: 3.39e+01 	Resultado: 3.141614
+	Tempo: 1.80e+01 	Resultado: 3.141646
+	Tempo: 1.80e+01 	Resultado: 3.141646
+	Tempo: 1.79e+01 	Resultado: 3.141646
+	Tempo: 1.81e+01 	Resultado: 3.141646
+	Tempo: 1.79e+01 	Resultado: 3.141646
 
-Cores Qtd: 8	Tamanho do Problema: 1000000000
+Cores Qtd: 8	Tamanho do Problema: 550000000
 
-	Tempo: 4.57e+01 	Resultado: 3.141587
-	Tempo: 4.57e+01 	Resultado: 3.141587
-	Tempo: 4.55e+01 	Resultado: 3.141587
-	Tempo: 4.56e+01 	Resultado: 3.141587
-	Tempo: 4.59e+01 	Resultado: 3.141587
+	Tempo: 2.62e+01 	Resultado: 3.141420
+	Tempo: 2.62e+01 	Resultado: 3.141420
+	Tempo: 2.63e+01 	Resultado: 3.141420
+	Tempo: 2.65e+01 	Resultado: 3.141420
+	Tempo: 2.60e+01 	Resultado: 3.141420
+
+Cores Qtd: 8	Tamanho do Problema: 900000000
+
+	Tempo: 4.28e+01 	Resultado: 3.141605
+	Tempo: 4.24e+01 	Resultado: 3.141605
+	Tempo: 4.25e+01 	Resultado: 3.141605
+	Tempo: 4.24e+01 	Resultado: 3.141605
+	Tempo: 4.26e+01 	Resultado: 3.141605
 
 Cores Qtd: 8	Tamanho do Problema: 1500000000
 
-	Tempo: 6.86e+01 	Resultado: 3.141578
-	Tempo: 6.87e+01 	Resultado: 3.141578
-	Tempo: 6.90e+01 	Resultado: 3.141578
-	Tempo: 6.98e+01 	Resultado: 3.141578
-	Tempo: 6.89e+01 	Resultado: 3.141578
+	Tempo: 7.07e+01 	Resultado: 3.141578
+	Tempo: 7.09e+01 	Resultado: 3.141578
+	Tempo: 7.04e+01 	Resultado: 3.141578
+	Tempo: 7.05e+01 	Resultado: 3.141578
+	Tempo: 7.04e+01 	Resultado: 3.141578
