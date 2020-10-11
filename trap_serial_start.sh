@@ -13,7 +13,7 @@ g++ -g -o ./trapezio/trapezio ./trapezio/trapezio.cpp
 #Loop principal de execuções. São 10 tentativas
 	tentativas=5 #Quantas vezes o código será executado dado um par (cores,size)
 
-		for size in 1200000000 4200000000 6200000000 8200000000 #tamanho do problema
+		for size in 8700000000 #tamanho do problema
 		do   	
 			echo -e "\nTamanho do Problema: $size\n" >> "./trapezio/tempo_trapezio.txt" 
 			for tentativa in $(seq $tentativas) #Cria uma vetor de 1 a "tentativas"

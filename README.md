@@ -18,16 +18,16 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
       + [Gráficos exclusivos](#gráficos-exclusivos-1)
       + [Tamanho x Iterações](#tamanho-x-iterações-1)
       + [Tamanho x Tempo médio](#tamanho-x-tempo-médio-1)
-    + [Recursiva](#recursiva)
+    + [Paralelo](#recursiva)
       + [Gráficos exclusivos](#gráficos-exclusivos-2)
       + [Tamanho x Iterações](#tamanho-x-iterações-2)
       + [Tamanho x Tempo médio](#tamanho-x-tempo-médio-2)
-  + [Busca Ternária](#)
-    + [Iterativa](#iterativa-2)
+  + [Cálculo da Integral - Regrado do Trapézio](#cálculo-da-integral---regra-do-trapézio)
+    + [Serial](#Serial)
       + [Gráficos exclusivos](#gráficos-exclusivos-3)
       + [Tamanho x Iterações](#tamanho-x-iterações-3)
       + [Tamanho x Tempo médio](#tamanho-x-tempo-médio-3)
-    + [Recursiva](#recursiva-2)
+    + [Paralelo](Paralelo)
       + [Gráficos exclusivos](#gráficos-exclusivos-4)
       + [Tamanho x Iterações](#tamanho-x-iterações-4)
       + [Tamanho x Tempo médio](#tamanho-x-tempo-médio-4)
@@ -102,7 +102,40 @@ Podemos esperar que $$\mathcal{O}(n)$$ descreva o comportamento do algoritmo em 
 ###### Tamanho x Tempo médio
 ![Alt Tamanho x Tempo médio](./pi/lonely/1-Sequential%20Search_13.png)
 
-### Busca Binária
+### Cálculo da Integral usando a Regra do Trapézio
+```bash
+/*
+ * Peter S. Pacheco, An Introduction to Parallel Programming,
+ * Morgan Kaufmann Publishers, 2011
+ * IPP:   Section 3.4.2 (pp. 104 and ff.)
+ * Timing and command line argument added by Hannah Sonsalla, 
+ * Macalester College, 2017
+ *
+ * mpi_trap.c
+ *
+ * ... Use MPI to implement a parallel version of the trapezoidal
+ *     rule.  Uses collective communications to distribute the
+ *     input data and compute the global sum.
+ *
+ * Input:    Number of trapezoids
+ * Output:   Estimate of the integral from a to b of f(x)
+ *           using the trapezoidal rule and n trapezoids.
+ *
+ * Usage:    mpirun -np <number of processes> ./mpi_trap < number of trapezoids>
+ *
+ * Algorithm:
+ *    1.  Each process calculates "its" interval of
+ *        integration.
+ *    2.  Each process estimates the integral of f(x)
+ *        over its interval using the trapezoidal rule.
+ *    3a. Each process != 0 sends its integral to 0.
+ *    3b. Process 0 sums the calculations received from
+ *        the individual processes and prints the result.
+ *
+ * Note:  f(x) is all hardwired to x*x.
+ *
+ */
+```
 Também conhecida como busca logaritmica, é um algoritmo de busca baseado na técnica *divide and conquer* e dependente de uma ordenação, que melhora notávelmente sua performance, visto que a cada iteração, é descartado metade do conjunto.
 #### Iterativa
 Dado um conjunto $A$ de $n$ elementos ordenados e um alvo $T$, é seguida a sub-rotina para encontrar o elemento:

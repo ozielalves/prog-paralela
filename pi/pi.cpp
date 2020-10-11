@@ -9,42 +9,45 @@ typedef std::numeric_limits<double> dbl;
 
 using namespace std;
 
-double calcPi(int termos) {
+double calcPi(int termos)
+{
     // Gerador Mersene twist, SEED: 42
     mt19937 mt(42);
     // Numero real pseudo-aleatorio
     uniform_real_distribution<double> linear_r(0.f, 1.f);
 
     int pi = 0;
-    for(int i = 0; i < termos; i++) {
-        
+    for (int i = 0; i < termos; i++)
+    {
+
         double x = linear_r(mt);
         double y = linear_r(mt);
 
-/*         cout << "["<< y << ", " << x << "] "; */
-
-        if(x * x + y * y < 1.0){
+        if (x * x + y * y < 1.0)
+        {
             pi++;
         }
     }
-    return (double) (4.0 * pi / termos);
+    return (double)(4.0 * pi / termos);
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[])
+{
     struct timeval start, stop;
 
     gettimeofday(&start, 0);
-    
+
     double pi = calcPi(atoi(argv[1])); //atoi: int atol:long atoll: long long
-    
+
     gettimeofday(&stop, 0);
 
     FILE *fp;
     char outputFilename[] = "./pi/tempo_pi.txt";
 
     fp = fopen(outputFilename, "a");
-    if (fp == NULL) {
-        fprintf(stderr, "Can't open output file %s!\n", outputFilename);
+    if (fp == NULL)
+    {
+        fprintf(stderr, "Nao foi possivel abrir o arquivo %s!\n", outputFilename);
         exit(1);
     }
 

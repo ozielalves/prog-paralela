@@ -7,46 +7,49 @@
 #include <sys/time.h>
 #include "mpi.h"
 
-float f(float x)
+double f(double x)
 {
     return pow(x, 2);
 }
 
-float trapezioIntegral(float local_a, float local_b, int local_n, float inc)
+double trapezioIntegral(double local_a, double local_b, int local_n, long double inc)
 {
+    double x_i;            // Passo de x
+    double integparc = 0.; // Area parcial
 
-    float integral;
-    float x;
-    int i;
+    x_i = local_a;
+    integparc = (f(local_a) + f(local_b)) / 2;
 
-    integral = (f(local_a) + f(local_b)) / 2.0;
-    x = local_a;
-    for (i = 1; i <= local_n - 1; i++)
+    for (int i = 1; i <= local_n - 1; i++)
     {
-        x = x + inc;
-        integral = integral + f(x);
+        x_i += inc;
+        integparc += f(x_i);
     }
-    integral = integral * inc;
-    return integral;
+
+    integparc = integparc * inc;
+
+    return integparc;
 }
 
 int main(int argc, char **argv)
 {
-    int my_rank;           // Rank do meu processo
-    int p;                 // Numero de processos
-    float xa = 0.;         // X Início da figura
-    float xb = 40.;        // X Fim da figura
-    int n = atoi(argv[1]); // Numero de mini trapezios
-    float inc;             // Incremento (Base do Trapezio)
-    float local_a;         // X Início da figura LOCAL
-    float local_b;         // X Fim da figura LOCAL
-    int local_n;           // Numero de mini trapezios LOCAL
-
-    float area_relativa;        // Area relativa ao intervalo
-    float area_total;           // Area total
     struct timeval start, stop; // Intervalo de tempo calculado ao fim
-
     gettimeofday(&start, 0);
+
+    int my_rank = 0;       // Rank do meu processo
+    int p = 0;             // Numero de processos
+    const double xa = 0.;  // X Início da figura
+    const double xb = 85.; // X Fim da figura
+    int n = 0;             // Numero de mini trapezios
+    long double inc = 0.;  // Incremento (Base do Trapezio)
+    double local_a = 0.;   // X Início da figura LOCAL
+    double local_b = 0.;   // X Fim da figura LOCAL
+    int local_n = 0;       // Numero de mini trapezios LOCAL
+
+    double area_relativa = 0.; // Area relativa ao intervalo
+    double area_total = 0.;    // Area total
+
+    n = atoi(argv[1]);
 
     MPI_Init(&argc, &argv);
 
@@ -57,16 +60,23 @@ int main(int argc, char **argv)
     MPI_Comm_size(MPI_COMM_WORLD, &p);
 
     // O incremento e n serão os mesmo para todos os processos
-    inc = (xb - xa) / n; 
+    inc = (xb - xa) / n;
     local_n = n / p;
+    /* 
+    printf("n: %d\tp: %d\n", n, p);
+    printf("local_n: %d\n", local_n);
+    printf("inc: %Le\n", inc); */
+
+    // Bloqueia o processo até todos chegarem nesse ponto
+    MPI_Barrier(MPI_COMM_WORLD);
 
     // O tamanho de cada intervalo de processo será (local_n * inc)
-    local_a = xa + my_rank * local_n * inc;
-    local_b = local_a + local_n * inc;
+    local_a = xa + my_rank * (local_n * inc);
+    local_b = local_a + (local_n * inc);
     area_relativa = trapezioIntegral(local_a, local_b, local_n, inc);
 
     // Soma as integrais calculadas por cada processo
-    MPI_Reduce(&area_relativa, &area_total, 1, MPI_FLOAT, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&area_relativa, &area_total, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
     if (my_rank == 0)
     {
@@ -78,7 +88,7 @@ int main(int argc, char **argv)
         fp = fopen(outputFilename, "a");
         if (fp == NULL)
         {
-            fprintf(stderr, "Can't open output file %s!\n", outputFilename);
+            fprintf(stderr, "Nao foi possivel abrir o arquivo %s!\n", outputFilename);
             exit(1);
         }
 
@@ -87,7 +97,8 @@ int main(int argc, char **argv)
         fclose(fp);
     }
     else
-    { /* Nothing */}
+    { /* Nothing */
+    }
 
     MPI_Finalize();
 }

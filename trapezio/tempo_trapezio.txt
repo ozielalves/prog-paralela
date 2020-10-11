@@ -4,29 +4,29 @@ Tamanho do Problema: 1200000000
 	Tempo: 4.57e+01 	Resultado: 21333.333333
 	Tempo: 4.57e+01 	Resultado: 21333.333333
 	Tempo: 4.56e+01 	Resultado: 21333.333333
-	Tempo: 4.57e+01 	Resultado: 21333.333333
-	Tempo: 4.57e+01 	Resultado: 21333.333333
+	Tempo: 4.56e+01 	Resultado: 21333.333333
+	Tempo: 4.56e+01 	Resultado: 21333.333333
 
-Tamanho do Problema: 4200000000
+Tamanho do Problema: 2100000000
 
-	Tempo: 1.60e+02 	Resultado: 21333.333333
-	Tempo: 1.60e+02 	Resultado: 21333.333333
-	Tempo: 1.60e+02 	Resultado: 21333.333333
-	Tempo: 1.60e+02 	Resultado: 21333.333333
-	Tempo: 1.60e+02 	Resultado: 21333.333333
+	Tempo: 7.99e+01 	Resultado: 21333.333333
+	Tempo: 7.99e+01 	Resultado: 21333.333333
+	Tempo: 7.99e+01 	Resultado: 21333.333333
+	Tempo: 7.99e+01 	Resultado: 21333.333333
+	Tempo: 7.99e+01 	Resultado: 21333.333333
 
-Tamanho do Problema: 6200000000
+Tamanho do Problema: 5000000000
 
-	Tempo: 2.36e+02 	Resultado: 21333.333333
-	Tempo: 2.36e+02 	Resultado: 21333.333333
-	Tempo: 2.36e+02 	Resultado: 21333.333333
-	Tempo: 2.36e+02 	Resultado: 21333.333333
-	Tempo: 2.36e+02 	Resultado: 21333.333333
+	Tempo: 1.90e+02 	Resultado: 21333.333333
+	Tempo: 1.90e+02 	Resultado: 21333.333333
+	Tempo: 1.90e+02 	Resultado: 21333.333333
+	Tempo: 1.90e+02 	Resultado: 21333.333333
+	Tempo: 1.90e+02 	Resultado: 21333.333333
 
-Tamanho do Problema: 8200000000
+Tamanho do Problema: 8700000000
 
-	Tempo: 3.12e+02 	Resultado: 21333.333333
-	Tempo: 3.12e+02 	Resultado: 21333.333333
-	Tempo: 3.12e+02 	Resultado: 21333.333333
-	Tempo: 3.12e+02 	Resultado: 21333.333333
-	Tempo: 3.12e+02 	Resultado: 21333.333333
+	Tempo: 3.31e+02 	Resultado: 21333.333333
+	Tempo: 3.31e+02 	Resultado: 21333.333333
+	Tempo: 3.31e+02 	Resultado: 21333.333333
+	Tempo: 3.31e+02 	Resultado: 21333.333333
+	Tempo: 3.31e+02 	Resultado: 21333.333333

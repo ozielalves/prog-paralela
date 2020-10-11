@@ -20,9 +20,9 @@ double f(double x)
 
 double trapezioIntegral(double xa, double xb, long long int n)
 {
-    double x_i;               // Passo do X
-    double area_total = 0.0f; // Soma das areas
-    double inc;               // Incremento
+    double x_i;             // Passo do X
+    double area_total = 0.; // Soma das areas
+    double inc;             // Incremento
 
     inc = (xb - xa) / n;
     area_total = (f(xa) + f(xb)) / 2;
@@ -40,11 +40,11 @@ double trapezioIntegral(double xa, double xb, long long int n)
 
 int main(int argc, char *argv[])
 {
+    struct timeval start, stop;
+    gettimeofday(&start, 0);
+
     double xa = 0.;
     double xb = 40.;
-    struct timeval start, stop;
-
-    gettimeofday(&start, 0);
 
     double area_total = trapezioIntegral(xa, xb, atoll(argv[1]));
 
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     fp = fopen(outputFilename, "a");
     if (fp == NULL)
     {
-        fprintf(stderr, "Can't open output file %s!\n", outputFilename);
+        fprintf(stderr, "Nao foi possivel abrir o arquivo %s!\n", outputFilename);
         exit(1);
     }
 

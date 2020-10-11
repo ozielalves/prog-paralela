@@ -16,7 +16,7 @@ mpicc -g -o ./trapezio/mpi_trapezio ./trapezio/mpi_trapezio.cpp -lstdc++ -lm
 
 	for cores in 2 4 8 #números de cores utilizados
 	do
-			for size in 1200000000 4200000000 6200000000 8200000000 #tamanho do problema
+			for size in 1200000000 2100000000 5000000000 8700000000 #tamanho do problema
 			do   	
 				echo -e "\nCores Qtd: $cores\tTamanho do Problema: $size\n" >> "./trapezio/tempo_mpi_trapezio.txt" 
 				for tentativa in $(seq $tentativas) #Cria uma vetor de 1 a "tentativas"
