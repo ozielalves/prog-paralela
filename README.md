@@ -7,27 +7,21 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
 ## Sumário
 
 + [Objetivos](#objetivos)
-+ [Instruções de Uso](#instruções-de-uso)
-  + [Dependências](#dependências)
-    + [G++ Compiler](#g-compiler)
-    + [MPI](#mpi---message-passing-interface)
-  + [Compilação e Execução](#compilação-e-execução)
++ [Dependências](#dependências)
+  + [G++ Compiler](#g-compiler)
+  + [MPI](#mpi---message-passing-interface)
++ [Compilação e Execução](#compilação-e-execução)
   + [Arquivo com Resultados](#arquivo-com-resultados)
 + [Apresentação dos Algoritmos](#apresentação-dos-algoritmos)
-  + [Cálculo do Pi](#cálculo-do-pi)
+  + [Cálculo do Pi](#cálculo-do-pi---método-de-monte-carlo)
     + [Serial](#serial)
     + [Paralelo](#paralelo)
-+ [Cálculo do Pi - Análise de Speedup](#cálculo-do-pi---análise-de-speedup)
++ [Resultados - Análise de Eficiência](#resultados---análise-de-eficiência)
+  + [Corretude](#corretude)
++ [Cálculo da Integral - Regrado do Trapézio](#cálculo-da-integral---regra-do-trapézio)
++ [Análise de Speedup](#análise-de-speedup)
   + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
   + [Paralelo - Tempo x Cores](#paralelo---tempo-x-cores)
-+ [Cálculo do Pi - Análise de Eficiência](#cálculo-do-pi---análise-de-eficiência)
-  + [Cálculo da Integral - Regrado do Trapézio](#cálculo-da-integral---regra-do-trapézio)
-    + [Serial](#serial)
-    + [Paralelo](#paralelo)
-    + [Análise de Speedup](#análise-de-speedup)
-      + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
-      + [Paralelo - Tempo x Cores](#paralelo---tempo-x-cores)
-     + [Análise de Eficiência](#análise-de-eficiência)
 + [Condições de Testes](#condições-de-testes)
   + [Informações sobre a máquina utilizada](#informações-sobre-a-máquina-utilizada)
   + [Informações sobre os parametros utilizados](#informações-sobre-os-parametros-utilizados)
@@ -36,7 +30,7 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
 ## Objetivos
 Analisar e avaliar o comportamento, eficienência e speedup dos algoritmos em relação ao seu tempo de execução, tamanho do problema e resultados obtidos. Os cenários irão simular a execução dos algoritmos para 2, 4 e 8 cores, no caso dos algorótimos paralelos, com alguns tamanhos de problema definidos empiricamente, sendo o menor tamanho estabelecido no objetivo até atingir o tempo mínimo de execução determinado pela referência da Análise (30 segundos).
 
-## Instruções de uso
+## Dependências
 #### G++ Compiler
 É necessário para a compilação do programa, visto que ele é feito em c++.
 ```bash
@@ -74,8 +68,13 @@ Após o termino das execuções do script é possível ter acesso aos arquivos `
 
 ## Apresentação dos Algoritmos
 
-### Cálculo do Pi
-O algorítimo demonstra o método Monte Carlo para estimar o valor de **𝜋**. O método de Monte Carlo depende de amostragem independente e aleatória repetida. Esses métodos funcionam bem com sistemas paralelos e distribuídos, pois o trabalho pode ser dividido entre vários processos.
+### Cálculo do Pi - Método de Monte Carlo
+O algorítimo é baseado no método Monte Carlo para estimar o valor de **`𝜋`**. O método de Monte Carlo depende de amostragem independente e aleatória repetida, ele funciona bem com sistemas paralelos e distribuídos, pois o trabalho pode ser dividido entre vários processos. Sua ideia principal é simular um grande número de realizações de um evento estatístico. Neste sentido, o uso de multiplos processadores permite a realização de um número fixo de eventos por processador, o que aumenta o número total de eventos simulados.<br> 
+No cálculo de Pi, em específico, o algorítimo implementado tem como base a geração de diversos pontos cujas coordenadas são números aleatórios com função de desnsidade de probabilildade constante num intervalo indo de 0 a 1. Assim, a probabilidadede que os pontos estejam dentro do quadrado definido pelo produto cartesiano [0,1]x[0,1] é unitária. Se, de todos os pontos gerados, contarmos aqueles cuja norma euclidiana é menor ou igual a 1 é possível encontrar a probabilidade de que um ponto esteja dentro do quarto de círculo centrado na origem de raio 1, que é proporcional a sua área. Com isso, e sabendo a área de 1/4 de círculo basta uma manipulação algébrica para encontrar o valor de pi aproximado. Assim:
+
+```bash
+   pi = 4 * (pontos_dentro_do_círculo)/(pontos_totais)
+```
 
 #### Serial
 Dado um número de pontos a serem definidos, que iremos apelidar como `termos`, a seguinte sub-rotina é implementada. 
@@ -129,7 +128,7 @@ Ainda referente a pontos a serem definidos como `termos`, a seguinte sub-rotina 
 
 6. Quando todos os processos são finalizados, é fechada a comunicalçao MPI e então impresso o valor do resultado final multiplicado por 4 e dividido por `termos`.
 
-**Obs.:** Vale salientar que por escolha particular a multiplicação e divisão realizada no número de acertos foi realizada apenas na impressão do resultado, diferente do que acontece naturalmente da função `calcPi`, no código paralelo é retornado apenas a quantidade de acertos.
+**Obs.:** Vale salientar que, por escolha particular, a multiplicação e divisão realizada no número de acertos foi realizada apenas na impressão do resultado, diferente do que acontece naturalmente da função `calcPi`, no código paralelo é retornado apenas a quantidade de acertos.
 
 A implementação do Paralelismo é apresentado abaixo:
 ```bash
@@ -191,11 +190,17 @@ int main(int argc, char **argv)
 }
 ```
 
-#### Corretude
+## Resultados - Análise de Eficiência
+Para esta análise, serão realizados **5 execuções** com os tamanhos de problema 374.500.000, 550.000.000, 900.000.000 e 1.500.000.000 - definidos empiricamente de modo a atingir os limites mínimos determinados pela referência - em **3 quantidades de cores** (2, 4 e 8). Se espera que o comportamento de ambos os algorítimos quanto realização da aproximação do Pi correta e coerente de acordo com um tamanho de problema, a descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
 
-Para validar a corretude dos Algorítimos implementados foi realizado um teste simples com entrada de problema 4550000;
+### Corretude
+
+Para validar a corretude dos Algorítimos implementados foi realizado um teste utilizando **4550000** como tamanho de problema para os dois códigos:
 
 ![Alt Corretude - Pi Paralelo e Pi Serial](./data/pi_graphs/pi_terminal_print.PNG)
+
+Como é possível perceber, ambos os códigos conseguem aproximar de maneira correta o valor de pi, dado o número de pontos solicitados.
+**Obs.:** Vale salientar que para este modelo de amostragem quanto maior o número de pontos a serem definidos mais preciso será o valor de pi retornado.
 
 ## Cálculo do Pi - Análise de Speedup
 
@@ -209,41 +214,15 @@ Através do gráfico comparativo é possível observar uma diferença significan
 
 ![Alt Paralelo - Tempo x Cores](./data/pi_graphs/paralelo_tempo_por_cores.PNG)
 
+No gráfico de comparação dos tempos de execução por tamanho de problema, a relação speedup pode ser melhor visualizada de acordo com o número de cores, Note que o tempo de execução para o problema de maior tamanho cai cerca de 80% quando executado no código paralelo, ultilando 2 cores
+
 ### Speedup por Número de cores
 Por fim, o speedup de execução do código paralelo foi calculado dividindo
 | Número de Cores | 2 | 4 | 8 |
 | --- | --- | ---| --- |
 |**Speedup Médio**|1.80|2.47|2.44| 
 
-## Cálculo do Pi - Análise de Eficiência
-Vale salientar que para este modelo de amostragem quanto maior o número de pontos a serem definidos mais preciso será o valor de pi retornado.
-![Alt Tamanho x Iterações](./pi/lonely/1-Sequential%20Search_14.png)
-
-### Cálculo da Integral usando a Regra do Trapézio
-
-#### Serial
-
-```bash
-double trapezioIntegral(double xa, double xb, long long int n)
-{
-    double x_i;             // Passo do X
-    double area_total = 0.; // Soma das areas
-    double inc;             // Incremento
-
-    inc = (xb - xa) / n;
-    area_total = (f(xa) + f(xb)) / 2;
-
-    for (long long int i = 1; i < n; i++)
-    {
-        x_i = xa + i * inc;
-        area_total += f(x_i);
-    }
-
-    area_total = inc * area_total;
-
-    return area_total;
-};
-```
+## Considerações Finais
 
 ## Condições de Testes
 ### Informações sobre a máquina utilizada
@@ -258,12 +237,6 @@ Integra HyperThreading para trabalhar com até 4 threads de uma vez)
 
 + **Sistema**: Ubuntu 20.04.1 LTS
 
-### Informações sobre os parametros utilizados
-Todos as informações interpretadas neste documento foram obtidas utilizando o seguinte comando::
-```bash
-# Irá compilar e executar o arquivo binário, em seguida o script gerador de gráficos (src/gen_plot.py)
-make run
-```
 ### Softwares utilizados
 ```bash
 ~$: g++ --version
