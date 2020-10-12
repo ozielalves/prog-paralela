@@ -15,18 +15,18 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
 + [Apresentação dos Algoritmos](#apresentação-dos-algoritmos)
   + [Cálculo do Pi](#cálculo-do-pi)
     + [Serial](#serial)
-    + [Paralelo](#recursiva)
-    + [Análise de Speedup](#gráficos-exclusivos-2)
-      + [Serial e Paralelo - Tempo x Tamanho do Problema](#tamanho-x-iterações-2)
-      + [Paralelo - Tempo x Cores](#tamanho-x-tempo-médio-2)
-     + [Análise de Eficiência](#gráficos-exclusivos-2)
+    + [Paralelo](#paralelo)
+    + [Análise de Speedup](#análise-de-speedup)
+      + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
+      + [Paralelo - Tempo x Cores](#paralelo---tempo-x-cores)
+     + [Análise de Eficiência](#análise-de-eficiência)
   + [Cálculo da Integral - Regrado do Trapézio](#cálculo-da-integral---regra-do-trapézio)
     + [Serial](#serial)
-    + [Paralelo](#recursiva)
-    + [Análise de Speedup](#gráficos-exclusivos-2)
-      + [Serial e Paralelo - Tempo x Tamanho do Problema](#tamanho-x-iterações-2)
-      + [Paralelo - Tempo x Cores](#tamanho-x-tempo-médio-2)
-     + [Análise de Eficiência](#gráficos-exclusivos-2)
+    + [Paralelo](#paralelo)
+    + [Análise de Speedup](#análise-de-speedup)
+      + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
+      + [Paralelo - Tempo x Cores](#paralelo---tempo-x-cores)
+     + [Análise de Eficiência](#análise-de-eficiência)
 + [Condições de Testes](#condições-de-testes)
   + [Informações sobre a máquina utilizada](#informações-sobre-a-máquina-utilizada)
   + [Informações sobre os parametros utilizados](#informações-sobre-os-parametros-utilizados)
@@ -81,7 +81,7 @@ Dado um número de pontos a serem definidos, que iremos apelidar como `termos`, 
 
 1. É setado o valor `acertos` = 0.0.
 
-2. `n` pontos `x` e `y` serão definidos randomicamente com seed fixa = 42 dentro do intervalo de 0.0 a 1.0.
+2. `termos` determinará a quatidade de pontos `x` e `y` a serem definidos randomicamente com seed fixa = 42, dentro do intervalo de 0.0 a 1.0.
 
 3. Caso `( x * x + y * y )` seja menor que 1.0, `acertos` é acrescido em 1 unidade.
 
