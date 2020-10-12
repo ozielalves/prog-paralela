@@ -86,11 +86,11 @@ Dado um número `n` de pontos a serem definidos, a seguinte sub-rotina é implem
 
 1. É setado o valor `acertos` = 0.0
 
-2. `n` pontos ( x , y ) serão definidos 
+2. `n` pontos `x` e `y` serão definidos randomicamente com seed fixa = 42 dentro do intervalo de 0.0 a 1.0
 
-3. Caso `( x * x + y * y )` seja menor que 1.0, `acertos` é acrescido em 1 unidade.
+3. Caso `( x * x + y * y )` seja menor que 1.0, `acertos` é acrescido em 1 unidade
 
-4. Ao termino do laço, para conclusão do método de Monte Carlo,  é retornado `acertos` multiplicado por 4 e dividido por `n`.
+4. Ao termino do laço, para conclusão do método de Monte Carlo,  é retornado `acertos` multiplicado por 4 e dividido por `n`
 
 A implementação da função calcPi é apresentada abaixo:
 ```bash
@@ -101,7 +101,7 @@ double calcPi(int termos)
     // Numero real pseudo-aleatorio
     uniform_real_distribution<double> linear_r(0.f, 1.f);
 
-    int pi = 0;
+    int acertos = 0;
     for (int i = 0; i < termos; i++)
     {
 
@@ -110,19 +110,17 @@ double calcPi(int termos)
         
         if (x * x + y * y < 1.0)
         {
-            pi++;
+            acertos++;
         }
     }
-    return (double)(4.0 * pi / termos);
+    return (double)(4.0 * acertos / termos);
 }
 ```
-
 Vale salientar que para este modelo de amostragem quanto maior o número de pontos a serem definidos mais preciso será o valor de pi retornado.
 
-Podemos esperar que $$\mathcal{O}(n)$$ descreva o comportamento do algoritmo em relação ao número de elementos do conjunto:
-
-##### Análise de Eficiência
 ##### Análise de Speedup
+![Alt Serial - Tamanho x Velocidade](./data/pi)
+##### Análise de Eficiência
 ![Alt Tamanho x Iterações](./pi/lonely/1-Sequential%20Search_14.png)
 ###### Tamanho x Tempo médio
 ![Alt Tamanho x Tempo médio](./pi/lonely/1-Sequential%20Search_13.png)
