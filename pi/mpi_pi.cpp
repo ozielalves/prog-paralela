@@ -55,14 +55,15 @@ int main(int argc, char **argv)
     // Divisao interna
     termos_local = termos / p;
 
-    inicial_local = 1 + my_rank * termos_local;
+    // Bloqueia o processo até todos chegarem nesse ponto
+    MPI_Barrier(MPI_COMM_WORLD);
+
     acertos_parc = calcPi(termos_local);
 
     // Soma o numero de acertos por cada processo
     MPI_Reduce(&acertos_parc, &acertos, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     if (my_rank == 0)
     {
-
         gettimeofday(&stop, 0);
 
         FILE *fp;
@@ -82,8 +83,7 @@ int main(int argc, char **argv)
         fclose(fp);
     }
     else
-    { /* Nothing */
-    }
+    { /* Nothing */ }
 
     MPI_Finalize();
 }

@@ -1,15 +1,7 @@
-// Programação Paralela.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-// MPI - Compilar: mpicc -g -Wall -o <executavel> <compilável>.cpp
-// MPI - Executar: mpiexec -n <nº de processos> ./<executavel> // p=1 não é serial
-
 #include <iostream>
 #include <stdlib.h>
 #include <math.h>
 #include <sys/time.h>
-#include <limits>
-
-typedef std::numeric_limits<double> dbl;
 
 using namespace std;
 

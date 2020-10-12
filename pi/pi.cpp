@@ -20,7 +20,7 @@ double calcPi(int termos)
 
         double x = linear_r(mt);
         double y = linear_r(mt);
-        printf("%f %f", x, y);
+
         if (x * x + y * y < 1.0)
         {
             pi++;
