@@ -15,23 +15,18 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
 + [Apresentação dos Algoritmos](#apresentação-dos-algoritmos)
   + [Cálculo do Pi](#cálculo-do-pi)
     + [Serial](#serial)
-      + [Gráficos exclusivos](#gráficos-exclusivos-1)
-      + [Tamanho x Iterações](#tamanho-x-iterações-1)
-      + [Tamanho x Tempo médio](#tamanho-x-tempo-médio-1)
     + [Paralelo](#recursiva)
-      + [Gráficos exclusivos](#gráficos-exclusivos-2)
-      + [Tamanho x Iterações](#tamanho-x-iterações-2)
-      + [Tamanho x Tempo médio](#tamanho-x-tempo-médio-2)
+    + [Análise de Speedup](#gráficos-exclusivos-2)
+      + [Serial e Paralelo - Tempo x Tamanho do Problema](#tamanho-x-iterações-2)
+      + [Paralelo - Tempo x Cores](#tamanho-x-tempo-médio-2)
+     + [Análise de Eficiência](#gráficos-exclusivos-2)
   + [Cálculo da Integral - Regrado do Trapézio](#cálculo-da-integral---regra-do-trapézio)
-    + [Serial](#Serial)
-      + [Gráficos exclusivos](#gráficos-exclusivos-3)
-      + [Tamanho x Iterações](#tamanho-x-iterações-3)
-      + [Tamanho x Tempo médio](#tamanho-x-tempo-médio-3)
-    + [Paralelo](Paralelo)
-      + [Gráficos exclusivos](#gráficos-exclusivos-4)
-      + [Tamanho x Iterações](#tamanho-x-iterações-4)
-      + [Tamanho x Tempo médio](#tamanho-x-tempo-médio-4)
-
+    + [Serial](#serial)
+    + [Paralelo](#recursiva)
+    + [Análise de Speedup](#gráficos-exclusivos-2)
+      + [Serial e Paralelo - Tempo x Tamanho do Problema](#tamanho-x-iterações-2)
+      + [Paralelo - Tempo x Cores](#tamanho-x-tempo-médio-2)
+     + [Análise de Eficiência](#gráficos-exclusivos-2)
 + [Condições de Testes](#condições-de-testes)
   + [Informações sobre a máquina utilizada](#informações-sobre-a-máquina-utilizada)
   + [Informações sobre os parametros utilizados](#informações-sobre-os-parametros-utilizados)
@@ -72,7 +67,7 @@ Note que serão realizados **5 execuções** com **4 tamanhos de problema** espe
 # Para o algorítimo que calcula a integral de forma paralela
 ./trap_paralelo_start.sh
 ```
-Obs.: Caso seja necessário conceder permissão máxima para os scripts, execute `chmod 777 [NOME DO SCRIPT].sh`
+Obs.: Caso seja necessário conceder permissão máxima para os scripts, execute `chmod 777 [NOME DO SCRIPT].sh`.
 ### Resultados
 Após o termino das execuções do script é possível ter acesso aos arquivos `.txt` na pasta `pi` ou `trapezio`, de acordo com o script selecionado, os dados coletados foram utilizados para realização desta análise.
 
@@ -82,23 +77,24 @@ Após o termino das execuções do script é possível ter acesso aos arquivos `
 O algorítimo demonstra o método Monte Carlo para estimar o valor de **𝜋**. O método de Monte Carlo depende de amostragem independente e aleatória repetida. Esses métodos funcionam bem com sistemas paralelos e distribuídos, pois o trabalho pode ser dividido entre vários processos.
 
 #### Serial
-Dado um número `n` de pontos a serem definidos, a seguinte sub-rotina é implementada. 
+Dado um número de pontos a serem definidos, que iremos apelidar como `termos`, a seguinte sub-rotina é implementada. 
 
-1. É setado o valor `acertos` = 0.0
+1. É setado o valor `acertos` = 0.0.
 
-2. `n` pontos `x` e `y` serão definidos randomicamente com seed fixa = 42 dentro do intervalo de 0.0 a 1.0
+2. `n` pontos `x` e `y` serão definidos randomicamente com seed fixa = 42 dentro do intervalo de 0.0 a 1.0.
 
-3. Caso `( x * x + y * y )` seja menor que 1.0, `acertos` é acrescido em 1 unidade
+3. Caso `( x * x + y * y )` seja menor que 1.0, `acertos` é acrescido em 1 unidade.
 
-4. Ao termino do laço, para conclusão do método de Monte Carlo,  é retornado `acertos` multiplicado por 4 e dividido por `n`
+4. Ao termino do laço, para conclusão do método de Monte Carlo,  é retornado `acertos` multiplicado por 4 e dividido por `termos`.
 
 A implementação da função calcPi é apresentada abaixo:
 ```bash
 double calcPi(int termos)
 {
-    // Gerador Mersene twist, SEED: 42
+    # Gerador Mersene twist, SEED: 42
     mt19937 mt(42);
-    // Numero real pseudo-aleatorio
+    
+    # Numero real pseudo-aleatorio
     uniform_real_distribution<double> linear_r(0.f, 1.f);
 
     int acertos = 0;
@@ -116,14 +112,90 @@ double calcPi(int termos)
     return (double)(4.0 * acertos / termos);
 }
 ```
-Vale salientar que para este modelo de amostragem quanto maior o número de pontos a serem definidos mais preciso será o valor de pi retornado.
+
+#### Paralelo
+Ainda referente a pontos a serem definidos como `termos`, a seguinte sub-rotina é implementada.  
+
+1. O tamanho do problema `termos` é lido por por linha de comando.
+
+2. É iniciada a comunicação paralela.
+
+3. `termos_local` recebe `termos` dividido pela quantidade de processos.
+
+4.  `termos_local` é passado como parametro pra o cáculo parcial dos acertos, usando a função já apresentada `calcPi`, e armazenado em cada processo como `acertos_parc`.
+
+5. Ao termino da execução de cada processo , `acertos_parc` é somado a `acertos`.
+
+6. Quando todos os processos são finalizados, é fechada a comunicalçao MPI e então impresso o valor do resultado final multiplicado por 4 e dividido por `termos`.
+
+**Obs.:** Vale salientar que por escolha particular a multiplicação e divisão realizada no número de acertos foi realizada apenas na impressão do resultado, diferente do que acontece naturalmente da função `calcPi`, no código paralelo é retornado apenas a quantidade de acertos.
+
+A implementação do Paralelismo é apresentado abaixo:
+```bash
+int main(int argc, char **argv)
+{
+    struct timeval start, stop;
+    gettimeofday(&start, 0);
+
+    int my_rank;
+    int p;
+    int termos = atoll(argv[1]);
+    int termos_local;
+    int inicial_local;
+    double acertos_parc;
+    double acertos;
+
+    MPI_Init(&argc, &argv);
+
+    # Rank do meu processo
+    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
+
+    # Descobre quantos processos estao em uso
+    MPI_Comm_size(MPI_COMM_WORLD, &p);
+
+    # Divisao interna
+    termos_local = termos / p;
+
+    acertos_parc = calcPi(termos_local);
+
+    # Soma o numero de acertos por cada processo
+    MPI_Reduce(&acertos_parc, &acertos, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    if (my_rank == 0)
+    {
+
+        gettimeofday(&stop, 0);
+
+        FILE *fp;
+        char outputFilename[] = "./pi/tempo_mpi_pi.txt";
+
+        fp = fopen(outputFilename, "a");
+        if (fp == NULL)
+        {
+            fprintf(stderr, "Nao foi possivel abrir o arquivo %s!\n", outputFilename);
+            exit(1);
+        }
+
+        fprintf(fp, "\tTempo: %1.2e \tResultado: %f\n",
+                ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)),
+                (double)4 * acertos / termos);
+
+        fclose(fp);
+    }
+    else
+    { 
+      /* Nothing */
+    }
+
+    MPI_Finalize();
+}
+```
 
 ##### Análise de Speedup
-![Alt Serial - Tamanho x Velocidade](./data/pi)
+![Alt Serial e Paralelo - Tempo x Tamanho do Problema](./data/pi_graphs/serial_paralelo_tempo_por_tamanho_do_problema.PNG)
+![Alt Paralelo - Tempo x Cores](./data/pi_graphs/paralelo_tempo_por_cores.PNG)
 ##### Análise de Eficiência
+Vale salientar que para este modelo de amostragem quanto maior o número de pontos a serem definidos mais preciso será o valor de pi retornado.
 ![Alt Tamanho x Iterações](./pi/lonely/1-Sequential%20Search_14.png)
-###### Tamanho x Tempo médio
-![Alt Tamanho x Tempo médio](./pi/lonely/1-Sequential%20Search_13.png)
 
 ### Cálculo da Integral usando a Regra do Trapézio
 ```bash
