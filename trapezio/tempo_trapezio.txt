@@ -1,32 +1,36 @@
 
 Tamanho do Problema: 1200000000
 
-	Tempo: 4.57e+01 	Resultado: 21333.333333
-	Tempo: 4.57e+01 	Resultado: 21333.333333
-	Tempo: 4.56e+01 	Resultado: 21333.333333
-	Tempo: 4.56e+01 	Resultado: 21333.333333
-	Tempo: 4.56e+01 	Resultado: 21333.333333
+	Tempo: 4.57e+01 	Resultado: 9000.000000
+	Tempo: 4.57e+01 	Resultado: 9000.000000
+	Tempo: 4.56e+01 	Resultado: 9000.000000
+	Tempo: 4.56e+01 	Resultado: 9000.000000
+	Tempo: 4.56e+01 	Resultado: 9000.000000
 
-Tamanho do Problema: 2100000000
+Tamanho do Problema: 2400000000
 
-	Tempo: 7.99e+01 	Resultado: 21333.333333
-	Tempo: 7.99e+01 	Resultado: 21333.333333
-	Tempo: 7.99e+01 	Resultado: 21333.333333
-	Tempo: 7.99e+01 	Resultado: 21333.333333
-	Tempo: 7.99e+01 	Resultado: 21333.333333
+	Tempo: 9.11e+01 	Resultado: 9000.000000
+	Tempo: 9.13e+01 	Resultado: 9000.000000
+	Tempo: 9.13e+01 	Resultado: 9000.000000
+	Tempo: 9.13e+01 	Resultado: 9000.000000
+	Tempo: 9.13e+01 	Resultado: 9000.000000
 
-Tamanho do Problema: 5000000000
+Tamanho do Problema: 4800000000
 
-	Tempo: 1.90e+02 	Resultado: 21333.333333
-	Tempo: 1.90e+02 	Resultado: 21333.333333
-	Tempo: 1.90e+02 	Resultado: 21333.333333
-	Tempo: 1.90e+02 	Resultado: 21333.333333
-	Tempo: 1.90e+02 	Resultado: 21333.333333
+	Tempo: 1.83e+02 	Resultado: 9000.000000
+	Tempo: 1.83e+02 	Resultado: 9000.000000
+	Tempo: 1.83e+02 	Resultado: 9000.000000
+	Tempo: 1.83e+02 	Resultado: 9000.000000
+	Tempo: 1.83e+02 	Resultado: 9000.000000
 
-Tamanho do Problema: 8700000000
+Tamanho do Problema: 9600000000
 
-	Tempo: 3.31e+02 	Resultado: 21333.333333
-	Tempo: 3.31e+02 	Resultado: 21333.333333
-	Tempo: 3.31e+02 	Resultado: 21333.333333
-	Tempo: 3.31e+02 	Resultado: 21333.333333
-	Tempo: 3.31e+02 	Resultado: 21333.333333
+	Tempo: 3.65e+02 	Resultado: 9000.000000
+	Tempo: 3.65e+02 	Resultado: 9000.000000
+	Tempo: 3.65e+02 	Resultado: 9000.000000
+	Tempo: 3.65e+02 	Resultado: 9000.000000
+	Tempo: 3.65e+02 	Resultado: 9000.000000
+	Tempo: 4.59e+01 	Resultado: 333333333333334414367653888.000000
+	Tempo: 4.59e+01 	Resultado: 333333333333502.812500
+	Tempo: 3.81e+01 	Resultado: 333333333333354.562500
+	Tempo: 3.81e+01 	Resultado: 333333333333391511126016.000000

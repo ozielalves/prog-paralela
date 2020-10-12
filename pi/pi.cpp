@@ -1,11 +1,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include <math.h>
-#include <limits>
 #include <sys/time.h>
 #include <random>
-
-typedef std::numeric_limits<double> dbl;
 
 using namespace std;
 
@@ -13,6 +10,7 @@ double calcPi(int termos)
 {
     // Gerador Mersene twist, SEED: 42
     mt19937 mt(42);
+
     // Numero real pseudo-aleatorio
     uniform_real_distribution<double> linear_r(0.f, 1.f);
 
@@ -22,7 +20,7 @@ double calcPi(int termos)
 
         double x = linear_r(mt);
         double y = linear_r(mt);
-
+        printf("%f %f", x, y);
         if (x * x + y * y < 1.0)
         {
             pi++;
@@ -37,7 +35,7 @@ int main(int argc, char *argv[])
 
     gettimeofday(&start, 0);
 
-    double pi = calcPi(atoi(argv[1])); //atoi: int atol:long atoll: long long
+    double pi = calcPi(atoi(argv[1]));
 
     gettimeofday(&stop, 0);
 

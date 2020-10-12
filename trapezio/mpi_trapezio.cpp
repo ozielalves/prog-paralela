@@ -7,26 +7,39 @@
 #include <sys/time.h>
 #include "mpi.h"
 
-double f(double x)
+void setSize(int argc, char *argv[], int my_rank, double *n_ponteiro)
 {
-    return pow(x, 2);
+    // Determina o valor de n
+    if (my_rank == 0)
+    {
+        *n_ponteiro = atoi(argv[1]);
+    }
+
+    // Destribui para os processos
+    MPI_Bcast(n_ponteiro, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 }
 
-double trapezioIntegral(double local_a, double local_b, int local_n, long double inc)
+double f(double x)
 {
-    double x_i;            // Passo de x
-    double integparc = 0.; // Area parcial
+    return powl(x, 2);
+}
 
-    x_i = local_a;
+double trapezioIntegral(double local_a, double local_b, long long int local_n /* , double inc */)
+{
+    double x_i;            // Passo do X
+    double integparc = 0.; // Soma das areas
+    double inc;            // Incremento
+
+    inc = (local_b - local_a) / local_n;
     integparc = (f(local_a) + f(local_b)) / 2;
 
-    for (int i = 1; i <= local_n - 1; i++)
+    for (long long int i = 1; i < local_n; i++)
     {
-        x_i += inc;
+        x_i = local_a + i * inc;
         integparc += f(x_i);
     }
 
-    integparc = integparc * inc;
+    integparc = inc * integparc;
 
     return integparc;
 }
@@ -36,20 +49,18 @@ int main(int argc, char **argv)
     struct timeval start, stop; // Intervalo de tempo calculado ao fim
     gettimeofday(&start, 0);
 
-    int my_rank = 0;       // Rank do meu processo
-    int p = 0;             // Numero de processos
-    const double xa = 0.;  // X Início da figura
-    const double xb = 85.; // X Fim da figura
-    int n = 0;             // Numero de mini trapezios
-    long double inc = 0.;  // Incremento (Base do Trapezio)
-    double local_a = 0.;   // X Início da figura LOCAL
-    double local_b = 0.;   // X Fim da figura LOCAL
-    int local_n = 0;       // Numero de mini trapezios LOCAL
+    int my_rank = 0;           // Rank do meu processo
+    int p = 0;                 // Numero de processos
+    const double xa = 0.;      // X Início da figura
+    const double xb = 30.;     // X Fim da figura
+    double n = 0.;             // Numero de mini trapezios
+    double inc = 0.;           // Incremento (Base do Trapezio)
+    double local_a = 0.;       // X Início da figura LOCAL
+    double local_b = 0.;       // X Fim da figura LOCAL
+    long long int local_n = 0; // Numero de mini trapezios LOCAL
 
     double area_relativa = 0.; // Area relativa ao intervalo
     double area_total = 0.;    // Area total
-
-    n = atoi(argv[1]);
 
     MPI_Init(&argc, &argv);
 
@@ -59,21 +70,26 @@ int main(int argc, char **argv)
     // Quantos processos então sendo usados
     MPI_Comm_size(MPI_COMM_WORLD, &p);
 
-    // O incremento e n serão os mesmo para todos os processos
+    // Destribui o valor de n para todos os processos
+    setSize(argc, argv, my_rank, &n);
+
+    // O incremento e local_n serão os mesmo para todos os processos
     inc = (xb - xa) / n;
     local_n = n / p;
-    /* 
-    printf("n: %d\tp: %d\n", n, p);
-    printf("local_n: %d\n", local_n);
-    printf("inc: %Le\n", inc); */
 
-    // Bloqueia o processo até todos chegarem nesse ponto
-    MPI_Barrier(MPI_COMM_WORLD);
+    /*     printf(%c, argv[1]);
+    printf("n: %ld\tp: %d\n", n, p);
+    printf("local_n: %ld\n", local_n);
+    printf("inc: %Le\n", inc); */
 
     // O tamanho de cada intervalo de processo será (local_n * inc)
     local_a = xa + my_rank * (local_n * inc);
     local_b = local_a + (local_n * inc);
-    area_relativa = trapezioIntegral(local_a, local_b, local_n, inc);
+
+    // Bloqueia o processo até todos chegarem nesse ponto
+    MPI_Barrier(MPI_COMM_WORLD);
+
+    area_relativa = trapezioIntegral(local_a, local_b, local_n);
 
     // Soma as integrais calculadas por cada processo
     MPI_Reduce(&area_relativa, &area_total, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
