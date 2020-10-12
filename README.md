@@ -12,6 +12,7 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
     + [G++ Compiler](#g-compiler)
     + [MPI](#mpi---message-passing-interface)
   + [Compilação e Execução](#compilação-e-execução)
+  + [Arquivo com Resultados](#arquivo-com-resultados)
 + [Apresentação dos Algoritmos](#apresentação-dos-algoritmos)
   + [Cálculo do Pi](#cálculo-do-pi)
     + [Serial](#serial)
@@ -67,8 +68,8 @@ Note que serão realizados **5 execuções** com **4 tamanhos de problema** espe
 # Para o algorítimo que calcula a integral de forma paralela
 ./trap_paralelo_start.sh
 ```
-Obs.: Caso seja necessário conceder permissão máxima para os scripts, execute `chmod 777 [NOME DO SCRIPT].sh`.
-### Resultados
+**Obs.:** Caso seja necessário conceder permissão máxima para os scripts, execute `chmod 777 [NOME DO SCRIPT].sh`.
+### Arquivo com Resultados 
 Após o termino das execuções do script é possível ter acesso aos arquivos `.txt` na pasta `pi` ou `trapezio`, de acordo com o script selecionado, os dados coletados foram utilizados para realização desta análise.
 
 ## Apresentação dos Algoritmos
@@ -147,22 +148,24 @@ int main(int argc, char **argv)
 
     MPI_Init(&argc, &argv);
 
-    # Rank do meu processo
+    // Rank do meu processo
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 
-    # Descobre quantos processos estao em uso
+    // Descobre quantos processos estao em uso
     MPI_Comm_size(MPI_COMM_WORLD, &p);
 
-    # Divisao interna
+    // Divisao interna
     termos_local = termos / p;
+
+    // Bloqueia o processo até todos chegarem nesse ponto
+    MPI_Barrier(MPI_COMM_WORLD);
 
     acertos_parc = calcPi(termos_local);
 
-    # Soma o numero de acertos por cada processo
+    // Soma o numero de acertos por cada processo
     MPI_Reduce(&acertos_parc, &acertos, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     if (my_rank == 0)
     {
-
         gettimeofday(&stop, 0);
 
         FILE *fp;
@@ -182,13 +185,17 @@ int main(int argc, char **argv)
         fclose(fp);
     }
     else
-    { 
-      /* Nothing */
-    }
+    { /* Nothing */ }
 
     MPI_Finalize();
 }
 ```
+
+#### Corretude
+
+Para validar a corretude dos Algorítimos implementados foi realizado um teste simples com entrada de problema 4550000;
+
+![Alt Corretude - Pi Paralelo e Pi Serial](./data/pi_graphs/pi_terminal_print.PNG)
 
 ## Cálculo do Pi - Análise de Speedup
 
@@ -196,10 +203,17 @@ int main(int argc, char **argv)
 
 ![Alt Serial e Paralelo - Tempo x Tamanho do Problema](./data/pi_graphs/serial_paralelo_tempo_por_tamanho_do_problema.PNG)
 
+Através do gráfico comparativo é possível observar uma diferença significantemente positiva no tempo de execução para os tamanhos de problemas no código serial para tempo de execução dos mesmos problemas no código paralelo, o menor problema é executado em pouco mais de 40 segundo no código serial, já no código paralelo, o mesmo problema é executado em pouco menos de 20 segundos em seu maior uso de cores. No entanto, note que a diferença em termos de tempo de execução para o código paralelo utilizando 4 e 8 cores é praticamente inexistente devido aos limites da máquina de teste.
+
 ### Paralelo - Tempo x Cores
 
 ![Alt Paralelo - Tempo x Cores](./data/pi_graphs/paralelo_tempo_por_cores.PNG)
 
+### Speedup por Número de cores
+Por fim, o speedup de execução do código paralelo foi calculado dividindo
+| Número de Cores | 2 | 4 | 8 |
+| --- | --- | ---| --- |
+|**Speedup Médio**|1.80|2.47|2.44| 
 
 ## Cálculo do Pi - Análise de Eficiência
 Vale salientar que para este modelo de amostragem quanto maior o número de pontos a serem definidos mais preciso será o valor de pi retornado.
@@ -235,11 +249,14 @@ double trapezioIntegral(double xa, double xb, long long int n)
 ### Informações sobre a máquina utilizada
 + **Dell Inspiron 14-inc 7460**
 
-+ **Processador** Intel Core i7 7500U (até 3.5 GHz) Cache 4M. (FSB)4 GT/s OPI
++ **Processador**: Intel Core i7 7500U (até 3.5 GHz) Dual Core Cache 4M. (FSB)4 GT/s OPI (
+Integra HyperThreading para trabalhar com até 4 threads de uma vez)
 
-+ **Memória** 8 GB tipo DDR4 – 2133MHz
++ **Número de Cores/Threads**: 2/4
 
-+ **Sistema** Ubuntu 20.04.1 LTS
++ **Memória**: 8 GB tipo DDR4 – 2133MHz
+
++ **Sistema**: Ubuntu 20.04.1 LTS
 
 ### Informações sobre os parametros utilizados
 Todos as informações interpretadas neste documento foram obtidas utilizando o seguinte comando::
