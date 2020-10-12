@@ -38,7 +38,7 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
   + [Softwares utilizados](#softwares-utilizados)
 
 ## Objetivos
-Analisar e avaliar o comportamento **assintótico** dos algoritmos em relação ao seu tempo de execução e ao tamanho do problema. Os cenários irão simular a execução dos algoritmos para 2, 4 e 8 cores com alguns tamanhos de problema definidos empiricamente no objetivo até atingir o tempo mínimo limite determinado pela referência da Análise.
+Analisar e avaliar o comportamento, eficienência e speedup dos algoritmos em relação ao seu tempo de execução, tamanho do problema e resultados obtidos. Os cenários irão simular a execução dos algoritmos para 2, 4 e 8 cores, no caso dos algorótimos paralelos, com alguns tamanhos de problema definidos empiricamente, sendo o menor tamanho estabelecido no objetivo até atingir o tempo mínimo de execução determinado pela referência da Análise (30 segundos).
 
 ## Instruções de uso
 #### G++ Compiler
@@ -55,7 +55,7 @@ sudo apt-get install -y mpi
 ```
 ### Compilação e Execução
 Instaladas as depenências, basta executar o shellcript determinado para a devida bateria de execuções na raiz do repositório:<br>
-Note que serão realizados **5 execuções** com um **tamanho de problema** específico para cada número de **cores**.
+Note que serão realizados **5 execuções** com **4 tamanhos de problema** específicos para cada problema, em **3 quantidades de cores** (2, 4 e 8).
 ```bash
 # Para o algorítimo que calcula o pi de forma serial
 ./pi_serial_start.sh
@@ -79,25 +79,50 @@ Após o termino das execuções do script é possível ter acesso aos arquivos `
 ## Apresentação dos Algoritmos
 
 ### Cálculo do Pi
-Também conhecida como busca linear, é um algoritmo de busca que procura por um elemento dado um conjunto, iterativamente, e checa se aquele é o elemento buscado.
+O algorítimo demonstra o método Monte Carlo para estimar o valor de **𝜋**. O método de Monte Carlo depende de amostragem independente e aleatória repetida. Esses métodos funcionam bem com sistemas paralelos e distribuídos, pois o trabalho pode ser dividido entre vários processos.
 
 #### Serial
-Dado um conjunto $L$ de $n$ elementos, com um alvo $T$, a seguinte sub-rotina é implementada. 
+Dado um número `n` de pontos a serem definidos, a seguinte sub-rotina é implementada. 
 
-1. É setado $i = 0$.
+1. É setado o valor `acertos` = 0.0
 
-2. Se $L_i = T$, a busca termina e retorna-se $i$ (que é o local do elemento no vetor). 
+2. `n` pontos ( x , y ) serão definidos 
 
-3. Caso seja falso, $i$ é incrementado em uma unidade.
+3. Caso `( x * x + y * y )` seja menor que 1.0, `acertos` é acrescido em 1 unidade.
 
-4. Se $i < n$, iremos para o passo 2, se não, a busca termina sem sucesso.
+4. Ao termino do laço, para conclusão do método de Monte Carlo,  é retornado `acertos` multiplicado por 4 e dividido por `n`.
 
-Para uma lista com $n$ elementos, o melhor cenário possivel é quando o valor buscado está na primeira posição do conjunto, enquanto que seu pior caso é quando $T$ não pertence ao conjunto $L$.
+A implementação da função calcPi é apresentada abaixo:
+```bash
+double calcPi(int termos)
+{
+    // Gerador Mersene twist, SEED: 42
+    mt19937 mt(42);
+    // Numero real pseudo-aleatorio
+    uniform_real_distribution<double> linear_r(0.f, 1.f);
+
+    int pi = 0;
+    for (int i = 0; i < termos; i++)
+    {
+
+        double x = linear_r(mt);
+        double y = linear_r(mt);
+        
+        if (x * x + y * y < 1.0)
+        {
+            pi++;
+        }
+    }
+    return (double)(4.0 * pi / termos);
+}
+```
+
+Vale salientar que para este modelo de amostragem quanto maior o número de pontos a serem definidos mais preciso será o valor de pi retornado.
 
 Podemos esperar que $$\mathcal{O}(n)$$ descreva o comportamento do algoritmo em relação ao número de elementos do conjunto:
 
-##### Gráficos exclusivos
-###### Tamanho x Iterações
+##### Análise de Eficiência
+##### Análise de Speedup
 ![Alt Tamanho x Iterações](./pi/lonely/1-Sequential%20Search_14.png)
 ###### Tamanho x Tempo médio
 ![Alt Tamanho x Tempo médio](./pi/lonely/1-Sequential%20Search_13.png)
