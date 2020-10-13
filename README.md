@@ -18,13 +18,11 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
     + [Paralelo](#paralelo)
 + [Resultados - Análise de Eficiência](#resultados---análise-de-eficiência)
   + [Corretude](#corretude)
-+ [Cálculo da Integral - Regrado do Trapézio](#cálculo-da-integral---regra-do-trapézio)
-+ [Análise de Speedup](#análise-de-speedup)
++ [Análise de Speedup](#cálculo-do-pi---análise-de-speedup)
   + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
   + [Paralelo - Tempo x Cores](#paralelo---tempo-x-cores)
 + [Condições de Testes](#condições-de-testes)
   + [Informações sobre a máquina utilizada](#informações-sobre-a-máquina-utilizada)
-  + [Informações sobre os parametros utilizados](#informações-sobre-os-parametros-utilizados)
   + [Softwares utilizados](#softwares-utilizados)
 
 ## Objetivos
@@ -44,8 +42,8 @@ sudo apt-get install g++
 sudo apt-get install -y mpi 
 ```
 ### Compilação e Execução
-Instaladas as depenências, basta executar o shellcript determinado para a devida bateria de execuções na raiz do repositório:<br>
-Note que serão realizados **5 execuções** com **4 tamanhos de problema** específicos para cada problema, em **3 quantidades de cores** (2, 4 e 8).
+Instaladas as dependências, basta executar o shellcript determinado para a devida bateria de execuções na raiz do repositório:<br>
+Note que serão realizados **5 execuções** com **4 tamanhos de problema** , em **3 quantidades de cores** (2, 4 e 8).
 ```bash
 # Para o algorítimo que calcula o pi de forma serial
 ./pi_serial_start.sh
@@ -54,17 +52,9 @@ Note que serão realizados **5 execuções** com **4 tamanhos de problema** espe
 # Para o algorítimo que calcula o pi de forma paralela
 ./pi_paralelo_start.sh
 ```
-```bash
-# Para o algorítimo que calcula a integral de forma serial
-./trap_serial_start.sh
-```
-```bash
-# Para o algorítimo que calcula a integral de forma paralela
-./trap_paralelo_start.sh
-```
 **Obs.:** Caso seja necessário conceder permissão máxima para os scripts, execute `chmod 777 [NOME DO SCRIPT].sh`.
 ### Arquivo com Resultados 
-Após o termino das execuções do script é possível ter acesso aos arquivos `.txt` na pasta `pi` ou `trapezio`, de acordo com o script selecionado, os dados coletados foram utilizados para realização desta análise.
+Após o termino das execuções do script é possível ter acesso aos arquivos `.txt` na pasta `pi`, os dados coletados foram utilizados para realização desta análise.
 
 ## Apresentação dos Algoritmos
 
