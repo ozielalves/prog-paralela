@@ -116,7 +116,7 @@ Ainda referente chamando o numero total de pontos a serem definidos como `termos
 
 5. Ao termino da execução de cada processo , `acertos_parc` é somado a `acertos`.
 
-6. Quando todos os processos finalizam a contagem de acertos, todos os acertos parciais são somados a `acertos`, então, é fechada a comunicalçao MPI e então impresso o valor do resultado final multiplicado por 4 e dividido por `termos`.
+6. Quando todos os processos finalizam a contagem de acertos, todos os acertos parciais são somados a `acertos`, então, é fechada a comunicação MPI e então impresso o valor do resultado final multiplicado por 4 e dividido por `termos`.
 
 **Obs.:** Vale salientar que, por escolha particular, a multiplicação e divisão realizada no número de acertos foi realizada apenas na impressão do resultado. Diferentemente do que acontece naturalmente da função `calcPi`, no código paralelo é retornado apenas a quantidade de acertos.
 
