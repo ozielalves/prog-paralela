@@ -1,5 +1,3 @@
-// Para compilar: mpicc -g -o mpi_trapezio mpi_trapezio.cpp -lstdc++ -lm
-
 #include <iostream>
 #include <stdlib.h>
 #include <math.h>
@@ -108,8 +106,7 @@ int main(int argc, char **argv)
         fclose(fp);
     }
     else
-    { /* Nothing */
-    }
+    { /* Nothing */ }
 
     MPI_Finalize();
 }
