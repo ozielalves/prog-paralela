@@ -16,11 +16,14 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
   + [Cálculo do Pi](#cálculo-do-pi---método-de-monte-carlo)
     + [Serial](#serial)
     + [Paralelo](#paralelo)
-+ [Resultados - Análise de Eficiência](#resultados---análise-de-eficiência)
++ [Resultados](#resultados)
   + [Corretude](#corretude)
-+ [Análise de Speedup](#cálculo-do-pi---análise-de-speedup)
+  + [Gráficos](#gráficos)
   + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
   + [Paralelo - Tempo x Cores](#paralelo---tempo-x-cores)
+  + [Análise de Speedup](#análise-de-speedup)
+  + [Análise de Eficiência](#análise-de-eficiência)
++ [Considerações Finais](#considerações-finais)
 + [Condições de Testes](#condições-de-testes)
   + [Informações sobre a máquina utilizada](#informações-sobre-a-máquina-utilizada)
   + [Softwares utilizados](#softwares-utilizados)
@@ -59,7 +62,7 @@ Após o termino das execuções do script é possível ter acesso aos arquivos `
 ## Apresentação dos Algoritmos
 
 ### Cálculo do Pi - Método de Monte Carlo
-O algoritmo é baseado no método de Monte Carlo para estimar o valor de **`𝜋`**. Eleo depende de amostragem independente e aleatória repetida, e funciona bem com sistemas paralelos e distribuídos, pois o trabalho pode ser dividido entre vários processos. Sua ideia principal é simular um grande número de realizações de um evento estatístico. Neste sentido, o uso de multiplos processadores permite a realização de um número fixo de eventos por processador, o que aumenta o número total de eventos simulados.<br> 
+O algoritmo é baseado no método de Monte Carlo para estimar o valor de **`𝜋`**. Ele depende de amostragem independente e aleatória repetida, e funciona bem com sistemas paralelos e distribuídos, pois o trabalho pode ser dividido entre vários processos. Sua ideia principal é simular um grande número de realizações de um evento estatístico. Neste sentido, o uso de multiplos processadores permite a realização de um número fixo de eventos por processador, o que aumenta o número total de eventos simulados.<br> 
 No cálculo de Pi, em específico, o algoritmo implementado tem como base a geração de diversos pontos, cujas coordenadas são números aleatórios com função de desnsidade de probabilildade constante em um intervalo indo de 0 a 1. Assim, a probabilidadede que os pontos estejam dentro do quadrado definido pelo produto cartesiano [0,1]x[0,1] é unitária. Se, de todos os pontos gerados, contarmos aqueles cuja norma euclidiana é menor ou igual a 1, é possível encontrar a probabilidade de que um ponto esteja dentro do quarto de círculo centrado na origem e de raio 1, que é proporcional a sua área. Com isso, e sabendo a área de 1/4 de círculo, basta uma manipulação algébrica para encontrar o valor de pi aproximado. Assim:
 
 ```bash
@@ -180,41 +183,49 @@ int main(int argc, char **argv)
 }
 ```
 
-## Resultados - Análise de Eficiência
+## Resultados
 Para esta análise, serão realizadas **5 execuções** com tamanhos de problema 374.500.000, 550.000.000, 900.000.000 e 1.500.000.000 - definidos empiricamente de modo a atingir os limites mínimos determinados pela referência - em **3 quantidades de cores** (2, 4 e 8). Se espera que o comportamento de ambos os algoritmos quanto a aproximação do Pi seja parecido para um mesmo tamanho de problema quando se altera apenas o número de cores, sendo o tempo de execução o único fator variável. Uma descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
 
 ### Corretude
 
-Para validar a corretude dos algoritmos implementados foi realizado um teste utilizando **4550000** como tamanho de problema para os dois códigos:
+Para validar a corretude dos algoritmos implementados foi realizado um teste utilizando **4.550.000** como tamanho de problema para os dois códigos:
 
 ![Alt Corretude - Pi Paralelo e Pi Serial](./data/pi_graphs/pi_terminal_print.PNG)
 
 Como é possível perceber, ambos os códigos conseguem aproximar de maneira correta o valor de pi, dado o número de pontos solicitados.<br><br>
 **Obs.:** Vale salientar que para este modelo de amostragem quanto maior o número de pontos a serem definidos mais preciso será o valor de pi retornado.
 
-## Cálculo do Pi - Análise de Speedup
+### Gráficos
 
-### Serial e Paralelo - Tempo x Tamanho do Problema
+#### Serial e Paralelo - Tempo x Tamanho do Problema
 
 ![Alt Serial e Paralelo - Tempo x Tamanho do Problema](./data/pi_graphs/serial_paralelo_tempo_por_tamanho_do_problema.PNG)
 
 Através do gráfico comparativo, é possível observar que o código paralelo é mais eficiente que o código serial pois a reta relativa a este último apresenta um coefiente angular maior do que as relativas ao primeiro, o que indica que ao se aumentar o temanho de problema no código serial o aumento em tempo de execução é proporcionalmente maior que o que seria observado no código paralelo. Vale salientar que as curvas referentes a 4 e 8 cores são praticamente idênticas, isso ocorre devido aos limites da máquina de teste, fenômeno que será mais bem explicado no item [Considerações Finais](#considerções-finais).
 
-### Paralelo - Tempo x Cores
+#### Paralelo - Tempo x Cores
 
 ![Alt Paralelo - Tempo x Cores](./data/pi_graphs/paralelo_tempo_por_cores.PNG)
 
 A partir do gráfico apresentado, é clara a influência do número de cores no tempo de execução. Por exemplo, o tempo de execução para o problema de maior tamanho cai cerca de 45% ao se passar do código serial para o código paralelo ultilizando 2 cores. Novamente, verifica-se que o desempenho para 4 e 8 cores é idêntico.
 
-### Speedup por Número de cores
-É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial divido pelo tempo médio de execução para n cores. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. A tabela abaixo apresenta o speedup médio por número de cores utilizados na execução do código paralelo.
+### Análise de Speedup
+É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial divido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativas de execução dos 4 problemas descritos neste item.
+
 | Número de Cores | 2 | 4 | 8 |
 | --- | --- | ---| --- |
 |**Speedup Médio**|1.80|2.47|2.44| 
 
+### Análise de Eficiência
+Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando n cores pelos n cores utilizados. Desse modo, após o cáculo da eficiência, é possível definir o algoritmo analisado como de **baixa escalabilidade**, isto é, quando o valor da eficiência reduz conforme aumentamos o número de cores utilizados. A tabela abaixo apresenta a eficiência média calculada através dos valores de speedup anteriormente mencionados.
+
+| Número de Cores | 2 | 4 | 8 |
+| --- | --- | ---| --- |
+|**Eficiência Média**|0.90|0.61|0.30| 
+
 ## Considerações Finais
 
-Devido aos limites da máquina de testes, o número de cores passíveis de utilização é restrito. Das análises apresentadas, fica explicito que 4 cores é o limite do dispositivo de maneira a ter um speedup relevante, apesar do processador integrar HyperThreading. foi possível estender o número de cores utilizados, ficou muito bastante explicito 4 cores como o limite de cores a serem utilizados pelo dispositivo de maneira a trazer um speedup relevante. Apesar disto, através desta análise foi possível perceber que a paralelização de códigos seriais, ainda que simples, traz resultados bastante promissores no que diz respeito a eficiência e velocidade. As análises também permitiram constatar que o speedup é ainda mais pronunciado para tamanhos maiores de problema.
+Devido aos limites da máquina de testes, o número de cores passíveis de utilização é restrito. Das análises apresentadas, fica explicito que 4 cores é o limite do dispositivo de maneira a ter um speedup relevante, apesar do processador integrar HyperThreading não foi possível estender o número de cores utilizados para 8. Apesar disto, através desta análise foi possível perceber que a paralelização de códigos seriais, ainda que simples, traz resultados bastante promissores no que diz respeito a eficiência e velocidade. Além disto, análises também permitiram constatar que o speedup é ainda mais pronunciado para tamanhos maiores de problema. No entando, isto não quer dizer que o algoritmo tenha uma boa escalabiliade.
 
 ## Condições de Testes
 ### Informações sobre a máquina utilizada
