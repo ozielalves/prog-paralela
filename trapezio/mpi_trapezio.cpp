@@ -24,7 +24,7 @@ double f(double x)
     return powl(x, 2);
 }
 
-double trapezioIntegral(double local_a, double local_b, long long int local_n /* , double inc */)
+double trapezioIntegral(double local_a, double local_b, long long int local_n)
 {
     double x_i;            // Passo do X
     double integparc = 0.; // Soma das areas
@@ -76,11 +76,6 @@ int main(int argc, char **argv)
     // O incremento e local_n serão os mesmo para todos os processos
     inc = (xb - xa) / n;
     local_n = n / p;
-
-    /*     printf(%c, argv[1]);
-    printf("n: %ld\tp: %d\n", n, p);
-    printf("local_n: %ld\n", local_n);
-    printf("inc: %Le\n", inc); */
 
     // O tamanho de cada intervalo de processo será (local_n * inc)
     local_a = xa + my_rank * (local_n * inc);

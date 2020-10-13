@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     gettimeofday(&start, 0);
 
     double xa = 0.;
-    double xb = 100000000.;
+    double xb = 30.;
 
     double area_total = trapezioIntegral(xa, xb, atoll(argv[1]));
 
