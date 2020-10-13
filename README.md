@@ -137,21 +137,21 @@ int main(int argc, char **argv)
 
     MPI_Init(&argc, &argv);
 
-    // Rank do meu processo
+    # Rank do meu processo
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 
-    // Descobre quantos processos estao em uso
+    # Descobre quantos processos estao em uso
     MPI_Comm_size(MPI_COMM_WORLD, &p);
 
-    // Divisao interna
+    # Divisao interna
     termos_local = termos / p;
 
-    // Bloqueia o processo até todos chegarem nesse ponto
+    # Bloqueia o processo até todos chegarem nesse ponto
     MPI_Barrier(MPI_COMM_WORLD);
 
     acertos_parc = calcPi(termos_local);
 
-    // Soma o numero de acertos por cada processo
+    # Soma o numero de acertos por cada processo
     MPI_Reduce(&acertos_parc, &acertos, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     if (my_rank == 0)
     {
