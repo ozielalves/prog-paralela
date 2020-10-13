@@ -16,11 +16,14 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
   + [Cálculo da Integral - Regra do Trapézio](#cálculo-da-integral---regra-do-trapézio)
     + [Serial](#serial)
     + [Paralelo](#paralelo)
-+ [Resultados - Análise de Eficiência](#resultados---análise-de-eficiência)
++ [Resultados](#resultados)
   + [Corretude](#corretude)
-+ [Análise de Speedup](#análise-de-speedup)
+  + [Gráficos](#gráficos)
   + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
-  + [Paralelo - Tempo x Cores](#paralelo---tempo-x-cores)
+  + [Paralelo - Tempo x Cores](#execução-do-problema---tempo-x-cores)
+  + [Análise de Speedup](#análise-de-speedup)
+  + [Análise de Eficiência](#análise-de-eficiência)
++ [Considerações Finais](#considerações-finais)
 + [Condições de Testes](#condições-de-testes)
   + [Informações sobre a máquina utilizada](#informações-sobre-a-máquina-utilizada)
   + [Softwares utilizados](#softwares-utilizados)
@@ -197,7 +200,7 @@ int main(int argc, char **argv)
 }
 ```
 
-## Resultados - Análise de Eficiência
+## Resultados
 Para esta análise, serão realizadas **5 execuções** com tamanhos de problema 1.200.000.000, 2.400.000.000, 4.800.000.000 e 9.600.000.000, intervalo no eixo X de 0.0 a 30.0, e função a ser integrada definida como `f(x) = pow(x, 2)` - ambos definidos empiricamente de modo a atingir os limites mínimos determinados pela [referência](https://github.com/ozielalves/prog-paralela/blob/master/referencia/Regras_do_trabalho_MPI_1.pdf) - em **3 quantidades de cores** (2, 4 e 8). Se espera que o comportamento de ambos os algoritmos quanto ao cálculo da integral seja idêntico para um mesmo tamanho de problema quando se altera apenas o número de cores, sendo o tempo de execução o único fator variável. Uma descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
 
 ### Corretude
@@ -209,36 +212,37 @@ Para validar a corretude dos algoritmos implementados foi realizado um teste uti
 Como é possível perceber nas impressões, ambos os códigos conseguem aproximar de maneira correta o valor da integral de `f(x) = pow(x, 2)` de 0.0 até 30.0, dado o número de trapézios solicitados.<br><br>
 **Obs.:** Vale salientar que para este modelo de amostragem quanto maior o número de trapézios mais precisa será a integral da função no intervalo selecionado.
 
-## Análise de Speedup
+### Gráficos
 
-### Serial e Paralelo - Tempo x Tamanho do Problema
+#### Serial e Paralelo - Tempo x Tamanho do Problema
 
 ![Alt Serial e Paralelo - Tempo x Tamanho do Problema](./data/trapezio_graphs/trap_velocidade_tamanho.jpg)
 
 Através do gráfico comparativo, é possível observar que o código paralelo é mais eficiente que o código serial pois a reta relativa a este último apresenta um coefiente angular maior do que as relativas ao primeiro, o que indica que ao se aumentar o tamanho de problema no código serial o aumento em tempo de execução é proporcionalmente maior que o observado no código paralelo. Note que a redução no tempo de execução do código paralelo para o código serial orcorre de maneira proporcional ao tamanho dos problemas. Vale salientar que as curvas referentes a 4 e 8 cores são praticamente idênticas, isso ocorre devido aos limites da máquina de teste, fenômeno que será mais bem explicado no item [Considerações Finais](#considerções-finais).
 
-### Execução do Problema - Tempo x Cores
+#### Execução do Problema - Tempo x Cores
 
 ![Alt Paralelo - Tempo x Cores](./data/trapezio_graphs/trap_velocidade_cores.jpg)
 
 A partir do gráfico apresentado, é clara a influência do número de cores no tempo de execução. Por exemplo, o tempo de execução para o problema de maior tamanho no código serial cai para cerca de 8% ao se passar para o código paralelo ultilizando 4 cores. Novamente, verifica-se que o desempenho para 4 e 8 cores é idêntico.
 
-### Speedup por Número de cores
-É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. A tabela abaixo apresenta o speedup médio por número de cores utilizados na execução do código paralelo.
+### Análise de Speedup
+É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativas de execução dos 4 problemas descritos neste item.
 
 | Número de Cores | 2 | 4 | 8 |
 | --- | --- | ---| --- |
-|**Speedup Médio**|1.80|2.47|2.44| 
+|**Speedup Médio**|2.85|3.26|3.41| 
 
-Fica ainda mais claro perceber a diferença no speedup por proble
+### Análise de Eficiência
+Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando n cores pelos n cores utilizados. Desse modo, após o cáculo da eficiência, é possível definir o algoritmo analisado como de **baixa escalabilidade**, isto é, quando o valor da eficiência reduz conforme aumentamos o número de cores utilizados. A tabela abaixo apresenta a eficiência média calculada através dos valores de speedup anteriormente mencionados.
 
-![Alt Paralelo - Speedup](./data/trapezio_graphs/trap_mpi_speedup.jpg)
-
-
+| Número de Cores | 2 | 4 | 8 |
+| --- | --- | ---| --- |
+|**Eficiência Média**|1.42|0.81|0.42| 
 
 ## Considerações Finais
 
-Devido aos limites da máquina de testes, o número de cores passíveis de utilização é restrito. Das análises apresentadas, fica explicito que 4 cores é o limite do dispositivo de maneira a ter um speedup relevante, apesar do processador integrar HyperThreading não foi possível estender o número de cores utilizados para 8. Apesar disto, através desta análise foi possível perceber que a paralelização de códigos seriais, ainda que simples, traz resultados bastante promissores no que diz respeito a eficiência e velocidade. As análises também permitiram constatar que o speedup é ainda mais pronunciado para tamanhos maiores de problema.
+Devido aos limites da máquina de testes, o número de cores passíveis de utilização é restrito. Das análises apresentadas, fica explicito que 4 cores é o limite do dispositivo de maneira a ter um speedup relevante, apesar do processador integrar HyperThreading não foi possível estender o número de cores utilizados para 8. Apesar disto, através desta análise foi possível perceber que a paralelização de códigos seriais, ainda que simples, traz resultados bastante promissores no que diz respeito a eficiência e velocidade. Além disto, análises também permitiram constatar que o speedup é ainda mais pronunciado para tamanhos maiores de problema. No entando, isto não quer dizer que o algoritmo tenha uma boa escalabiliade.
 
 ## Condições de Testes
 ### Informações sobre a máquina utilizada
