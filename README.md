@@ -199,7 +199,7 @@ Para validar a corretude dos Algorítimos implementados foi realizado um teste u
 
 ![Alt Corretude - Pi Paralelo e Pi Serial](./data/pi_graphs/pi_terminal_print.PNG)
 
-Como é possível perceber, ambos os códigos conseguem aproximar de maneira correta o valor de pi, dado o número de pontos solicitados.
+Como é possível perceber, ambos os códigos conseguem aproximar de maneira correta o valor de pi, dado o número de pontos solicitados.<br><br>
 **Obs.:** Vale salientar que para este modelo de amostragem quanto maior o número de pontos a serem definidos mais preciso será o valor de pi retornado.
 
 ## Cálculo do Pi - Análise de Speedup
@@ -214,15 +214,17 @@ Através do gráfico comparativo é possível observar uma diferença significan
 
 ![Alt Paralelo - Tempo x Cores](./data/pi_graphs/paralelo_tempo_por_cores.PNG)
 
-No gráfico de comparação dos tempos de execução por tamanho de problema, a relação speedup pode ser melhor visualizada de acordo com o número de cores, Note que o tempo de execução para o problema de maior tamanho cai cerca de 80% quando executado no código paralelo, ultilando 2 cores
+No gráfico de comparação dos tempos de execução por tamanho de problema, a relação speedup pode ser melhor visualizada de acordo com o número de cores, Note que o tempo de execução para o problema de maior tamanho cai cerca de 80% quando executado no código paralelo ultilizando 2 cores.
 
 ### Speedup por Número de cores
-Por fim, o speedup de execução do código paralelo foi calculado dividindo
+Ao coletar os dados das diferentes análises, o tempo médio de execução do código serial para cada tamanho de problema foi dividido pelo mesmo valor relativo a cada problema executado no código paralelo, obtendo assim o speedup para cada tamanho de problema. É possível ver na tabela abaixo o speedup médio geral por número de cores utilizados na execução do código paralelo.
 | Número de Cores | 2 | 4 | 8 |
 | --- | --- | ---| --- |
 |**Speedup Médio**|1.80|2.47|2.44| 
 
 ## Considerações Finais
+
+Devido aos limites da máquina de testes não foi possível estender o número de cores utilizados, ficou muito bastante explicito 4 cores como o limite de cores a serem utilizados pelo dispositivo de maneira a trazer um speedup relevante. Apesar disto, através desta análise foi possível perceber que a paralelização de códigos seriais, ainda que simples, trás resultados bastante promissores no que diz respeito a eficiência e velocidade, se faz pertinente também visualizar o aumento do speedup de maneira ainda mais considerável quando o tamanho do problema é aumentado. 
 
 ## Condições de Testes
 ### Informações sobre a máquina utilizada
