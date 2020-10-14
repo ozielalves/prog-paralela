@@ -38,6 +38,10 @@ Analisar e avaliar o comportamento, eficiência e speedup dos algoritmos em rela
 # Instalação no Ubuntu 20.04 LTS:
 sudo apt-get install g++
 ```
+<!-- <br>
+<br>
+<br> -->
+
 #### MPI - Message Passing Interface
 É necessário para a compilação e execução dos códigos paralelos.
 ```bash
@@ -80,7 +84,7 @@ Dado um número de pontos a serem definidos, que chamaremos de `termos`, a segui
 
 4. Ao termino do laço, para conclusão do método de Monte Carlo,  é retornado `acertos` multiplicado por 4 e dividido por `termos`.
 
-A implementação da função calcPi é apresentada abaixo:
+A implementação da função `calcPi` é apresentada abaixo:
 ```bash
 double calcPi(int termos)
 {
@@ -107,7 +111,7 @@ double calcPi(int termos)
 ```
 
 #### Paralelo
-Ainda referente chamando o numero total de pontos a serem definidos como `termos`, a seguinte sub-rotina é implementada:  
+Ainda chamando o numero total de pontos a serem definidos como `termos`, a seguinte sub-rotina é implementada:  
 
 1. O tamanho do problema, `termos` é lido por por linha de comando.
 
@@ -119,9 +123,9 @@ Ainda referente chamando o numero total de pontos a serem definidos como `termos
 
 5. Ao termino da execução de cada processo , `acertos_parc` é somado a `acertos`.
 
-6. Quando todos os processos finalizam a contagem de acertos, todos os acertos parciais são somados a `acertos`, então, é fechada a comunicação MPI e então impresso o valor do resultado final multiplicado por 4 e dividido por `termos`.
+6. Quando todos os processos finalizam a contagem de acertos, todos os acertos parciais são somados a `acertos`, então, é fechada a comunicação MPI e impresso o valor do resultado final multiplicado por 4 e dividido por `termos`.
 
-**Obs.:** Vale salientar que, por escolha particular, a multiplicação e divisão realizada no número de acertos foi realizada apenas na impressão do resultado. Diferentemente do que acontece naturalmente da função `calcPi`, no código paralelo é retornado apenas a quantidade de acertos.
+**Obs.:** Vale salientar que, por escolha particular, a multiplicação e divisão no número de acertos foi realizada apenas na impressão do resultado. Diferentemente do que acontece naturalmente na função `calcPi`, no código paralelo é retornado apenas a quantidade de acertos.
 
 A implementação do Paralelismo é apresentada abaixo:
 ```bash
@@ -184,7 +188,7 @@ int main(int argc, char **argv)
 ```
 
 ## Resultados
-Para esta análise, serão realizadas **5 execuções** com tamanhos de problema 374.500.000, 550.000.000, 900.000.000 e 1.500.000.000 - definidos empiricamente de modo a atingir os limites mínimos determinados pela referência - em **3 quantidades de cores** (2, 4 e 8). Se espera que o comportamento de ambos os algoritmos quanto a aproximação do Pi seja parecido para um mesmo tamanho de problema quando se altera apenas o número de cores, sendo o tempo de execução o único fator variável. Uma descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
+Para esta análise, serão realizadas **5 execuções** com tamanhos de problema 374.500.000, 550.000.000, 900.000.000 e 1.500.000.000 - definidos empiricamente de modo a atingir os limites mínimos determinados pela [referência](https://github.com/ozielalves/prog-paralela/tree/master/referencia) - em **3 quantidades de cores** (2, 4 e 8). Se espera que o comportamento de ambos os algoritmos quanto a aproximação do Pi seja parecido para um mesmo tamanho de problema quando se altera apenas o número de cores, sendo o tempo de execução o único fator variável. Uma descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
 
 ### Corretude
 
@@ -195,6 +199,12 @@ Para validar a corretude dos algoritmos implementados foi realizado um teste uti
 Como é possível perceber, ambos os códigos conseguem aproximar de maneira correta o valor de pi, dado o número de pontos solicitados.<br><br>
 **Obs.:** Vale salientar que para este modelo de amostragem quanto maior o número de pontos a serem definidos mais preciso será o valor de pi retornado.
 
+<!-- <br>
+<br>
+<br>
+<br>
+<br> -->
+
 ### Gráficos
 
 #### Serial e Paralelo - Tempo x Tamanho do Problema
@@ -203,21 +213,30 @@ Como é possível perceber, ambos os códigos conseguem aproximar de maneira cor
 
 Através do gráfico comparativo, é possível observar que o código paralelo é mais eficiente que o código serial pois a reta relativa a este último apresenta um coefiente angular maior do que as relativas ao primeiro, o que indica que ao se aumentar o temanho de problema no código serial o aumento em tempo de execução é proporcionalmente maior que o que seria observado no código paralelo. Vale salientar que as curvas referentes a 4 e 8 cores são praticamente idênticas, isso ocorre devido aos limites da máquina de teste, fenômeno que será mais bem explicado no item [Considerações Finais](#considerções-finais).
 
-#### Paralelo - Tempo x Cores
+#### Tamanho do Problema - Tempo x Cores
 
 ![Alt Paralelo - Tempo x Cores](./data/pi_graphs/paralelo_tempo_por_cores.PNG)
 
-A partir do gráfico apresentado, é clara a influência do número de cores no tempo de execução. Por exemplo, o tempo de execução para o problema de maior tamanho cai cerca de 45% ao se passar do código serial para o código paralelo ultilizando 2 cores. Novamente, verifica-se que o desempenho para 4 e 8 cores é idêntico.
+A partir do gráfico apresentado, é clara a influência do número de cores no tempo de execução. Note que, por exemplo, o tempo de execução para o problema de maior tamanho cai cerca de 45% ao se passar do código serial para o código paralelo ultilizando 2 cores. Novamente, verifica-se que o desempenho para 4 e 8 cores é idêntico.
+
+<!-- <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br> -->
 
 ### Análise de Speedup
-É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativas de execução dos 4 problemas descritos neste item.
+É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. Sabendo que o limite de cores/threads da máquina de testes é 4, é esperado que o espeedup médio da execução dos probelmas para 4 e 8 cores seja aproximadamente idêntico. A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativas de execução dos 4 problemas descritos neste item.
 
 | Número de Cores | 2 | 4 | 8 |
 | --- | --- | ---| --- |
 |**Speedup Médio**|1.80|2.47|2.44| 
 
 ### Análise de Eficiência
-Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando n cores pelos n cores utilizados. Desse modo, após o cáculo da eficiência, é possível definir o algoritmo analisado como de **baixa escalabilidade**, isto é, quando o valor da eficiência reduz conforme aumentamos o número de cores utilizados. A tabela abaixo apresenta a eficiência média calculada através dos valores de speedup anteriormente mencionados.
+Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando n cores pelos n cores utilizados. Desse modo, após o cáculo da eficiência, é possível definir o algoritmo analisado como de **baixa escalabilidade**, isto é, quando o valor da eficiência reduz conforme aumentamos o número de cores utilizados. Apesar dos limites da máquina de testes, a eficiência reduz de maneira considerável se compararmos o passo no uso de 2 para 4 cores. A tabela abaixo apresenta a eficiência média calculada através dos valores de speedup anteriormente mencionados.
 
 | Número de Cores | 2 | 4 | 8 |
 | --- | --- | ---| --- |
@@ -225,14 +244,13 @@ Através do cáculo do speedup, é possível obter a eficiência do algoritmo qu
 
 ## Considerações Finais
 
-Devido aos limites da máquina de testes, o número de cores passíveis de utilização é restrito. Das análises apresentadas, fica explicito que 4 cores é o limite do dispositivo de maneira a ter um speedup relevante, apesar do processador integrar HyperThreading não foi possível estender o número de cores utilizados para 8. Apesar disto, através desta análise foi possível perceber que a paralelização de códigos seriais, ainda que simples, traz resultados bastante promissores no que diz respeito a eficiência e velocidade. Além disto, análises também permitiram constatar que o speedup é ainda mais pronunciado para tamanhos maiores de problema. No entando, isto não quer dizer que o algoritmo tenha uma boa escalabiliade.
+Devido aos limites da máquina de testes, o número de cores passíveis de utilização é restrito. Das análises apresentadas, fica explicito que 4 cores é o limite do dispositivo de maneira a ter um speedup relevante, apesar do processador integrar HyperThreading não foi possível estender o número de cores utilizados para 8. Apesar disto, através desta análise foi possível perceber que a paralelização de códigos seriais, ainda que simples, traz resultados bastante promissores no que diz respeito a eficiência e velocidade. Além disto, também foi permitido constatar que o speedup é ainda mais pronunciado para tamanhos maiores de problema. No entando, isto não quer dizer necessáriamente que o algoritmo tenha uma boa escalabiliade.
 
 ## Condições de Testes
 ### Informações sobre a máquina utilizada
 + **Dell Inspiron 14-inc 7460**
 
-+ **Processador**: Intel Core i7 7500U (até 3.5 GHz) Dual Core Cache 4M. (FSB)4 GT/s OPI (
-Integra HyperThreading para trabalhar com até 4 threads de uma vez)
++ **Processador**: Intel Core i7 7500U (até 3.5 GHz) Dual Core Cache 4M. (FSB)4 GT/s OPI (Integra HyperThreading para trabalhar com até 4 threads de uma vez)
 
 + **Número de Cores/Threads**: 2/4
 
@@ -255,6 +273,6 @@ Python 3.6.4
 ```
 
 ```bash
-~$: pip3 --version
-pip 9.0.1 from /usr/local/lib/python3.6/site-packages (python 3.6)
+~$: grip --version
+Grip 4.2.0 
 ```
