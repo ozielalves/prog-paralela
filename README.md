@@ -71,11 +71,11 @@ Serão realizadas **5 execuções** com **4 tamanhos de problema** , em **3 quan
 ./pi_paralelo_start.sh
 ```
 ```bash
-# Para o algorítimo que calcula o pi de forma serial
+# Para o algorítimo que calcula a integral de forma serial
 ./trapezio_serial_start.sh
 ```
 ```bash
-# Para o algorítimo que calcula o pi de forma paralela
+# Para o algorítimo que calcula a integral de forma paralela
 ./trapezio_paralelo_start.sh
 ```
 
@@ -222,9 +222,7 @@ int main(int argc, char **argv)
 ```
 
 ### Cálculo da Integral - Regra do Trapézio
-A regra do trapézio é um método para aproximar a integral de uma função, `y = f (x)`, usando trapézios para calcular a área. O processo é simples. Sejam `xa` e `xb` os pontos que limitam o intervalo para ser feito o cálculo da integral, e seja `n` o número de sub-intervalos de `xa` até `xb`. Para cada sub-intervalo, a função é aproximada com uma linha reta entre os valores da função em ambas as extremidades do sub-intervalo. Cada sub-intervalo agora é um mini-trapézio. Por último, a área de cada mini-trapézio é calculada e todas as áreas são somadas para obter uma aproximação da integral da função `f` de `xa` a `xb`. Assim:
-
-![Alt Formula - Regra do Trapézio](./data/trapezio_graphs/Formula_trapezio.png)
+A regra do trapézio é um método para aproximar a integral de uma função, `y = f (x)`, usando trapézios para calcular a área. O processo é simples. Sejam `xa` e `xb` os pontos que limitam o intervalo para ser feito o cálculo da integral, e seja `n` o número de sub-intervalos de `xa` até `xb`. Para cada sub-intervalo, a função é aproximada com uma linha reta entre os valores da função em ambas as extremidades do sub-intervalo. Cada sub-intervalo agora é um mini-trapézio. Por último, a área de cada mini-trapézio é calculada e todas as áreas são somadas para obter uma aproximação da integral da função `f` de `xa` a `xb`.
 
 #### Serial
 Dado um `n`, tal que representa o número de mini-trapézios a dividir o intervalo, a seguinte sub-rotina é implementada: 
