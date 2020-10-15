@@ -17,7 +17,7 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
   + [Apresentação dos Algoritmos](#apresentação-dos-algoritmos)
     + [Cálculo do Pi](#cálculo-do-pi---método-de-monte-carlo)
       + [Serial](#serial)
-      + [Paralelo](#paralelo
+      + [Paralelo](#paralelo)
     + [Cálculo da Integral - Regra do Trapézio](#cálculo-da-integral---regra-do-trapézio)
       + [Serial](#serial)
       + [Paralelo](#paralelo)
@@ -27,14 +27,14 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
       + [Corretude](#corretude)
       + [Gráficos](#gráficos)
       + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
-      + [Paralelo - Tempo x Cores](#paralelo---tempo-x-cores)
+      + [Tamanho do Problema - Tempo x Cores](tamanho-do-problema---tempo-x-cores)
       + [Análise de Speedup](#análise-de-speedup)
       + [Análise de Eficiência](#análise-de-eficiência)
     + [Cálculo da Integral](#cálculo-da-integral)
       + [Corretude](#corretude)
       + [Gráficos](#gráficos)
       + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
-      + [Paralelo - Tempo x Cores](#execução-do-problema---tempo-x-cores)
+      + [Tamanho do Problema - Tempo x Cores](#tamanho-do-problema---tempo-x-cores)
       + [Análise de Speedup](#análise-de-speedup)
       + [Análise de Eficiência](#análise-de-eficiência)
 + [Conclusão](#conclusão)
@@ -53,9 +53,6 @@ Analisar e avaliar o comportamento, eficiência e speedup dos algoritmos em rela
 # Instalação no Ubuntu 20.04 LTS:
 sudo apt-get install g++
 ```
-<br>
-<br>
-<br>
 
 #### MPI - Message Passing Interface
 É necessário para a compilação e execução dos códigos paralelos.
@@ -395,14 +392,14 @@ A partir do gráfico apresentado, é clara a influência do número de cores no 
 
 
 #### Análise de Speedup
-É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. Sabendo que o limite de cores/threads da máquina de testes é 4, é esperado que o espeedup médio da execução dos probelmas para 4 e 8 cores seja aproximadamente idêntico.
+É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. Sabendo que o limite de cores/threads da máquina de testes é 4, é esperado que o speedup da execução dos problemas para 4 e 8 cores seja aproximadamente idêntico.
 
 ### Speedup x Número de Cores Utilizados
 
 ![Alt Speedup x Cores](./data/pi_graphs/Speedup_pi.jpg)
 
-((((((((((((((((((TODO
-
+Como esperado, o gráfico nos mostra um desempenho bastante similiar para 4 e 8 cores, no entanto, para cores virtuais, a execução dos problemas em 4 cores obteve um speedup relativamente bom se comparado ao speedup para a execução nos 2 cores físicos.
+ 
 A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativas de execução dos 4 problemas descritos neste item.
 
 | Número de Cores | 2 | 4 | 8 |
@@ -410,17 +407,15 @@ A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativ
 |**Speedup Médio**|1.80|2.47|2.44| 
 
 #### Análise de Eficiência
-Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando n cores pelos n cores utilizados.
+Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando n cores pelos n cores utilizados. Como a máquina de testes possui apenas 2 cores físicos e implementa um hyper-threading para executar programas em 4 cores, para efeitos de análise comparativa iremos relacionar apenas estas duas quantidades. Porém, note que a eficiência de cores virtuais equivale a cerca de 30% da eficiência de cores físicos.
 
 ### Eficiêcia x Tamanhos do Problema
 
 ![Alt Eficiêcia x Tamanhos do Problema](./data/pi_graphs/Eficiencia_pi.jpg)
 
-((((((((((((TODO))))))))))))
+Se olharmos atentamente para a linha representa a eficiência para 2 cores é possível identificar uma mínima queda quando aumentamos pela primeria vez o tamanho do problema, no entanto, quando aumentamos mais uma vez o tamanho de problema, a linha volta a subir de maneira a permanecer praticamente estável para o próximo tamanho de problema. Já a linha que representa a eficiência para 4 cores se aproxima visivelmente de uma reta, o que índica uma constância na eficiência se aumentando o tamanho do problema na mesma proporção em que o número de cores. Desse modo, é possível definir o algoritmo analisado como **fracamente escalável**.<br>
 
-Desse modo, após o cáculo da eficiência, é possível definir o algoritmo analisado como **fracamente escalável**, isto é, quando o valor da eficiência reduz conforme aumentamos o número de cores utilizados. Apesar dos limites da máquina de testes, a eficiência reduz de maneira considerável se compararmos o passo no uso de 2 para 4 cores. A tabela abaixo apresenta a eficiência média calculada através dos valores de speedup anteriormente mencionados.
-
-OBS.: Colocar mais processos gera mais comunicação, o que implica em uma maior distância em relaçao a eficiência linear
+Apesar dos limites da máquina de testes, a eficiência média reduz de maneira considerável se compararmos o passo no uso de 2 para 4 cores, isso acontece porque aumentar a quantidade de cores utilizados gera mais comunicação, o que implica em uma maior distância em relaçao a eficiência linear. A tabela abaixo apresenta a eficiência média calculada através dos valores de speedup médio anteriormente mencionados.
 
 | Número de Cores | 2 | 4 | 8 |
 | --- | --- | ---| --- |
@@ -446,47 +441,45 @@ Como é possível perceber nas impressões, ambos os códigos conseguem aproxima
 
 Através do gráfico comparativo, é possível observar que o código paralelo é mais eficiente que o código serial pois a reta relativa a este último apresenta um coefiente angular maior do que as relativas ao primeiro, o que indica que ao se aumentar o tamanho de problema no código serial o aumento em tempo de execução é proporcionalmente maior que o observado no código paralelo. Note que a redução no tempo de execução do código paralelo para o código serial orcorre de maneira proporcional ao tamanho dos problemas. Vale salientar que as curvas referentes a 4 e 8 cores são praticamente idênticas, isso ocorre devido aos limites da máquina de teste, fenômeno que será mais bem explicado no item [Considerações Finais](#considerções-finais).
 
-##### Execução do Problema - Tempo x Cores
+##### Tamanho do Problema - Tempo x Cores
 
 ![Alt Paralelo - Tempo x Cores](./data/trapezio_graphs/trap_velocidade_cores.jpg)
 
 A partir do gráfico apresentado, é clara a influência do número de cores no tempo de execução. Por exemplo, o tempo de execução para o problema de maior tamanho no código serial cai para cerca de 8% ao se passar para o código paralelo ultilizando 4 cores. Novamente, verifica-se que o desempenho para 4 e 8 cores é idêntico.
 
 #### Análise de Speedup
-É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas.
+Partindo da mesma definição de speedup do tópico anterior ["Análise de Speedup"](#análise-de-speedup) do algoritmo do Cálculo do Pi, também é esperado queo speedup da execução dos problemas para 4 e 8 cores seja aproximadamente idêntico. Assim, temos:
 
 ### Speedup x Número de Cores Utilizados
 
 ![Alt Speedup x Cores](./data/trapezio_graphs/Speedup_trapezio.jpg)
 
-((((((((((((((((((TODO
-
-A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativas de execução dos 4 problemas descritos neste item.
+Note que existe um enorme ganho de desempenho quando observamos o ganho de velocidade em relação ao código serial, como resultado disto temos uma curva bastante acentuada na passagem do uso de 1 core (Serial) para 2 cores (Paralelo). A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativas de execução dos 4 problemas descritos neste item.
 
 | Número de Cores | 2 | 4 | 8 |
 | --- | --- | ---| --- |
 |**Speedup Médio**|2.85|3.26|3.41| 
 
 #### Análise de Eficiência
-Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando n cores pelos n cores utilizados. 
+Realizando o cálculo da Eficiência quando para cada tamanho de problema, nas 3 quantidades de cores, de maneira idêntica a descrita no item anterior, temos: 
 
 ### Eficiêcia x Tamanhos do Problema
 
 ![Alt Eficiêcia x Tamanhos do Problema](./data/trapezio_graphs/Eficiencia_trapezio.jpg)
 
-((((((((((((TODO))))))))))))
+Note que a eficiência para para todos os tamanho de problema executados em 2 cores ultrapassa o limite unitário, o que vem a identificar algum tipo de anomalia seja no tempo de execução do código serial ou do código paralelo, este fato irá ser melhor investigado posteriormente para uma posterior identificação do motivo.
 
-Desse modo, após o cáculo da eficiência, é possível definir o algoritmo analisado como de **baixa escalabilidade**, isto é, quando o valor da eficiência reduz conforme aumentamos o número de cores utilizados. A tabela abaixo apresenta a eficiência média calculada através dos valores de speedup anteriormente mencionados.
+Ainda assim, após o cáculo da eficiência, e novamente, relacionando para efeitos de análise comparativa apenas a eficiência relativa a 2 e 4 cores, um estranho aumento na eficiência é percebido ao também aumentarmos o tamanho do problema. Seguindo por esta linha, definiriamos então o algoritmo analisado como **escalável**, porque o valor da eficiência aumenta conforme aumentamos o número de cores utilizados. A tabela abaixo apresenta a eficiência média calculada através dos valores de speedup anteriormente mencionados.
 
 | Número de Cores | 2 | 4 | 8 |
 | --- | --- | ---| --- |
-|**Eficiência Média**|1.42|0.81|0.42|
+|**Eficiência Média**|~~1.42~~~|0.81|0.42|
 
 ## Conclusão
 
 ### Considerações Finais
 
-Devido aos limites da máquina de testes, o número de cores passíveis de utilização é restrito. Das análises apresentadas, fica explicito que 4 cores é o limite do dispositivo de maneira a ter um speedup relevante, apesar do processador integrar HyperThreading não foi possível estender o número de cores utilizados para 8. Apesar disto, através desta análise foi possível perceber que a paralelização de códigos seriais, ainda que simples, traz resultados bastante promissores no que diz respeito a eficiência e velocidade. Além disto, também foi permitido constatar que o speedup é ainda mais pronunciado para tamanhos maiores de problema. No entando, isto não quer dizer necessáriamente que o algoritmo tenha uma boa escalabiliade.
+Devido aos limites da máquina de testes, o número de cores passíveis de utilização é restrito. Das análises apresentadas, fica explicito que 4 cores é o limite do dispositivo junto a implementação do Hyper-threading, de  maneira a obter ainda um speedup relevante, não sendo possível estender o número de cores utilizados para 8. Apesar disto, através desta análise foi possível perceber que a paralelização de códigos seriais, ainda que simples, traz resultados bastante promissores no que diz respeito a eficiência e velocidade. Além disto, também foi permitido constatar que o speedup é ainda mais pronunciado para tamanhos maiores de problema. No entando, isto não quer dizer necessáriamente que o algoritmo tenha uma boa escalabiliade.
 
 ### Softwares utilizados
 ```bash
