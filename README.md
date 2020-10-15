@@ -473,7 +473,7 @@ Ainda assim, após o cáculo da eficiência, e novamente, relacionando para efei
 
 | Número de Cores | 2 | 4 | 8 |
 | --- | --- | ---| --- |
-|**Eficiência Média**|~~1.42~~~|0.81|0.42|
+|**Eficiência Média**|~~1.42~~|0.81|0.42|
 
 ## Conclusão
 
