@@ -17,15 +17,26 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
   + [Apresentação dos Algoritmos](#apresentação-dos-algoritmos)
     + [Cálculo do Pi](#cálculo-do-pi---método-de-monte-carlo)
       + [Serial](#serial)
+      + [Paralelo](#paralelo
+    + [Cálculo da Integral - Regra do Trapézio](#cálculo-da-integral---regra-do-trapézio)
+      + [Serial](#serial)
       + [Paralelo](#paralelo)
 + [Desenvolvimento](#desenvolvimento)      
   + [Resultados](#resultados)
-    + [Corretude](#corretude)
-    + [Gráficos](#gráficos)
-    + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
-    + [Paralelo - Tempo x Cores](#paralelo---tempo-x-cores)
-    + [Análise de Speedup](#análise-de-speedup)
-    + [Análise de Eficiência](#análise-de-eficiência)
+    + [Cálculo do Pi](#cálculo-do-pi)
+      + [Corretude](#corretude)
+      + [Gráficos](#gráficos)
+      + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
+      + [Paralelo - Tempo x Cores](#paralelo---tempo-x-cores)
+      + [Análise de Speedup](#análise-de-speedup)
+      + [Análise de Eficiência](#análise-de-eficiência)
+    + [Cálculo da Integral](#cálculo-da-integral)
+      + [Corretude](#corretude)
+      + [Gráficos](#gráficos)
+      + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
+      + [Paralelo - Tempo x Cores](#execução-do-problema---tempo-x-cores)
+      + [Análise de Speedup](#análise-de-speedup)
+      + [Análise de Eficiência](#análise-de-eficiência)
 + [Conclusão](#conclusão)
   + [Considerações Finais](#considerações-finais)
   + [Softwares utilizados](#softwares-utilizados)
@@ -217,9 +228,9 @@ int main(int argc, char **argv)
 
 ### Cálculo da Integral - Regra do Trapézio
 A regra do trapézio é um método para aproximar a integral de uma função, `y = f (x)`, usando trapézios para calcular a área. O processo é simples. Sejam `xa` e `xb` os pontos que limitam o intervalo para ser feito o cálculo da integral, e seja `n` o número de sub-intervalos de `xa` até `xb`. Para cada sub-intervalo, a função é aproximada com uma linha reta entre os valores da função em ambas as extremidades do sub-intervalo. Cada sub-intervalo agora é um mini-trapézio. Por último, a área de cada mini-trapézio é calculada e todas as áreas são somadas para obter uma aproximação da integral da função `f` de `xa` a `xb`. Assim:
-```bash
-   integral = 
-```
+
+![Alt Formula - Regra do Trapézio](./data/trapezio_graphs/Formula_trapezio.png)
+
 #### Serial
 Dado um `n`, tal que representa o número de mini-trapézios a dividir o intervalo, a seguinte sub-rotina é implementada: 
 
@@ -384,14 +395,30 @@ A partir do gráfico apresentado, é clara a influência do número de cores no 
 
 
 #### Análise de Speedup
-É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. Sabendo que o limite de cores/threads da máquina de testes é 4, é esperado que o espeedup médio da execução dos probelmas para 4 e 8 cores seja aproximadamente idêntico. A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativas de execução dos 4 problemas descritos neste item.
+É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. Sabendo que o limite de cores/threads da máquina de testes é 4, é esperado que o espeedup médio da execução dos probelmas para 4 e 8 cores seja aproximadamente idêntico.
+
+### Speedup x Número de Cores Utilizados
+
+![Alt Speedup x Cores](./data/pi_graphs/Speedup_pi.jpg)
+
+((((((((((((((((((TODO
+
+A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativas de execução dos 4 problemas descritos neste item.
 
 | Número de Cores | 2 | 4 | 8 |
 | --- | --- | ---| --- |
 |**Speedup Médio**|1.80|2.47|2.44| 
 
 #### Análise de Eficiência
-Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando n cores pelos n cores utilizados. Desse modo, após o cáculo da eficiência, é possível definir o algoritmo analisado como **fracamente escalável**, isto é, quando o valor da eficiência reduz conforme aumentamos o número de cores utilizados. Apesar dos limites da máquina de testes, a eficiência reduz de maneira considerável se compararmos o passo no uso de 2 para 4 cores. A tabela abaixo apresenta a eficiência média calculada através dos valores de speedup anteriormente mencionados.
+Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando n cores pelos n cores utilizados.
+
+### Eficiêcia x Tamanhos do Problema
+
+![Alt Eficiêcia x Tamanhos do Problema](./data/pi_graphs/Eficiencia_pi.jpg)
+
+((((((((((((TODO))))))))))))
+
+Desse modo, após o cáculo da eficiência, é possível definir o algoritmo analisado como **fracamente escalável**, isto é, quando o valor da eficiência reduz conforme aumentamos o número de cores utilizados. Apesar dos limites da máquina de testes, a eficiência reduz de maneira considerável se compararmos o passo no uso de 2 para 4 cores. A tabela abaixo apresenta a eficiência média calculada através dos valores de speedup anteriormente mencionados.
 
 OBS.: Colocar mais processos gera mais comunicação, o que implica em uma maior distância em relaçao a eficiência linear
 
@@ -426,14 +453,30 @@ Através do gráfico comparativo, é possível observar que o código paralelo �
 A partir do gráfico apresentado, é clara a influência do número de cores no tempo de execução. Por exemplo, o tempo de execução para o problema de maior tamanho no código serial cai para cerca de 8% ao se passar para o código paralelo ultilizando 4 cores. Novamente, verifica-se que o desempenho para 4 e 8 cores é idêntico.
 
 #### Análise de Speedup
-É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativas de execução dos 4 problemas descritos neste item.
+É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas.
+
+### Speedup x Número de Cores Utilizados
+
+![Alt Speedup x Cores](./data/trapezio_graphs/Speedup_trapezio.jpg)
+
+((((((((((((((((((TODO
+
+A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativas de execução dos 4 problemas descritos neste item.
 
 | Número de Cores | 2 | 4 | 8 |
 | --- | --- | ---| --- |
 |**Speedup Médio**|2.85|3.26|3.41| 
 
 #### Análise de Eficiência
-Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando n cores pelos n cores utilizados. Desse modo, após o cáculo da eficiência, é possível definir o algoritmo analisado como de **baixa escalabilidade**, isto é, quando o valor da eficiência reduz conforme aumentamos o número de cores utilizados. A tabela abaixo apresenta a eficiência média calculada através dos valores de speedup anteriormente mencionados.
+Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando n cores pelos n cores utilizados. 
+
+### Eficiêcia x Tamanhos do Problema
+
+![Alt Eficiêcia x Tamanhos do Problema](./data/trapezio_graphs/Eficiencia_trapezio.jpg)
+
+((((((((((((TODO))))))))))))
+
+Desse modo, após o cáculo da eficiência, é possível definir o algoritmo analisado como de **baixa escalabilidade**, isto é, quando o valor da eficiência reduz conforme aumentamos o número de cores utilizados. A tabela abaixo apresenta a eficiência média calculada através dos valores de speedup anteriormente mencionados.
 
 | Número de Cores | 2 | 4 | 8 |
 | --- | --- | ---| --- |
@@ -445,7 +488,7 @@ Através do cáculo do speedup, é possível obter a eficiência do algoritmo qu
 
 Devido aos limites da máquina de testes, o número de cores passíveis de utilização é restrito. Das análises apresentadas, fica explicito que 4 cores é o limite do dispositivo de maneira a ter um speedup relevante, apesar do processador integrar HyperThreading não foi possível estender o número de cores utilizados para 8. Apesar disto, através desta análise foi possível perceber que a paralelização de códigos seriais, ainda que simples, traz resultados bastante promissores no que diz respeito a eficiência e velocidade. Além disto, também foi permitido constatar que o speedup é ainda mais pronunciado para tamanhos maiores de problema. No entando, isto não quer dizer necessáriamente que o algoritmo tenha uma boa escalabiliade.
 
-## Softwares utilizados
+### Softwares utilizados
 ```bash
 ~$: g++ --version
 g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
