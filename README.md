@@ -22,29 +22,23 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
       + [Serial](#serial)
       + [Paralelo](#paralelo)
 + [Desenvolvimento](#desenvolvimento)      
-  + [Resultados](#resultados)
-    + [Cálculo do Pi](#cálculo-do-pi)
-      + [Corretude](#corretude)
-      + [Gráficos](#gráficos)
-      + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
-      + [Tamanho do Problema - Tempo x Cores](tamanho-do-problema---tempo-x-cores)
-      + [Análise de Speedup](#análise-de-speedup)
-      + [Análise de Eficiência](#análise-de-eficiência)
-    + [Cálculo da Integral](#cálculo-da-integral)
-      + [Corretude](#corretude)
-      + [Gráficos](#gráficos)
-      + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
-      + [Tamanho do Problema - Tempo x Cores](#tamanho-do-problema---tempo-x-cores)
-      + [Análise de Speedup](#análise-de-speedup)
-      + [Análise de Eficiência](#análise-de-eficiência)
+  + [Cálculo do Pi](#cálculo-do-pi)
+    + [Corretude](#corretude)
+    + [Gráficos](#gráficos)
+    + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
+    + [Tamanho do Problema - Tempo x Cores](tamanho-do-problema---tempo-x-cores)
+    + [Análise de Speedup](#análise-de-speedup)
+    + [Análise de Eficiência](#análise-de-eficiência)
+  + [Cálculo da Integral](#cálculo-da-integral)
+    + [Corretude](#corretude)
+    + [Gráficos](#gráficos)
+    + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
+    + [Tamanho do Problema - Tempo x Cores](#tamanho-do-problema---tempo-x-cores)
+    + [Análise de Speedup](#análise-de-speedup)
+    + [Análise de Eficiência](#análise-de-eficiência)
 + [Conclusão](#conclusão)
   + [Considerações Finais](#considerações-finais)
   + [Softwares utilizados](#softwares-utilizados)
-
-<br>
-<br>
-<br>
-<br>
 
 ## Introdução
 
@@ -102,7 +96,6 @@ Após o termino das execuções do script é possível ter acesso aos arquivos `
 
 + **Sistema**: Ubuntu 20.04.1 LTS
 
-## Desenvolvimento
 
 ### Apresentação dos Algoritmos
 
@@ -367,7 +360,8 @@ int main(int argc, char **argv)
 }
 ```
 
-## Resultados
+## Desenvolvimento
+
 ### Cálculo do Pi
 Para esta análise, serão realizadas **5 execuções** com tamanhos de problema 374.500.000, 550.000.000, 900.000.000 e 1.500.000.000 - definidos empiricamente de modo a atingir os limites mínimos determinados pela [referência](https://github.com/ozielalves/prog-paralela/tree/master/referencia) - em **3 quantidades de cores** (2, 4 e 8). Se espera que o comportamento de ambos os algoritmos quanto a aproximação do Pi seja parecido para um mesmo tamanho de problema quando se altera apenas o número de cores, sendo o tempo de execução o único fator variável. Uma descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
 
@@ -399,7 +393,7 @@ A partir do gráfico apresentado, é clara a influência do número de cores no 
 #### Análise de Speedup
 É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. Sabendo que o limite de cores/threads da máquina de testes é 4, é esperado que o speedup da execução dos problemas para 4 e 8 cores seja aproximadamente idêntico.
 
-### Speedup x Número de Cores Utilizados
+##### Speedup x Número de Cores Utilizados
 
 ![Alt Speedup x Cores](./data/pi_graphs/Speedup_pi.jpg)
 
@@ -455,7 +449,7 @@ A partir do gráfico apresentado, é clara a influência do número de cores no 
 #### Análise de Speedup
 Partindo da mesma definição de speedup do tópico anterior ["Análise de Speedup"](#análise-de-speedup) do algoritmo do Cálculo do Pi, também é esperado queo speedup da execução dos problemas para 4 e 8 cores seja aproximadamente idêntico. Assim, temos:
 
-### Speedup x Número de Cores Utilizados
+##### Speedup x Número de Cores Utilizados
 
 ![Alt Speedup x Cores](./data/trapezio_graphs/Speedup_trapezio.jpg)
 
