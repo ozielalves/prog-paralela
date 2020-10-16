@@ -26,19 +26,19 @@ Instaladas as dependências, basta executar o shellcript determinado para a devi
 Serão realizadas **5 execuções** com **4 tamanhos de problema** , em **3 quantidades de cores** (2, 4 e 8).
 ```bash
 # Para o algorítimo que calcula o pi de forma serial
-./pi_serial_start.sh
+./Pi\ e\ Tapezio/pi_serial_start.sh
 ```
 ```bash
 # Para o algorítimo que calcula o pi de forma paralela
-./pi_paralelo_start.sh
+./Pi\ e\ Tapezio/pi_paralelo_start.sh
 ```
 ```bash
 # Para o algorítimo que calcula a integral de forma serial
-./trapezio_serial_start.sh
+./Pi\ e\ Tapezio/trapezio_serial_start.sh
 ```
 ```bash
 # Para o algorítimo que calcula a integral de forma paralela
-./trapezio_paralelo_start.sh
+./Pi\ e\ Tapezio/trapezio_paralelo_start.sh
 ```
 
 **Obs.:** Caso seja necessário conceder permissão máxima para os scripts, execute `chmod 777 [NOME DO SCRIPT].sh`.
