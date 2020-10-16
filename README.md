@@ -26,19 +26,19 @@ Instaladas as dependências, basta executar o shellcript determinado para a devi
 Serão realizadas **5 execuções** com **4 tamanhos de problema** , em **3 quantidades de cores** (2, 4 e 8).
 ```bash
 # Para o algorítimo que calcula o pi de forma serial
-./Pi\ e\ Tapezio/pi_serial_start.sh
+./Pi-Tapezio/pi_serial_start.sh
 ```
 ```bash
 # Para o algorítimo que calcula o pi de forma paralela
-./Pi\ e\ Tapezio/pi_paralelo_start.sh
+./Pi-Tapezio/pi_paralelo_start.sh
 ```
 ```bash
 # Para o algorítimo que calcula a integral de forma serial
-./Pi\ e\ Tapezio/trapezio_serial_start.sh
+./Pi-Tapezio/trapezio_serial_start.sh
 ```
 ```bash
 # Para o algorítimo que calcula a integral de forma paralela
-./Pi\ e\ Tapezio/trapezio_paralelo_start.sh
+./Pi-Tapezio/trapezio_paralelo_start.sh
 ```
 
 **Obs.:** Caso seja necessário conceder permissão máxima para os scripts, execute `chmod 777 [NOME DO SCRIPT].sh`.
@@ -61,9 +61,9 @@ Após o termino das execuções do script é possível ter acesso aos arquivos `
 
 ### Apresentação dos Algoritmos
 
-#### [Cálculo do Pi - Método de Monte Carlo](https://github.com/ozielalves/prog-paralela/tree/master/Pi%20e%20Tapezio#c%C3%A1lculo-do-pi---m%C3%A9todo-de-monte-carlo)
+#### [Cálculo do Pi - Método de Monte Carlo](https://github.com/ozielalves/prog-paralela/tree/master/Pi-Tapezio#c%C3%A1lculo-do-pi---m%C3%A9todo-de-monte-carlo)
 
-#### [Cálculo da Integral - Regra do Trapézio](https://github.com/ozielalves/prog-paralela/tree/master/Pi%20e%20Tapezio#c%C3%A1lculo-da-integral---regra-do-trap%C3%A9zio)
+#### [Cálculo da Integral - Regra do Trapézio](https://github.com/ozielalves/prog-paralela/tree/master/Pi-Tapezio#c%C3%A1lculo-da-integral---regra-do-trap%C3%A9zio)
 
 ### Softwares utilizados
 ```bash
