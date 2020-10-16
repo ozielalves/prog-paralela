@@ -5,7 +5,7 @@
 #include <sys/time.h>
 #include "mpi.h"
 
-void getImput(int argc, char *argv[], int my_rank, double *n_ponteiro)
+void getArgs(int argc, char *argv[], int my_rank, double *n_ponteiro)
 {
     // Determina o valor de n
     if (my_rank == 0)
@@ -22,18 +22,12 @@ int main(int argc, char **argv)
     struct timeval start, stop; // Intervalo de tempo calculado ao fim
     gettimeofday(&start, 0);
 
-    int my_rank = 0;           // Rank do meu processo
-    int p = 0;                 // Numero de processos
-    const double xa = 0.;      // X Início da figura
-    const double xb = 30.;     // X Fim da figura
-    double n = 0.;             // Numero de mini trapezios
-    double inc = 0.;           // Incremento (Base do Trapezio)
-    double local_a = 0.;       // X Início da figura LOCAL
-    double local_b = 0.;       // X Fim da figura LOCAL
-    long long int local_n = 0; // Numero de mini trapezios LOCAL
-
-    double area_relativa = 0.; // Area relativa ao intervalo
-    double area_total = 0.;    // Area total
+    int my_rank = 0; // Rank do meu processo
+    int p = 0;       // Numero de processos
+    char g_i;        // g ou i dependendo da escolha do usuário; g: gera lista aleatória para ordenação, i: ordena lista informada
+    int *local_list; // Lista local => (size) = número de elementos locais * (size of int)
+    int global_n;    // Número de elementos na Lista global
+    int local_n;     // Número de elementos na Lista local (em cada processo)
 
     MPI_Init(&argc, &argv);
 
@@ -43,29 +37,39 @@ int main(int argc, char **argv)
     // Quantos processos então sendo usados
     MPI_Comm_size(MPI_COMM_WORLD, &p);
 
-    // Destribui o valor de n para todos os processos
-    getImput(argc, argv, my_rank, &n);
+    // Recebe a lista aser ordenada
+    getArgs(argc, argv, &global_n, &local_n, &g_i, my_rank, p, comm);
+   local_list = (int*) malloc(local_n*sizeof(int));
 
-/*     // O incremento e local_n serão os mesmo para todos os processos
-    inc = (xb - xa) / n;
-    local_n = n / p;
-
-    // O tamanho de cada intervalo de processo será (local_n * inc)
-    local_a = xa + my_rank * (local_n * inc);
-    local_b = local_a + (local_n * inc); */
+   // generate random list based on user input
+   if (g_i == 'g') {
+      Generate_list(local_list, local_n, my_rank);
+      Print_local_lists(local_list, local_n, my_rank, p, comm);
+   }
+   // read in user defined list from command line
+   else {
+      Read_list(local_list, local_n, my_rank, p, comm);
+   }
 
     // Bloqueia o processo até todos chegarem nesse ponto
     MPI_Barrier(MPI_COMM_WORLD);
 
-/*     area_relativa = trapezioIntegral(local_a, local_b, local_n); */
+    Sort(local_list, local_n, my_rank, p, comm);
+    gettimeofday(&stop, 0);
 
-    // Soma as integrais calculadas por cada processo
-    MPI_Reduce(&area_relativa, &area_total, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    /* MPI_Reduce(&loc_elapsed, &elapsed, 1, MPI_DOUBLE, MPI_MAX, 0, comm); */
+    
+    #  ifdef DEBUG
+    Print_local_lists(local_list, local_n, my_rank, p, comm);
+    fflush(stdout);
+    #  endif
+
+    Print_global_list(local_list, local_n, my_rank, p, comm);
+
+    free(local_list);  // Desaloca a memória para local_list
 
     if (my_rank == 0)
     {
-        gettimeofday(&stop, 0);
-
         FILE *fp;
         char outputFilename[] = "./trapezio/tempo_mpi_trapezio.txt";
 
@@ -81,7 +85,8 @@ int main(int argc, char **argv)
         fclose(fp);
     }
     else
-    { /* Nothing */ }
+    { /* Nothing */
+    }
 
     MPI_Finalize();
 }

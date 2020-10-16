@@ -41,7 +41,7 @@ Serão realizadas **5 execuções** com **4 tamanhos de problema** , em **3 quan
 ./Pi-Tapezio/trapezio_paralelo_start.sh
 ```
 
-**Obs.:** Caso seja necessário conceder permissão máxima para os scripts, execute `chmod 777 [NOME DO SCRIPT].sh`.
+**Obs.:** Caso seja necessário conceder permissão máxima para os scripts, execute:<br> `chmod 777 [NOME DO SCRIPT].sh`.
 
 ### Arquivo com Resultados 
 Após o termino das execuções do script é possível ter acesso aos arquivos `.txt` na pasta `pi` ou `trapezio`, de acordo com o script executado. Os dados coletados foram utilizados para realização desta análise.
