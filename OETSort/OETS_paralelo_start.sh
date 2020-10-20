@@ -4,7 +4,7 @@
 rm ./paralelo/mpi_oets
 rm ./paralelo/tempo_mpi_oets.txt
 
-mpicc -g -o ./paralelo/mpi_oets ./paralelo/mpi_oets.cpp -lstdc++ -lm
+mpicc -g -w -o ./paralelo/mpi_oets ./paralelo/mpi_oets.cpp -lstdc++ -lm
 
 tentativas=5 
 

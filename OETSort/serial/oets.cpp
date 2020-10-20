@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 
     gettimeofday(&stop, 0);
     /* FILE *fp;
-    char outputFilename[] = "./trapezio/tempo_trapezio.txt";
+    char outputFilename[] = "tempo_oets.txt";
 
     fp = fopen(outputFilename, "a");
     if (fp == NULL)
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    fprintf(fp, "\tTempo: %1.2e \tLista ordenada: %f\n", ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)), area_total);
+    fprintf(fp, "\tTempo: %1.2e\n", ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)));
 
     fclose(fp); */
 
