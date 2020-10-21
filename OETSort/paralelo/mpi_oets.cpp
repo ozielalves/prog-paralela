@@ -4,22 +4,22 @@
 #include <mpi.h>
 
 using namespace std;
-
-int merge(int *ina, int lena, int *inb, int lenb, int *out)
+merge(local_list, local_n, remote, local_n, all);
+int merge(int *list_a, int len_list_a, int *list_b, int len_list_b, int *merged_list)
 {
     int i, j;
-    int outcount = 0;
+    int aux = 0;
 
-    for (i = 0, j = 0; i < lena; i++)
+    for (i = 0, j = 0; i < len_list_a; i++)
     {
-        while ((inb[j] < ina[i]) && j < lenb)
+        while ((list_b[j] < list_a[i]) && j < len_list_b)
         {
-            out[outcount++] = inb[j++];
+            merged_list[aux++] = list_b[j++];
         }
-        out[outcount++] = ina[i];
+        merged_list[aux++] = list_a[i];
     }
-    while (j < lenb)
-        out[outcount++] = inb[j++];
+    while (j < len_list_b)
+        merged_list[aux++] = list_b[j++];
 
     return 0;
 }
@@ -28,7 +28,7 @@ int merge(int *ina, int lena, int *inb, int lenb, int *out)
 void oddEvenSort(int *list, int n)
 {
     bool isSorted = false; // Flag que indica se a lista está ordenada
-    int i; 
+    int i;
 
     while (!isSorted)
     {
@@ -66,8 +66,11 @@ void printStatus(int my_rank, int iter, char *txt, int *la, int n)
     printf("%d>\n", la[n - 1]);
 }
 
-void MPI_Pairwise_Exchange(int local_n, int *local_list, int sendrank, int recvrank,
-                           MPI_Comm comm)
+/*
+ * O rank remetente envia o elemento para fazer o swap e aguardao o retorno 
+ * O rank destinatario recebe o elemento, ordena o novo array e retorna o elemento pertencente a o remetente.
+ */ 
+void MPI_SWAP(int local_n, int *local_list, int snd_rank, int rcv_rank, MPI_Comm comm)
 {
 
     /*
@@ -75,32 +78,50 @@ void MPI_Pairwise_Exchange(int local_n, int *local_list, int sendrank, int recvr
      * the receiving rank receives it, sorts the combined data, and returns
      * the correct half of the data.
      */
-    int my_rank; // Rank dos meus processos
+    int my_rank;         // Rank dos meus processos
     int remote[local_n]; //
-    int all[2 * local_n];
-    const int mergetag = 1;
-    const int sortedtag = 2;
+    int merged_list[2 * local_n]; // Lista "fundida" auxiliar
+    const int merge_tag = 1;
+    const int sorted_tag = 2;
 
     MPI_Comm_rank(comm, &my_rank);
-    if (my_rank == sendrank)
+
+    // Comunicação com o rank vizinho, o rank remetente não está ocioso
+    if (my_rank == snd_rank)
     {
-        MPI_Send(local_list, local_n, MPI_INT, recvrank, mergetag, MPI_COMM_WORLD);
-        MPI_Recv(local_list, local_n, MPI_INT, recvrank, sortedtag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        // A rotina é bloqueada até que o rank destinatario receba a o dado    
+        MPI_Send(local_list, local_n, MPI_INT, rcv_rank, merge_tag, MPI_COMM_WORLD);
+        // MPI Status nao necessario para esta rotina
+        MPI_Recv(local_list, local_n, MPI_INT, rcv_rank, sorted_tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE); 
     }
     else
     {
-        MPI_Recv(remote, local_n, MPI_INT, sendrank, mergetag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        merge(local_list, local_n, remote, local_n, all);
+        MPI_Recv(remote, local_n, MPI_INT, snd_rank, merge_tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        
+        merge(local_list, local_n, remote, local_n, merged_list);
 
-        int theirstart = 0, mystart = local_n;
-        if (sendrank > my_rank)
+        int theirstart = 0;
+        int mystart = local_n;
+        
+        // Mantém o menor elemento e o maior elemento é enivado ao remetente
+        if (snd_rank > my_rank)
         {
             theirstart = local_n;
             mystart = 0;
         }
-        MPI_Send(&(all[theirstart]), local_n, MPI_INT, sendrank, sortedtag, MPI_COMM_WORLD);
+        else
+        {
+            /* Nothing */
+        }
+        
+        // Envia o elemento ao rementente
+        MPI_Send(&(merged_list[theirstart]), local_n, MPI_INT, snd_rank, sorted_tag, MPI_COMM_WORLD);
+        
+        // ???
         for (int i = mystart; i < mystart + local_n; i++)
-            local_list[i - mystart] = all[i];
+        {
+            local_list[i - mystart] = merged_list[i];
+        }
     }
 }
 
@@ -108,7 +129,7 @@ void MPI_Pairwise_Exchange(int local_n, int *local_list, int sendrank, int recvr
 int MPI_OETS(int n, int *list, MPI_Comm comm)
 {
     int my_rank, p, i;
-    int root_rank = 0; 
+    int root_rank = 0;
     int *local_list; // Lista local
 
     MPI_Comm_rank(comm, &my_rank);
@@ -126,21 +147,22 @@ int MPI_OETS(int n, int *list, MPI_Comm comm)
     for (i = 1; i <= p; i++)
     {
         printStatus(my_rank, i, "before", local_list, n / p);
-        
-        // i e o rank do meu processo sao ambos pares ou impares (Even)
+
+        // Fase par (Even)
         if ((my_rank + i) % 2 == 0)
-        {   
+        {
             if (my_rank < p - 1)
             {
-                MPI_Pairwise_Exchange(n / p, local_list, my_rank, my_rank + 1, comm);
+                MPI_SWAP(n / p, local_list, my_rank, my_rank + 1, comm);
             }
         }
-        // Odd
+        // Fase ímpar (Odd)
         else if (my_rank > 0)
         {
-            MPI_Pairwise_Exchange(n / p, local_list, my_rank - 1, my_rank, comm);
+            MPI_SWAP(n / p, local_list, my_rank - 1, my_rank, comm);
         }
-        else {
+        else
+        {
             /* Nothing */
         }
     }
@@ -151,6 +173,7 @@ int MPI_OETS(int n, int *list, MPI_Comm comm)
     MPI_Gather(local_list, n / p, MPI_INT, list, n / p, MPI_INT,
                root_rank, comm);
 
+    // Fim da linha
     if (my_rank == root_rank)
         printStatus(my_rank, i, " all done ", list, n);
 
@@ -201,9 +224,9 @@ int main(int argc, char **argv)
     fprintf(fp, "\tTempo: %1.2e\n", ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)));
 
     fclose(fp); */
-    
+
     free(list);
-    
+
     MPI_Finalize();
 
     return 0;
