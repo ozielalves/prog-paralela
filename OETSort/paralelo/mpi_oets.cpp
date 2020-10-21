@@ -4,7 +4,15 @@
 #include <mpi.h>
 
 using namespace std;
-merge(local_list, local_n, remote, local_n, all);
+
+/*
+ * arg list_a: Lista 
+ * arg len_list_a: Lista 
+ * arg list_b: Lista 
+ * arg len_list_b: Lista 
+ * arg merged_list: Output 
+ */
+
 int merge(int *list_a, int len_list_a, int *list_b, int len_list_b, int *merged_list)
 {
     int i, j;
@@ -69,7 +77,7 @@ void printStatus(int my_rank, int iter, char *txt, int *la, int n)
 /*
  * O rank remetente envia o elemento para fazer o swap e aguardao o retorno 
  * O rank destinatario recebe o elemento, ordena o novo array e retorna o elemento pertencente a o remetente.
- */ 
+ */
 void MPI_SWAP(int local_n, int *local_list, int snd_rank, int rcv_rank, MPI_Comm comm)
 {
 
@@ -78,49 +86,49 @@ void MPI_SWAP(int local_n, int *local_list, int snd_rank, int rcv_rank, MPI_Comm
      * the receiving rank receives it, sorts the combined data, and returns
      * the correct half of the data.
      */
-    int my_rank;         // Rank dos meus processos
-    int remote[local_n]; //
-    int merged_list[2 * local_n]; // Lista "fundida" auxiliar
-    const int merge_tag = 1;
-    const int sorted_tag = 2;
+    int my_rank;                  // Rank dos meus processos
+    int aux_list[local_n];          //
+    int merged_list[2 * local_n]; // Lista auxiliar atribuida na função Merge
+    const int merge_tag = 1;      // Identifica a comunicação
+    const int sorted_tag = 2;     // Identifica a comunicação
 
     MPI_Comm_rank(comm, &my_rank);
 
     // Comunicação com o rank vizinho, o rank remetente não está ocioso
     if (my_rank == snd_rank)
     {
-        // A rotina é bloqueada até que o rank destinatario receba a o dado    
+        // A rotina é bloqueada até que o rank destinatario receba a o dado
         MPI_Send(local_list, local_n, MPI_INT, rcv_rank, merge_tag, MPI_COMM_WORLD);
         // MPI Status nao necessario para esta rotina
-        MPI_Recv(local_list, local_n, MPI_INT, rcv_rank, sorted_tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE); 
+        MPI_Recv(local_list, local_n, MPI_INT, rcv_rank, sorted_tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
     else
     {
-        MPI_Recv(remote, local_n, MPI_INT, snd_rank, merge_tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        
-        merge(local_list, local_n, remote, local_n, merged_list);
+        MPI_Recv(aux_list, local_n, MPI_INT, snd_rank, merge_tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-        int theirstart = 0;
-        int mystart = local_n;
-        
-        // Mantém o menor elemento e o maior elemento é enivado ao remetente
+        merge(local_list, local_n, aux_list, local_n, merged_list);
+
+        int start = 0;
+        int end = local_n;
+
+        // Fase ODD? EVEN? Mantém o menor elemento na esquerda e o maior elemento é enviado ao remetente
         if (snd_rank > my_rank)
         {
-            theirstart = local_n;
-            mystart = 0;
+            start = local_n; 
+            end = 0;
         }
         else
         {
             /* Nothing */
         }
-        
+
         // Envia o elemento ao rementente
-        MPI_Send(&(merged_list[theirstart]), local_n, MPI_INT, snd_rank, sorted_tag, MPI_COMM_WORLD);
-        
-        // ???
-        for (int i = mystart; i < mystart + local_n; i++)
+        MPI_Send(&(merged_list[start]), local_n, MPI_INT, snd_rank, sorted_tag, MPI_COMM_WORLD);
+
+        // Atualiza local_list
+        for (int i = end; i < end + local_n; i++)
         {
-            local_list[i - mystart] = merged_list[i];
+            local_list[i - end] = merged_list[i];
         }
     }
 }
