@@ -6,28 +6,32 @@
 using namespace std;
 
 /*
- * arg list_a: Lista 
- * arg len_list_a: Lista 
- * arg list_b: Lista 
- * arg len_list_b: Lista 
- * arg merged_list: Output 
+ * arg list_rcv: local_list_rcv
+ * arg len_list_rcv: tamanho de local_list_rcv
+ * arg list_snd: local_list_snd
+ * arg len_list_snd: tamanho de local_list_snd
+ * arg merged_list: lista auxiliar resultante 
  */
 
-int merge(int *list_a, int len_list_a, int *list_b, int len_list_b, int *merged_list)
+int Merge(int *local_list_rcv, int len_local_list_rcv, int *local_list_snd,
+          int len_local_list_snd, int *merged_list)
 {
     int i, j;
     int aux = 0;
 
-    for (i = 0, j = 0; i < len_list_a; i++)
+    for (i = 0, j = 0; i < len_local_list_rcv; i++)
     {
-        while ((list_b[j] < list_a[i]) && j < len_list_b)
+        // Garantia de ordem
+        while ((local_list_snd[j] < local_list_rcv[i]) && j < len_local_list_snd)
         {
-            merged_list[aux++] = list_b[j++];
+            merged_list[aux++] = local_list_snd[j++];
         }
-        merged_list[aux++] = list_a[i];
+        merged_list[aux++] = local_list_rcv[i];
     }
-    while (j < len_list_b)
-        merged_list[aux++] = list_b[j++];
+    while (j < len_local_list_snd)
+    {
+        merged_list[aux++] = local_list_snd[j++];
+    }
 
     return 0;
 }
@@ -66,35 +70,30 @@ void oddEvenSort(int *list, int n)
     return;
 }
 
-void printStatus(int my_rank, int iter, char *txt, int *la, int n)
+void printStatus(int my_rank, int iter, char *txt, int *list, int n)
 {
-    printf("[%d] %s iter %d: <", my_rank, txt, iter);
+    printf("Processo %d %s da comunicacao %d: [", my_rank, txt, iter);
     for (int j = 0; j < n - 1; j++)
-        printf("%d,", la[j]);
-    printf("%d>\n", la[n - 1]);
+        printf("%d,", list[j]);
+    printf("%d]\n", list[n - 1]);
 }
 
 /*
- * O rank remetente envia o elemento para fazer o swap e aguardao o retorno 
- * O rank destinatario recebe o elemento, ordena o novo array e retorna o elemento pertencente a o remetente.
+ * O rank remetente envia os dados para fazer o swap e aguarda o o retorno. 
+ * O rank destinatario recebe os dados, ordena o novo array e retorna 
+ * a outra metade pertencente ao remetente.
  */
 void MPI_SWAP(int local_n, int *local_list, int snd_rank, int rcv_rank, MPI_Comm comm)
 {
-
-    /*
-     * the sending rank just sends the data and waits for the results;
-     * the receiving rank receives it, sorts the combined data, and returns
-     * the correct half of the data.
-     */
     int my_rank;                  // Rank dos meus processos
-    int aux_list[local_n];          //
-    int merged_list[2 * local_n]; // Lista auxiliar atribuida na função Merge
+    int aux_list[local_n];        // Lista auxiliar cópia da lista local do rank remetente
+    int merged_list[2 * local_n]; // Lista auxiliar oriunda do Merge(local_n_rcv, local_n_snd)
     const int merge_tag = 1;      // Identifica a comunicação
     const int sorted_tag = 2;     // Identifica a comunicação
 
     MPI_Comm_rank(comm, &my_rank);
 
-    // Comunicação com o rank vizinho, o rank remetente não está ocioso
+    // Na fase Odd da comunicação
     if (my_rank == snd_rank)
     {
         // A rotina é bloqueada até que o rank destinatario receba a o dado
@@ -104,17 +103,19 @@ void MPI_SWAP(int local_n, int *local_list, int snd_rank, int rcv_rank, MPI_Comm
     }
     else
     {
+        // Recebe local_list referente ao rank remetente
         MPI_Recv(aux_list, local_n, MPI_INT, snd_rank, merge_tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-        merge(local_list, local_n, aux_list, local_n, merged_list);
+        // Uniao da local_list do rank destinatario com a local_list do rank remetente (aux_list)
+        Merge(local_list, local_n, aux_list, local_n, merged_list);
 
         int start = 0;
         int end = local_n;
 
-        // Fase ODD? EVEN? Mantém o menor elemento na esquerda e o maior elemento é enviado ao remetente
-        if (snd_rank > my_rank)
+        // Garante que o Maior elemento suba && Menor elemento desca
+        if (my_rank < snd_rank)
         {
-            start = local_n; 
+            start = local_n;
             end = 0;
         }
         else
@@ -128,12 +129,13 @@ void MPI_SWAP(int local_n, int *local_list, int snd_rank, int rcv_rank, MPI_Comm
         // Atualiza local_list
         for (int i = end; i < end + local_n; i++)
         {
+            // O rank destinatario fica com os Maiores elementos
             local_list[i - end] = merged_list[i];
         }
     }
 }
 
-// Ordenação local seguida de swap executado em todos os processos
+// Ordenação local seguida de comunicacao-swap
 int MPI_OETS(int n, int *list, MPI_Comm comm)
 {
     int my_rank, p, i;
@@ -154,9 +156,9 @@ int MPI_OETS(int n, int *list, MPI_Comm comm)
     // Permutação Odd - Even
     for (i = 1; i <= p; i++)
     {
-        printStatus(my_rank, i, "before", local_list, n / p);
+        printStatus(my_rank, i, "Antes", local_list, n / p);
 
-        // Fase par (Even)
+        // Fase ímpar (Odd)
         if ((my_rank + i) % 2 == 0)
         {
             if (my_rank < p - 1)
@@ -164,7 +166,7 @@ int MPI_OETS(int n, int *list, MPI_Comm comm)
                 MPI_SWAP(n / p, local_list, my_rank, my_rank + 1, comm);
             }
         }
-        // Fase ímpar (Odd)
+        // Fase par (Even)
         else if (my_rank > 0)
         {
             MPI_SWAP(n / p, local_list, my_rank - 1, my_rank, comm);
@@ -175,15 +177,15 @@ int MPI_OETS(int n, int *list, MPI_Comm comm)
         }
     }
 
-    printStatus(my_rank, i - 1, "after", local_list, n / p);
+    printStatus(my_rank, i - 1, "Depois", local_list, n / p);
 
-    // gather local_list to list
+    // Reune cada local_list na lista principal agora de forma ordeanda
     MPI_Gather(local_list, n / p, MPI_INT, list, n / p, MPI_INT,
                root_rank, comm);
 
     // Fim da linha
     if (my_rank == root_rank)
-        printStatus(my_rank, i, " all done ", list, n);
+        printStatus(my_rank, i, "Lista Ordenada", list, n);
 
     return MPI_SUCCESS;
 }
