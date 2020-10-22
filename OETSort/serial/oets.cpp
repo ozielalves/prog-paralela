@@ -1,8 +1,10 @@
-#include<bits/stdc++.h>
+#include<iostream>
 #include <sys/time.h> 
+#include <fstream>
+
 using namespace std; 
   
-// Ordena a Lista usando Odd and Even Sort 
+// Ordena a Lista usando Odd and Even Transposition Sort 
 void oddEvenSort(int *list, int n) 
 { 
     bool isSorted = false; // Flag que indica se a lista está ordenada
@@ -11,7 +13,7 @@ void oddEvenSort(int *list, int n)
     { 
         isSorted = true; 
   
-        // Bubble sort nos elementos começando com index ímpar (Odd)
+        // Fase ímpar (Odd)
         for (size_t i = 1; i <= n-2; i = i+2) 
         { 
             if (list[i] > list[i+1]) 
@@ -21,7 +23,7 @@ void oddEvenSort(int *list, int n)
               } 
         } 
   
-        // Bubble sort nos elementos começando com index par (Even)
+        // Fase par (Even)
         for (size_t i = 0; i<=n-2; i=i+2) 
         { 
             if (list[i] > list[i+1]) 
@@ -35,12 +37,13 @@ void oddEvenSort(int *list, int n)
     return; 
 } 
 
+// Gera lista de n elementos com números randomicos com números randomicos
 void genList(int *list, int tamanho) {
 
     srandom(42);
     for (size_t i = 0; i < tamanho; i++)
     {   
-        list[i] = random() % 100 ;
+        list[i] = random() % 1000;
     }
 } 
   
@@ -66,16 +69,17 @@ int main(int argc, char *argv[])
     genList(list, n);
     
     // Printa a lista desordenada
-    printList(list, n); 
+    /* printList(list, n);  */
     
     oddEvenSort(list, n); 
     
     // Printa a lista ordenada
-    printList(list, n); 
+    /* printList(list, n);  */
 
     gettimeofday(&stop, 0);
-    /* FILE *fp;
-    char outputFilename[] = "tempo_oets.txt";
+    
+    FILE *fp;
+    char outputFilename[] = "./tempo_oets.txt";
 
     fp = fopen(outputFilename, "a");
     if (fp == NULL)
@@ -86,7 +90,15 @@ int main(int argc, char *argv[])
 
     fprintf(fp, "\tTempo: %1.2e\n", ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)));
 
-    fclose(fp); */
+    fclose(fp);
+
+  /*   ofstream times_file;
+    times_file.open ("tempo_oets.txt");
+    times_file << "\tTempo: " << ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)) << endl;
+    times_file.close();
+     */
+
+    /* cout << "Tempo: " << ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)) << endl; */ 
 
     free(list);
 
