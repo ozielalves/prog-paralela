@@ -230,7 +230,7 @@ int main(int argc, char **argv)
     gettimeofday(&stop, 0);
 
     /* FILE *fp;
-    char outputFilename[] = "tempo_mpi_oets.txt";
+    char outputFilename[] = "./paralelo/tempo_mpi_oets.txt";
 
     fp = fopen(outputFilename, "a");
     if (fp == NULL)

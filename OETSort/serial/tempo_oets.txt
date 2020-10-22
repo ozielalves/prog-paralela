@@ -1,2 +1,8 @@
-	Tamanho do problema 92
 
+Tamanho do Problema: 92
+
+	Tempo: 5.00e-05
+	Tempo: 5.00e-05
+	Tempo: 5.10e-05
+	Tempo: 5.20e-05
+	Tempo: 6.80e-05

@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 #include <sys/time.h> 
 #include <fstream>
 
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
     gettimeofday(&stop, 0);
     
     FILE *fp;
-    char outputFilename[] = "./tempo_oets.txt";
+    char outputFilename[] = "./serial/tempo_oets.txt";
 
     fp = fopen(outputFilename, "a");
     if (fp == NULL)
@@ -92,13 +92,12 @@ int main(int argc, char *argv[])
 
     fclose(fp);
 
-  /*   ofstream times_file;
-    times_file.open ("tempo_oets.txt");
+    /* ofstream times_file;
+    times_file.open ("./tempo_oets.txt");
     times_file << "\tTempo: " << ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)) << endl;
-    times_file.close();
-     */
+    times_file.close(); */
 
-    /* cout << "Tempo: " << ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)) << endl; */ 
+    /* cout << "Tempo: " << ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)) << endl; */
 
     free(list);
 
