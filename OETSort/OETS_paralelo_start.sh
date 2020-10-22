@@ -10,7 +10,7 @@ tentativas=5
 
 	for cores in 2 4 8 # Quantidade de cores utilziados
 	do
-			for size in 1200000000 2400000000 4800000000 9600000000 # Tamanhos do problema
+			for size in 92000 108000 124000 140000 # Tamanhos do problema
 			do   	
 				echo -e "\nCores Qtd: $cores\tTamanho do Problema: $size\n" >> "./paralelo/tempo_mpi_oets.txt" 
 				for tentativa in $(seq $tentativas) 

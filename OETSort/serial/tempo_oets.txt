@@ -1,8 +1,32 @@
 
-Tamanho do Problema: 92
+Tamanho do Problema: 92000
 
-	Tempo: 5.00e-05
-	Tempo: 5.00e-05
-	Tempo: 5.10e-05
-	Tempo: 5.20e-05
-	Tempo: 6.80e-05
+	Tempo: 3.13e+01
+	Tempo: 3.12e+01
+	Tempo: 3.14e+01
+	Tempo: 3.11e+01
+	Tempo: 3.12e+01
+
+Tamanho do Problema: 108000
+
+	Tempo: 4.29e+01
+	Tempo: 4.31e+01
+	Tempo: 4.30e+01
+	Tempo: 4.29e+01
+	Tempo: 4.31e+01
+
+Tamanho do Problema: 124000
+
+	Tempo: 5.73e+01
+	Tempo: 5.68e+01
+	Tempo: 5.69e+01
+	Tempo: 5.67e+01
+	Tempo: 5.68e+01
+
+Tamanho do Problema: 140000
+
+	Tempo: 7.22e+01
+	Tempo: 7.22e+01
+	Tempo: 7.22e+01
+	Tempo: 7.23e+01
+	Tempo: 7.25e+01

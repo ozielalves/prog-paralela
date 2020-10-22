@@ -75,16 +75,13 @@ void oddEvenSort(int *list, int n)
 void printStatus(int my_rank, int iter, char *txt, int *list, int n)
 {
     cout << "Processo " << my_rank << txt << " da comunicacao " << iter << ": [";
-    /* printf("Processo %d %s da comunicacao %d: [", my_rank, txt, iter); */
 
     for (int j = 0; j < n - 1; j++)
     {
         cout << list[j] << ",";
-        /* printf("%d,", list[j]);  */
     }
 
     cout << list[n - 1] << "]" << endl;
-    /* printf("%d]\n", list[n - 1]); */
 }
 
 /*
@@ -165,7 +162,7 @@ void MPI_OETS(int n, int *list, MPI_Comm comm)
     // Permutação Odd - Even
     for (i = 1; i <= p; i++)
     {
-        printStatus(my_rank, i, " Antes", local_list, n / p);
+        /* printStatus(my_rank, i, " Antes", local_list, n / p); */
 
         // Fase ímpar (Odd)
         if ((my_rank + i) % 2 == 0)
@@ -186,16 +183,16 @@ void MPI_OETS(int n, int *list, MPI_Comm comm)
         }
     }
 
-    printStatus(my_rank, i - 1, " Depois", local_list, n / p);
+    /* printStatus(my_rank, i - 1, " Depois", local_list, n / p); */
 
     // Reune cada local_list na lista principal agora de forma ordeanda
     MPI_Gather(local_list, n / p, MPI_INT, list, n / p, MPI_INT, root_rank, comm);
 
     // Fim da linha
-    if (my_rank == root_rank)
-        printStatus(my_rank, i, "Lista Ordenada", list, n);
+    /* if (my_rank == root_rank)
+        printStatus(my_rank, i, "Lista Ordenada", list, n); */
 
-/*     return MPI_SUCCESS; */
+    /*     return MPI_SUCCESS; */
 }
 
 // Gera lista de n elementos com números randomicos com números randomicos
@@ -213,10 +210,13 @@ int main(int argc, char **argv)
     struct timeval start, stop;
     gettimeofday(&start, 0);
 
-    int n;     // Numero de elementos na lista
-    int *list; // Lista para ser ordenada
+    int n;       // Numero de elementos na lista
+    int *list;   // Lista para ser ordenada
+    int my_rank; // Rank do meu processo
 
     MPI_Init(&argc, &argv);
+
+    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 
     n = atoi(argv[1]);                     // Tamanho da lista
     list = (int *)malloc(n * sizeof(int)); // Aloca o tamanho da lista
@@ -229,20 +229,27 @@ int main(int argc, char **argv)
 
     gettimeofday(&stop, 0);
 
-    /* FILE *fp;
-    char outputFilename[] = "./paralelo/tempo_mpi_oets.txt";
-
-    fp = fopen(outputFilename, "a");
-    if (fp == NULL)
+    if (my_rank == 0) 
     {
-        fprintf(stderr, "Nao foi possivel abrir o arquivo %s!\n", outputFilename);
-        exit(1);
+        FILE *fp;
+        char outputFilename[] = "./paralelo/tempo_mpi_oets.txt";
+
+        fp = fopen(outputFilename, "a");
+        if (fp == NULL)
+        {
+            fprintf(stderr, "Nao foi possivel abrir o arquivo %s!\n", outputFilename);
+            exit(1);
+        }
+
+        fprintf(fp, "\tTempo: %1.2e\n", ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)));
+
+        fclose(fp);
     }
-
-    fprintf(fp, "\tTempo: %1.2e\n", ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)));
-
-    fclose(fp); */
-
+    else
+    {
+        /* Nothing */
+    }
+    
     free(list);
 
     MPI_Finalize();
