@@ -38,6 +38,25 @@ int Merge(int *local_list_rcv, int len_local_list_rcv, int *local_list_snd,
     return 0;
 }
 
+int Merge2(int *local_list_rcv, int len_local_list_rcv, int *local_list_snd,
+          int len_local_list_snd, int *merged_list)
+{
+    int i, j = 0;
+    int aux = 0;
+
+    // Sem garantia de ordem
+    while (i < len_local_list_rcv)
+    {
+        merged_list[aux++] = local_list_snd[i++];
+    }
+    while (j < len_local_list_snd)
+    {
+        merged_list[aux++] = local_list_snd[j++];
+    }
+
+    return 0;
+}          
+
 // Ordena a Lista usando Odd and Even Transposition Sort
 void oddEvenSort(int *list, int n)
 {
@@ -113,7 +132,11 @@ void MPI_SWAP(int local_n, int *local_list, int snd_rank, int rcv_rank, MPI_Comm
         MPI_Recv(aux_list, local_n, MPI_INT, snd_rank, merge_id, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
         // Uniao da local_list do rank destinatario com a local_list do rank remetente (aux_list)
-        Merge(local_list, local_n, aux_list, local_n, merged_list);
+        //Merge(local_list, local_n, aux_list, local_n, merged_list);
+        Merge2(local_list, local_n, aux_list, local_n, merged_list);
+        
+        // Ordenação pós merge
+        oddEvenSort(merged_list, 2 * local_n);
 
         int start = 0;
         int end = local_n;
