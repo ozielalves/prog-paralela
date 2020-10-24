@@ -14,11 +14,8 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
     + [Arquivo com Resultados](#arquivo-com-resultados)
     + [Condições de Testes](#condições-de-testes)
       + [Informações sobre a máquina utilizada](#informações-sobre-a-máquina-utilizada)
-  + [Apresentação dos Algoritmos](#apresentação-dos-algoritmos)
+  + [Apresentação do Algoritmo](#apresentação-do-algoritmo)
     + [Cálculo do Pi](#cálculo-do-pi---método-de-monte-carlo)
-      + [Serial](#serial)
-      + [Paralelo](#paralelo)
-    + [Cálculo da Integral - Regra do Trapézio](#cálculo-da-integral---regra-do-trapézio)
       + [Serial](#serial)
       + [Paralelo](#paralelo)
 + [Desenvolvimento](#desenvolvimento)      
@@ -29,13 +26,6 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
     + [Tamanho do Problema - Tempo x Cores](tamanho-do-problema---tempo-x-cores)
     + [Análise de Speedup](#análise-de-speedup)
     + [Análise de Eficiência](#análise-de-eficiência)
-  + [Cálculo da Integral](#cálculo-da-integral)
-    + [Corretude](#corretude)
-    + [Gráficos](#gráficos)
-    + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
-    + [Tamanho do Problema - Tempo x Cores](#tamanho-do-problema---tempo-x-cores)
-    + [Análise de Speedup](#análise-de-speedup)
-    + [Análise de Eficiência](#análise-de-eficiência)
 + [Conclusão](#conclusão)
   + [Considerações Finais](#considerações-finais)
   + [Softwares utilizados](#softwares-utilizados)
@@ -43,7 +33,7 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
 ## Introdução
 
 ### Objetivos
-Analisar e avaliar o comportamento, eficiência e speedup dos algoritmos em relação ao seu tempo de execução, tamanho do problema analisado e resultados obtidos. Os cenários irão simular a execução dos algoritmos para 2, 4 e 8 cores, no caso dos algoritmos paralelos, com alguns tamanhos de problema definidos empiricamente, sendo o menor tamanho estabelecido com o objetivo de atingir o tempo mínimo de execução determinado pela referência da Análise (30 segundos).
+Analisar e avaliar o comportamento, eficiência e speedup dos algoritmos em relação ao seu tempo de execução, tamanho do problema analisado e resultados obtidos. Os cenários irão simular a execução dos algoritmos para 1 (serial), 2, 4 e 8 cores, com alguns tamanhos de problema definidos empiricamente. O menor e o maior tamanho foram estabelecido com o objetivo de atingir o tempo mínimo de execução determinado pela [referência](https://github.com/ozielalves/prog-paralela/tree/master/referencia) desta Análise.
 
 ### Dependências
 #### G++ Compiler
@@ -63,20 +53,12 @@ sudo apt-get install -y mpi
 Instaladas as dependências, basta executar o shellcript determinado para a devida bateria de execuções na raiz do repositório:<br>
 Serão realizadas **5 execuções** com **4 tamanhos de problema** , em **3 quantidades de cores** (2, 4 e 8).
 ```bash
-# Para o algorítimo que calcula o pi de forma serial
+# Para o algorítimo de ordenação serial
 ./pi_serial_start.sh
 ```
 ```bash
-# Para o algorítimo que calcula o pi de forma paralela
+# Para o algorítimo de ordenação paralelo
 ./pi_paralelo_start.sh
-```
-```bash
-# Para o algorítimo que calcula a integral de forma serial
-./trapezio_serial_start.sh
-```
-```bash
-# Para o algorítimo que calcula a integral de forma paralela
-./trapezio_paralelo_start.sh
 ```
 
 **Obs.:** Caso seja necessário conceder permissão máxima para os scripts, execute `chmod 777 [NOME DO SCRIPT].sh`.
