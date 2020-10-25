@@ -349,11 +349,11 @@ Como é possível perceber, ambos os códigos conseguem aproximar de maneira cor
 
 #### Tempo x Tamanho do Problema
 
-![Alt Tempo não Otimizado x problema](./data/pi_graphs/tempo_p2_x_problema.PNG)
+![Alt Tempo não Otimizado x problema](./data/tempo_p2_x_problema.PNG)
 
 Através do gráfico comparativo, é possível observar que o código paralelo é mais eficiente que o código serial pois a reta relativa a este último apresenta um coefiente angular maior do que as relativas ao primeiro, o que indica que ao se aumentar o temanho de problema no código serial o aumento em tempo de execução é proporcionalmente maior que o que seria observado no código paralelo. Vale salientar que as curvas referentes a 4 e 8 cores são praticamente idênticas, isso ocorre devido aos limites da máquina de teste, fenômeno que será mais bem explicado no item [Considerações Finais](#considerções-finais).
 
-![Alt Tempo Otimizado x problema](./data/pi_graphs/tempo_p1_x_problema.PNG)
+![Alt Tempo Otimizado x problema](./data/tempo_p1_x_problema.PNG)
 
 ### Análise de Speedup
 É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. Sabendo que o limite de cores/threads da máquina de testes é 4, é esperado que o speedup da execução dos problemas para 4 e 8 cores seja aproximadamente idêntico.
