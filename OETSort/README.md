@@ -1,4 +1,5 @@
 # Análise de Algoritmos Paralelos e Seriais
+## Odd-Even Transposition Sort
 Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)), 2020.
 
 #### Análise por:
@@ -15,17 +16,16 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
     + [Condições de Testes](#condições-de-testes)
       + [Informações sobre a máquina utilizada](#informações-sobre-a-máquina-utilizada)
   + [Apresentação do Algoritmo](#apresentação-do-algoritmo)
-    + [Cálculo do Pi](#cálculo-do-pi---método-de-monte-carlo)
+    + [Odd-Even Transposition Sort](#odd---even-transposition-sort)
       + [Serial](#serial)
       + [Paralelo](#paralelo)
 + [Desenvolvimento](#desenvolvimento)      
-  + [Cálculo do Pi](#cálculo-do-pi)
-    + [Corretude](#corretude)
-    + [Gráficos](#gráficos)
-    + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
-    + [Tamanho do Problema - Tempo x Cores](tamanho-do-problema---tempo-x-cores)
-    + [Análise de Speedup](#análise-de-speedup)
-    + [Análise de Eficiência](#análise-de-eficiência)
+  + [Corretude](#corretude)
+  + [Gráficos](#gráficos)
+  + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
+  + [Tamanho do Problema - Tempo x Cores](tamanho-do-problema---tempo-x-cores)
+  + [Análise de Speedup](#análise-de-speedup)
+  + [Análise de Eficiência](#análise-de-eficiência)
 + [Conclusão](#conclusão)
   + [Considerações Finais](#considerações-finais)
   + [Softwares utilizados](#softwares-utilizados)
@@ -33,7 +33,7 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
 ## Introdução
 
 ### Objetivos
-Analisar e avaliar o comportamento, eficiência e speedup dos algoritmos em relação ao seu tempo de execução, tamanho do problema analisado e resultados obtidos. Os cenários irão simular a execução dos algoritmos para 1 (serial), 2, 4 e 8 cores, com alguns tamanhos de problema definidos empiricamente. O menor e o maior tamanho foram estabelecido com o objetivo de atingir o tempo mínimo de execução determinado pela [referência](https://github.com/ozielalves/prog-paralela/tree/master/referencia) desta Análise.
+Analisar e avaliar o comportamento, eficiência e speedup dos algoritmos em relação ao seu tempo de execução, tamanho do problema analisado e resultados obtidos. Os cenários irão simular a execução dos algoritmos para 1 (serial), 2, 4 e 8 cores, com 4 tamanhos de problema definidos empiricamente. Os limites de tamanhos foram estabelecidos com o objetivo de atingir o tempo mínimo de execução determinado pela [referência](https://github.com/ozielalves/prog-paralela/tree/master/referencia) desta Análise.
 
 ### Dependências
 #### G++ Compiler
@@ -54,17 +54,17 @@ Instaladas as dependências, basta executar o shellcript determinado para a devi
 Serão realizadas **5 execuções** com **4 tamanhos de problema** , em **3 quantidades de cores** (2, 4 e 8).
 ```bash
 # Para o algorítimo de ordenação serial
-./pi_serial_start.sh
+./OETS_serial_start.sh
 ```
 ```bash
 # Para o algorítimo de ordenação paralelo
-./pi_paralelo_start.sh
+./OETS_paralelo_start.sh
 ```
 
 **Obs.:** Caso seja necessário conceder permissão máxima para os scripts, execute `chmod 777 [NOME DO SCRIPT].sh`.
 
 ### Arquivo com Resultados 
-Após o termino das execuções do script é possível ter acesso aos arquivos `.txt` na pasta `pi` ou `trapezio`, de acordo com o script executado. Os dados coletados foram utilizados para realização desta análise.
+Após o termino das execuções do script é possível ter acesso aos arquivos de tempo `.txt` na pasta `serial` ou `paralelo`, de acordo com o script executado. Os dados coletados foram utilizados para realização desta análise.
 
 ### Condições de Testes
 #### Informações sobre a máquina utilizada
@@ -81,49 +81,53 @@ Após o termino das execuções do script é possível ter acesso aos arquivos `
 
 ### Apresentação dos Algoritmos
 
-#### Cálculo do Pi - Método de Monte Carlo
-O algoritmo é baseado no método de Monte Carlo para estimar o valor de **`𝜋`**. Ele depende de amostragem independente e aleatória repetida, e funciona bem com sistemas paralelos e distribuídos, pois o trabalho pode ser dividido entre vários processos. Sua ideia principal é simular um grande número de realizações de um evento estatístico. Neste sentido, o uso de multiplos processadores permite a realização de um número fixo de eventos por processador, o que aumenta o número total de eventos simulados.<br> 
-No cálculo de Pi, em específico, o algoritmo implementado tem como base a geração de diversos pontos, cujas coordenadas são números aleatórios com função de desnsidade de probabilildade constante em um intervalo indo de 0 a 1. Assim, a probabilidadede que os pontos estejam dentro do quadrado definido pelo produto cartesiano [0,1]x[0,1] é unitária. Se, de todos os pontos gerados, contarmos aqueles cuja norma euclidiana é menor ou igual a 1, é possível encontrar a probabilidade de que um ponto esteja dentro do quarto de círculo centrado na origem e de raio 1, que é proporcional a sua área. Com isso, e sabendo a área de 1/4 de círculo, basta uma manipulação algébrica para encontrar o valor de pi aproximado. Assim:
+#### Odd-Even Transposition Sort
+O algoritmo Odd-Even Transposition ordena n elementos em `n` fases (n é par), cada fase requer `n / 2` operações de troca de comparação. Esse algoritmo alterna entre duas fases, **Odd** (ímpares) e **Even** (pares). Seja `[a1, a2, ..., an]` uma lista a ser ordenada. Durante a fase Odd, os elementos com índices ímpares são comparados com seus vizinhos direitos e, se estiverem fora da sequência, são trocados; assim, os pares `(a 1, a2), (a3, a 4), ... , (an-1, an)` são trocados por comparação (assumindo que n é par). Da mesma forma, durante a fase Even, os elementos com índices pares são comparados com seus vizinhos direitos, e se eles estiverem fora de sequência, eles são trocados; assim, os pares `(a2, a3), (a4, a5), ... , (an-2, an-1)` são trocados por comparação. Após `n` fases de trocas Odd-Even, a lista é ordenada. Cada fase do algoritmo (Odd ou Even) requer comparações **`Q(n)`**, e há um total de n fases; assim, a complexidade sequencial é **`Q(n²)`**.<br><br>
+**Referência**: Introduction to Parallel Computing-Ananth Gramma (2nd Edition)
 
-```bash
-   pi = 4 * (pontos_dentro_do_círculo)/(pontos_totais)
-```
 
 #### Serial
-Dado um número de pontos a serem definidos, que chamaremos de `termos`, a seguinte sub-rotina é implementada: 
+Dado um número `n` de elementos para criação de uma lista com inteiros randômicos, a seguinte sub-rotina é implementada: 
 
-1. É setado o valor `acertos` = 0.0.
+1. É alocada memória referente ao tamanho `n` da lista a ser ordenada em `list`.
 
-2. `termos` determinará a quatidade de pontos `x` e `y` a serem definidos randomicamente com seed fixa = 42, dentro do intervalo de 0.0 a 1.0.
+2. Em seguida, a função `genList` se responsabiliza por popular `list` com números inteiros pseudoaleatórios.
 
-3. Caso `( x * x + y * y )` seja menor que 1.0, `acertos` é acrescido em 1 unidade.
+3. Feito isto, a função `oddEvenSort` pode da inicio ao processo de ordenação.
 
-4. Ao termino do laço, para conclusão do método de Monte Carlo,  é retornado `acertos` multiplicado por 4 e dividido por `termos`.
-
-A implementação da função `calcPi` é apresentada abaixo:
+A implementação da função `oddEvenSort` é apresentada abaixo:
 ```bash
-double calcPi(int termos)
-{
-    # Gerador Mersene twist, SEED: 42
-    mt19937 mt(42);
-    
-    # Numero real pseudo-aleatorio
-    uniform_real_distribution<double> linear_r(0.f, 1.f);
-
-    int acertos = 0;
-    for (int i = 0; i < termos; i++)
-    {
-
-        double x = linear_r(mt);
-        double y = linear_r(mt);
-        
-        if (x * x + y * y < 1.0)
-        {
-            acertos++;
-        }
-    }
-    return (double)(4.0 * acertos / termos);
-}
+void oddEvenSort(int *list, int n) 
+{ 
+    bool isSorted = false; # Flag que indica se a lista está ordenada
+  
+    while (!isSorted) 
+    { 
+        isSorted = true; 
+  
+        # Fase ímpar (Odd)
+        for (size_t i = 1; i <= n-2; i = i+2) 
+        { 
+            if (list[i] > list[i+1]) 
+             { 
+                swap(list[i], list[i+1]); 
+                isSorted = false; 
+              } 
+        } 
+  
+        # Fase par (Even)
+        for (size_t i = 0; i<=n-2; i=i+2) 
+        { 
+            if (list[i] > list[i+1]) 
+            { 
+                swap(list[i], list[i+1]); 
+                isSorted = false; 
+            } 
+        } 
+    } 
+  
+    return; 
+} 
 ```
 
 #### Paralelo
@@ -200,47 +204,6 @@ int main(int argc, char **argv)
     { /* Nothing */ }
 
     MPI_Finalize();
-}
-```
-
-### Cálculo da Integral - Regra do Trapézio
-A regra do trapézio é um método para aproximar a integral de uma função, `y = f (x)`, usando trapézios para calcular a área. O processo é simples. Sejam `xa` e `xb` os pontos que limitam o intervalo para ser feito o cálculo da integral, e seja `n` o número de sub-intervalos de `xa` até `xb`. Para cada sub-intervalo, a função é aproximada com uma linha reta entre os valores da função em ambas as extremidades do sub-intervalo. Cada sub-intervalo agora é um mini-trapézio. Por último, a área de cada mini-trapézio é calculada e todas as áreas são somadas para obter uma aproximação da integral da função `f` de `xa` a `xb`.
-
-#### Serial
-Dado um `n`, tal que representa o número de mini-trapézios a dividir o intervalo, a seguinte sub-rotina é implementada: 
-
-1. É setado o intervalo `xa` = 0.0 `xb`= 30.0 na função `main`.
-
-2. É realizada então a chamada da função `trapezioIntegral` passando como parâmetros `xa`, `xb` e `n`.
-
-3. O valor da base de cada mini-trapézio no intervalo é definido pela substração de `xb` por `xa` divido por `n`, chamaremos de `inc`.
-  
-4. O valor da `area_total` recebe inicialmente `(f(xa) + f(xb)) / 2`.
-
-5. Sendo `x_i` o passo do x de um sub-intervalo a outro, em um laço de `x_1` até `x_n-1` os valores de `f(x_i)` são acrescidos a `area_total`.
-
-6. Ao termino do laço, para conclusão do cáculo da integral pela regra do trapézio, `area_total` é multiplicada por `inc` e retornada pela função.
-
-A implementação da função `trapezioIntegral` é apresentada abaixo:
-```bash
-double trapezioIntegral(double xa, double xb, long long int n)
-{
-    double x_i;             # Passo do X
-    double area_total = 0.; # Soma das areas
-    double inc;             # Incremento
-
-    inc = (xb - xa) / n;
-    area_total = (f(xa) + f(xb)) / 2;
-
-    for (long long int i = 1; i < n; i++)
-    {
-        x_i = xa + i * inc;
-        area_total += f(x_i);
-    }
-
-    area_total = inc * area_total;
-
-    return area_total;
 }
 ```
 
@@ -342,10 +305,9 @@ int main(int argc, char **argv)
 
 ## Desenvolvimento
 
-### Cálculo do Pi
 Para esta análise, serão realizadas **5 execuções** com tamanhos de problema 374.500.000, 550.000.000, 900.000.000 e 1.500.000.000 - definidos empiricamente de modo a atingir os limites mínimos determinados pela [referência](https://github.com/ozielalves/prog-paralela/tree/master/referencia) - em **3 quantidades de cores** (2, 4 e 8). Se espera que o comportamento de ambos os algoritmos quanto a aproximação do Pi seja parecido para um mesmo tamanho de problema quando se altera apenas o número de cores, sendo o tempo de execução o único fator variável. Uma descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
 
-#### Corretude
+### Corretude
 
 Para validar a corretude dos algoritmos implementados foi realizado um teste utilizando **4.550.000** como tamanho de problema para os dois códigos:
 
@@ -355,25 +317,25 @@ Como é possível perceber, ambos os códigos conseguem aproximar de maneira cor
 **Obs.:** Vale salientar que para este modelo de amostragem quanto maior o número de pontos a serem definidos mais preciso será o valor de pi retornado.
 
 
-#### Gráficos
+### Gráficos
 
-##### Serial e Paralelo - Tempo x Tamanho do Problema
+#### Serial e Paralelo - Tempo x Tamanho do Problema
 
 ![Alt Serial e Paralelo - Tempo x Tamanho do Problema](./data/pi_graphs/serial_paralelo_tempo_por_tamanho_do_problema.PNG)
 
 Através do gráfico comparativo, é possível observar que o código paralelo é mais eficiente que o código serial pois a reta relativa a este último apresenta um coefiente angular maior do que as relativas ao primeiro, o que indica que ao se aumentar o temanho de problema no código serial o aumento em tempo de execução é proporcionalmente maior que o que seria observado no código paralelo. Vale salientar que as curvas referentes a 4 e 8 cores são praticamente idênticas, isso ocorre devido aos limites da máquina de teste, fenômeno que será mais bem explicado no item [Considerações Finais](#considerções-finais).
 
-##### Tamanho do Problema - Tempo x Cores
+#### Tamanho do Problema - Tempo x Cores
 
 ![Alt Paralelo - Tempo x Cores](./data/pi_graphs/paralelo_tempo_por_cores.PNG)
 
 A partir do gráfico apresentado, é clara a influência do número de cores no tempo de execução. Note que, por exemplo, o tempo de execução para o problema de maior tamanho cai cerca de 45% ao se passar do código serial para o código paralelo ultilizando 2 cores. Novamente, verifica-se que o desempenho para 4 e 8 cores é idêntico.
 
 
-#### Análise de Speedup
+### Análise de Speedup
 É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. Sabendo que o limite de cores/threads da máquina de testes é 4, é esperado que o speedup da execução dos problemas para 4 e 8 cores seja aproximadamente idêntico.
 
-##### Speedup x Número de Cores Utilizados
+#### Speedup x Número de Cores Utilizados
 
 ![Alt Speedup x Cores](./data/pi_graphs/Speedup_pi.jpg)
 
@@ -385,10 +347,10 @@ A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativ
 | --- | --- | ---| --- |
 |**Speedup Médio**|1.80|2.47|2.44| 
 
-#### Análise de Eficiência
+### Análise de Eficiência
 Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando n cores pelos n cores utilizados. Como a máquina de testes possui apenas 2 cores físicos e implementa um hyper-threading para executar programas em 4 cores, para efeitos de análise comparativa iremos relacionar apenas estas duas quantidades. Porém, note que a eficiência de cores virtuais equivale a cerca de 30% da eficiência de cores físicos.
 
-### Eficiêcia x Tamanhos do Problema
+#### Eficiêcia x Tamanhos do Problema
 
 ![Alt Eficiêcia x Tamanhos do Problema](./data/pi_graphs/Eficiencia_pi.jpg)
 
@@ -399,60 +361,6 @@ Apesar dos limites da máquina de testes, a eficiência média reduz de maneira 
 | Número de Cores | 2 | 4 | 8 |
 | --- | --- | ---| --- |
 |**Eficiência Média**|0.90|0.61|0.30| 
-
-#### Cálculo da Integral
-Para esta análise, serão realizadas **5 execuções** com tamanhos de problema 1.200.000.000, 2.400.000.000, 4.800.000.000 e 9.600.000.000, intervalo no eixo X de 0.0 a 30.0, e função a ser integrada definida como `f(x) = pow(x, 2)` - ambos definidos empiricamente de modo a atingir os limites mínimos determinados pela [referência](https://github.com/ozielalves/prog-paralela/blob/master/referencia/Regras_do_trabalho_MPI_1.pdf) - em **3 quantidades de cores** (2, 4 e 8). Se espera que o comportamento de ambos os algoritmos quanto ao cálculo da integral seja idêntico para um mesmo tamanho de problema quando se altera apenas o número de cores, sendo o tempo de execução o único fator variável. Uma descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
-
-#### Corretude
-
-Para validar a corretude dos algoritmos implementados foi realizado um teste utilizando **210.000** como tamanho de problema para os dois códigos:
-
-![Alt Corretude - Trapezio Paralelo e Trapezio Serial](./data/trapezio_graphs/trapezio_corretude.PNG)
-
-Como é possível perceber nas impressões, ambos os códigos conseguem aproximar de maneira correta o valor da integral de `f(x) = pow(x, 2)` de 0.0 até 30.0, dado o número de trapézios solicitados.<br><br>
-**Obs.:** Vale salientar que para este modelo de amostragem quanto maior o número de trapézios mais precisa será a integral da função no intervalo selecionado.
-
-#### Gráficos
-
-##### Serial e Paralelo - Tempo x Tamanho do Problema
-
-![Alt Serial e Paralelo - Tempo x Tamanho do Problema](./data/trapezio_graphs/trap_velocidade_tamanho.jpg)
-
-Através do gráfico comparativo, é possível observar que o código paralelo é mais eficiente que o código serial pois a reta relativa a este último apresenta um coefiente angular maior do que as relativas ao primeiro, o que indica que ao se aumentar o tamanho de problema no código serial o aumento em tempo de execução é proporcionalmente maior que o observado no código paralelo. Note que a redução no tempo de execução do código paralelo para o código serial orcorre de maneira proporcional ao tamanho dos problemas. Vale salientar que as curvas referentes a 4 e 8 cores são praticamente idênticas, isso ocorre devido aos limites da máquina de teste, fenômeno que será mais bem explicado no item [Considerações Finais](#considerções-finais).
-
-##### Tamanho do Problema - Tempo x Cores
-
-![Alt Paralelo - Tempo x Cores](./data/trapezio_graphs/trap_velocidade_cores.jpg)
-
-A partir do gráfico apresentado, é clara a influência do número de cores no tempo de execução. Por exemplo, o tempo de execução para o problema de maior tamanho no código serial cai para cerca de 8% ao se passar para o código paralelo ultilizando 4 cores. Novamente, verifica-se que o desempenho para 4 e 8 cores é idêntico.
-
-#### Análise de Speedup
-Partindo da mesma definição de speedup do tópico anterior ["Análise de Speedup"](#análise-de-speedup) do algoritmo do Cálculo do Pi, também é esperado queo speedup da execução dos problemas para 4 e 8 cores seja aproximadamente idêntico. Assim, temos:
-
-##### Speedup x Número de Cores Utilizados
-
-![Alt Speedup x Cores](./data/trapezio_graphs/Speedup_trapezio.jpg)
-
-Note que existe um enorme ganho de desempenho quando observamos o ganho de velocidade em relação ao código serial, como resultado disto temos uma curva bastante acentuada na passagem do uso de 1 core (Serial) para 2 cores (Paralelo). A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativas de execução dos 4 problemas descritos neste item.
-
-| Número de Cores | 2 | 4 | 8 |
-| --- | --- | ---| --- |
-|**Speedup Médio**|2.85|3.26|3.41| 
-
-#### Análise de Eficiência
-Realizando o cálculo da Eficiência quando para cada tamanho de problema, nas 3 quantidades de cores, de maneira idêntica a descrita no item anterior, temos: 
-
-### Eficiêcia x Tamanhos do Problema
-
-![Alt Eficiêcia x Tamanhos do Problema](./data/trapezio_graphs/Eficiencia_trapezio.jpg)
-
-Note que a eficiência para para todos os tamanho de problema executados em 2 cores ultrapassa o limite unitário, o que vem a identificar algum tipo de anomalia seja no tempo de execução do código serial ou do código paralelo, este fato irá ser melhor investigado posteriormente para uma posterior identificação do motivo.
-
-Ainda assim, após o cáculo da eficiência, e novamente, relacionando para efeitos de análise comparativa apenas a eficiência relativa a 2 e 4 cores, um estranho aumento na eficiência é percebido ao também aumentarmos o tamanho do problema. Seguindo por esta linha, definiriamos então o algoritmo analisado como **escalável**, porque o valor da eficiência aumenta conforme aumentamos o número de cores utilizados. A tabela abaixo apresenta a eficiência média calculada através dos valores de speedup anteriormente mencionados.
-
-| Número de Cores | 2 | 4 | 8 |
-| --- | --- | ---| --- |
-|**Eficiência Média**|~~1.42~~|0.81|0.42|
 
 ## Conclusão
 
