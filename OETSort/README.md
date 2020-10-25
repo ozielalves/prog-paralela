@@ -16,7 +16,7 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
     + [Condições de Testes](#condições-de-testes)
       + [Informações sobre a máquina utilizada](#informações-sobre-a-máquina-utilizada)
   + [Apresentação do Algoritmo](#apresentação-do-algoritmo)
-    + [Odd-Even Transposition Sort](#odd---even-transposition-sort)
+    + [Odd-Even Transposition Sort](#odd-even-transposition-sort-1)
       + [Serial](#serial)
       + [Paralelo](#paralelo)
 + [Desenvolvimento](#desenvolvimento)      
