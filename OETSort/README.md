@@ -79,7 +79,7 @@ Após o termino das execuções do script é possível ter acesso aos arquivos d
 + **Sistema**: Ubuntu 20.04.1 LTS
 
 
-### Apresentação dos Algoritmos
+### Apresentação do Algoritmo
 
 #### Odd-Even Transposition Sort
 O algoritmo Odd-Even Transposition ordena n elementos em `n` fases (n é par), cada fase requer `n / 2` operações de troca de comparação. Esse algoritmo alterna entre duas fases, **Odd** (ímpares) e **Even** (pares). Seja `[a1, a2, ..., an]` uma lista a ser ordenada. Durante a fase Odd, os elementos com índices ímpares são comparados com seus vizinhos direitos e, se estiverem fora da sequência, são trocados; assim, os pares `(a 1, a2), (a3, a 4), ... , (an-1, an)` são trocados por comparação (assumindo que n é par). Da mesma forma, durante a fase Even, os elementos com índices pares são comparados com seus vizinhos direitos, e se eles estiverem fora de sequência, eles são trocados; assim, os pares `(a2, a3), (a4, a5), ... , (an-2, an-1)` são trocados por comparação. Após `n` fases de trocas Odd-Even, a lista é ordenada. Cada fase do algoritmo (Odd ou Even) requer comparações **`Q(n)`**, e há um total de n fases; assim, a complexidade sequencial é **`Q(n²)`**.<br><br>
@@ -89,11 +89,13 @@ O algoritmo Odd-Even Transposition ordena n elementos em `n` fases (n é par), c
 #### Serial
 Dado um número `n` de elementos para criação de uma lista com inteiros randômicos, a seguinte sub-rotina é implementada: 
 
-1. É alocada memória referente ao tamanho `n` da lista a ser ordenada em `list`.
+1. `list` recebe `n` espaços de memória alocados referentes a lista a ser ordenada.
 
 2. Em seguida, a função `genList` se responsabiliza por popular `list` com números inteiros pseudoaleatórios.
 
-3. Feito isto, a função `oddEvenSort` pode da inicio ao processo de ordenação.
+3. Feito isto, a função `oddEvenSort` pode da inicio ao processo de ordenação como descrito anteriormente.
+
+4. Após o termino da ordenação a memória alocada a `list` é liberada.
 
 A implementação da função `oddEvenSort` é apresentada abaixo:
 ```bash
@@ -131,181 +133,204 @@ void oddEvenSort(int *list, int n)
 ```
 
 #### Paralelo
-Ainda chamando o numero total de pontos a serem definidos como `termos`, a seguinte sub-rotina é implementada:  
-
-1. O tamanho do problema, `termos` é lido por por linha de comando.
-
-2. É iniciada a comunicação paralela.
-
-3. `termos_local` recebe `termos` dividido pela quantidade de processos.
-
-4.  `termos_local` é passado como parametro para o cáculo parcial dos acertos, usando a função já apresentada, `calcPi`, e armazenado em cada processo como `acertos_parc`.
-
-5. Ao termino da execução de cada processo , `acertos_parc` é somado a `acertos`.
-
-6. Quando todos os processos finalizam a contagem de acertos, todos os acertos parciais são somados a `acertos`, então, é fechada a comunicação MPI e impresso o valor do resultado final multiplicado por 4 e dividido por `termos`.
-
-**Obs.:** Vale salientar que, por escolha particular, a multiplicação e divisão no número de acertos foi realizada apenas na impressão do resultado. Diferentemente do que acontece naturalmente na função `calcPi`, no código paralelo é retornado apenas a quantidade de acertos.
-
-A implementação do Paralelismo é apresentada abaixo:
-```bash
-int main(int argc, char **argv)
-{
-    struct timeval start, stop;
-    gettimeofday(&start, 0);
-
-    int my_rank;
-    int p;
-    int termos = atoll(argv[1]);
-    int termos_local;
-    int inicial_local;
-    double acertos_parc;
-    double acertos;
-
-    MPI_Init(&argc, &argv);
-
-    # Rank do meu processo
-    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
-
-    # Descobre quantos processos estao em uso
-    MPI_Comm_size(MPI_COMM_WORLD, &p);
-
-    # Divisao interna
-    termos_local = termos / p;
-
-    # Bloqueia o processo até todos chegarem nesse ponto
-    MPI_Barrier(MPI_COMM_WORLD);
-
-    acertos_parc = calcPi(termos_local);
-
-    # Soma o numero de acertos por cada processo
-    MPI_Reduce(&acertos_parc, &acertos, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    if (my_rank == 0)
-    {
-        gettimeofday(&stop, 0);
-
-        FILE *fp;
-        char outputFilename[] = "./pi/tempo_mpi_pi.txt";
-
-        fp = fopen(outputFilename, "a");
-        if (fp == NULL)
-        {
-            fprintf(stderr, "Nao foi possivel abrir o arquivo %s!\n", outputFilename);
-            exit(1);
-        }
-
-        fprintf(fp, "\tTempo: %1.2e \tResultado: %f\n",
-                ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)),
-                (double)4 * acertos / termos);
-
-        fclose(fp);
-    }
-    else
-    { /* Nothing */ }
-
-    MPI_Finalize();
-}
-```
-
-#### Paralelo
-Para implementação da regrado do trapézio de modo paralelo, é preciso primeiro identificar as tarefas necessárias e mapear as tarefas para todos os processos. Sendo assim, é preciso: 
-1. Encontrar a área de muitos trapézios individuais, o retorno destas áreas parciais serão atribuidos localmente à `area_relativa`.
-2. Somar essas áreas, a soma total será atribuida à `area_total`.
-
-Intuitivamente, conforme aumentamos o número de trapézios, receberemos uma previsão mais precisa da integral calculada. Assim, estaremos usando mais trapézios do que cores neste problema, é preciso dividir os cálculos para calcular as áreas dos mini-trapézios. O procedimento será realizado atribuindo a cada processo um subintervalo que contém o número de trapézios, obtidos a partir do cálculo do número total de trapézios `n`, dividido pelo número de processos. Isso pressupõe que o número total de trapézios é igualmente divisível pelo número de processos. Cada processo aplicará a regra do trapézio ao seu subintervalo. Por último, o processo mestre soma as estimativas.
-
-<br>
-Dado um `n`, tal que representa o número de trapézios a dividir o intervalo, a seguinte sub-rotina é implementada:  
+Ainda sendo `n` o número de elementos para criação de uma lista com inteiros randômicos, a seguinte sub-rotina é implementada:  
 
 1. É iniciada a comunicação paralela.
 
-2. `n` é passado como argumento para a função auxiliar `setSize` junto ao rank do processo, `my_rank`, para destribuir o tamanho do problema para todos os processos usando `MPI_Bcast`.
+1. em um processo similar ao que acontece no código serial, `list` recebe `n` espaços de memória alocados referentes a lista a ser ordenada.
 
-3. O incremento é calculado pela divisão por `n` do resultado da subtração de `xb` por `xa`.
+2. Em seguida, a função `genList` se responsabiliza por popular `list` com números inteiros pseudoaleatórios.
 
-4. O número de trapézios a ser calculados por cada processo, `local_n`, é definido através da divisão de `n` pelo númeor de processos, `p`.
+3. Feito isto, a função `MPI_OETS` se responsabiliza pelo processo de distribuição das parcelas de listas, utilizando `MPI_Scatter`, e ordenação local para cada processo, usando a função `oddEvenSort` já implementada para o código serial.
 
-5. Cada processo calcula a `area_relativa` ao seu intervalo.
+4. Feito isto, é dado início à etapa de comunicação e troca de dados entre os processos utilizando a dinâmica de fases Odd-Even. Para auxiliar este processo é então chamada a função `MPI_SWAP` para cada 2 processos que precisam realizar a comunicação, também passando como paramêtro a lista local referente ao processo que está enviando o dado.
 
-6. Quando todos os processos finalizam o cáculo da integral de seus respectivos intervalos, o valor de cada integral parcial é somado a `area_total`, então,  é fechada a comunicação MPI.
+5. Dentro da `MPI_SWAP`, As listas locais, ferentes ao processo remetente e ao processo destinatário, são unidas usando a função `Join`. A lista `merged_list`, resultante da união, é então ordenada, utilizando novamente a função `oddEvenSort`, para que a menor e a maior parcela sejam redestribuidas aos processos em comunicação a partir da divisão de `merged_list`.
+
+6. Finalizado o processo de comunicação e Troca de dados entre os processos, as listas locais são reunidas na lista principal de forma ordenada usando `MPI_Gather`.
+
+7. Após o termino da ordenação a memória alocada a `list` é liberada.
+
+8. A comunicação MPI é finalizada.
 
 A implementação do Paralelismo é apresentada abaixo:
 ```bash
-int main(int argc, char **argv)
+/*
+ * Join nas duas listas locais (Ordem não preservada)
+ * 
+ * arg list_rcv: local_list_rcv
+ * arg len_list_rcv: tamanho de local_list_rcv
+ * arg list_snd: local_list_snd
+ * arg len_list_snd: tamanho de local_list_snd
+ * arg merged_list: lista auxiliar resultante 
+ */
+
+int Join(int *local_list_rcv, int len_local_list_rcv, int *local_list_snd,
+          int len_local_list_snd, int *merged_list)
 {
-    struct timeval start, stop; # Intervalo de tempo calculado ao fim
-    gettimeofday(&start, 0);
+    int i, j = 0;
+    int aux = 0;
 
-    int my_rank = 0;           # Rank do meu processo
-    int p = 0;                 # Numero de processos
-    const double xa = 0.;      # X Início da figura
-    const double xb = 30.;     # X Fim da figura
-    double n = 0.;             # Numero de mini trapezios
-    double inc = 0.;           # Incremento (Base do Trapezio)
-    double local_a = 0.;       # X Início da figura LOCAL
-    double local_b = 0.;       # X Fim da figura LOCAL
-    long long int local_n = 0; # Numero de mini trapezios LOCAL
-
-    double area_relativa = 0.; # Area relativa ao intervalo
-    double area_total = 0.;    # Area total
-
-    MPI_Init(&argc, &argv);
-
-    # Rank do processo
-    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
-
-    # Quantos processos então sendo usados
-    MPI_Comm_size(MPI_COMM_WORLD, &p);
-
-    # Destribui o valor de n para todos os processos
-    setSize(argc, argv, my_rank, &n);
-
-    # O incremento e local_n serão os mesmo para todos os processos
-    inc = (xb - xa) / n;
-    local_n = n / p;
-
-    # O tamanho de cada intervalo de processo será (local_n * inc)
-    local_a = xa + my_rank * (local_n * inc);
-    local_b = local_a + (local_n * inc);
-
-    # Bloqueia o processo até todos chegarem nesse ponto
-    MPI_Barrier(MPI_COMM_WORLD);
-
-    area_relativa = trapezioIntegral(local_a, local_b, local_n);
-
-    # Soma as integrais calculadas por cada processo
-    MPI_Reduce(&area_relativa, &area_total, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-
-    if (my_rank == 0)
+    
+    while (i < len_local_list_rcv)
     {
-        gettimeofday(&stop, 0);
+        merged_list[aux++] = local_list_snd[i++];
+    }
+    # Sem garantia de ordem
+    while (j < len_local_list_snd)
+    {
+        merged_list[aux++] = local_list_snd[j++];
+    }
 
-        FILE *fp;
-        char outputFilename[] = "./trapezio/tempo_mpi_trapezio.txt";
+    return 0;
+}
 
-        fp = fopen(outputFilename, "a");
-        if (fp == NULL)
-        {
-            fprintf(stderr, "Nao foi possivel abrir o arquivo %s!\n", outputFilename);
-            exit(1);
-        }
+/*
+ * O rank remetente envia os dados para fazer o swap e aguarda o retorno. 
+ * O rank destinatario recebe os dados, ordena o novo array e retorna 
+ * a outra metade que cabe ao rank remetente.
+ */
+void MPI_SWAP(int local_n, int *local_list, int snd_rank, int rcv_rank, MPI_Comm comm)
+{
+    int my_rank;                  # Rank dos meus processos
+    const int merge_id = 1;       # Identifica a comunicação
+    const int sorted_id = 2;      # Identifica a comunicação
+    int aux_list[local_n];        # Lista auxiliar cópia da lista local do rank remetente
+    int merged_list[2 * local_n]; # Lista auxiliar oriunda do Merge(local_n_rcv, local_n_snd)
 
-        fprintf(fp, "\tTempo: %1.2e \tResultado: %f\n", 
-        ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)),
-        area_total);
+    MPI_Comm_rank(comm, &my_rank);
 
-        fclose(fp);
+    # Na fase Odd da comunicação
+    if (my_rank == snd_rank)
+    {
+        # A rotina é bloqueada até que o rank destinatario receba a o dado
+        MPI_Send(local_list, local_n, MPI_INT, rcv_rank, merge_id, MPI_COMM_WORLD);
+        # MPI Status nao necessario para esta rotina
+        MPI_Recv(local_list, local_n, MPI_INT, rcv_rank, sorted_id, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
     else
-    { /* Nothing */ }
+    {
+        # Recebe local_list referente ao rank remetente
+        MPI_Recv(aux_list, local_n, MPI_INT, snd_rank, merge_id, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-    MPI_Finalize();
+        # Uniao da local_list do rank destinatario com a local_list do rank remetente (aux_list)
+        Join(local_list, local_n, aux_list, local_n, merged_list);
+        
+        # Ordenação pós join
+        oddEvenSort(merged_list, 2 * local_n);
+
+        int start = 0;
+        int end = local_n;
+
+        # Garante que o Maior elemento suba && Menor elemento desca
+        if (my_rank < snd_rank)
+        {
+            start = local_n;
+            end = 0;
+        }
+        else
+        {
+            # Nada
+        }
+
+        # Envia a parte que cabe ao rementente já ordenada, após o Merge
+        MPI_Send(&(merged_list[start]), local_n, MPI_INT, snd_rank, sorted_id, MPI_COMM_WORLD);
+
+        # Atualiza local_list
+        for (int i = end; i < end + local_n; i++)
+        {
+            # O rank destinatario fica com os Maiores elementos
+            local_list[i - end] = merged_list[i];
+        }
+    }
+}
+
+# Ordenação local seguida de comunicacao-swap
+void MPI_OETS(int n, int *list, MPI_Comm comm)
+{
+    int my_rank, p, i;
+    int root_rank = 0;
+    int *local_list; # Lista local
+
+    MPI_Comm_rank(comm, &my_rank);
+    MPI_Comm_size(comm, &p);
+
+    local_list = (int *)calloc(n / p, sizeof(int)); # Aloca e inicializa
+
+    # Divide list em partes iguais "local_list" para cada processo
+    MPI_Scatter(list, n / p, MPI_INT, local_list, n / p, MPI_INT, root_rank, comm);
+
+    # Ordena a lista local
+    oddEvenSort(local_list, n / p);
+
+    # Permutação Odd - Even
+    for (i = 1; i <= p; i++)
+    {
+        # Fase ímpar (Odd)
+        if ((my_rank + i) % 2 == 0)
+        {
+            if (my_rank < p - 1)
+            {
+                MPI_SWAP(n / p, local_list, my_rank, my_rank + 1, comm);
+            }
+        }
+        # Fase par (Even)
+        else if (my_rank > 0)
+        {
+            MPI_SWAP(n / p, local_list, my_rank - 1, my_rank, comm);
+        }
+        else
+        {
+            # Nada
+        }
+    }
+
+    # Reune cada local_list na lista principal agora de forma ordeanda
+    MPI_Gather(local_list, n / p, MPI_INT, list, n / p, MPI_INT, root_rank, comm);
+}
+```
+
+**Obs.**: Em uma tentativa de otimizar o algorítimo foi feita uma mudança na etapa 5 da rotina implementada para a ordenação da lista, a função `Join`, utilizada nesta etapa, foi substituida pela função `Merge` que reliza a união das duas listas locais preservando a ordenação já existente nestas parcelas, o que descarta a necessidade de utilizar novamentea função `oddEvenSort`. Esta técnica tem como proposito a redução do tempo gasto em mais uma ordenação para cada comunicação realizada, os resultados desta decisão podem ser analisados e comparados no tópido de [desenolvimento](). Observe abaixo a implementação da função `Merge`:
+
+```
+bash
+/*
+ * Merge nas duas listas locais de forma a preservar a ordenação
+ * 
+ * arg list_rcv: local_list_rcv
+ * arg len_list_rcv: tamanho de local_list_rcv
+ * arg list_snd: local_list_snd
+ * arg len_list_snd: tamanho de local_list_snd
+ * arg merged_list: lista auxiliar resultante 
+ */
+
+int Merge(int *local_list_rcv, int len_local_list_rcv, int *local_list_snd,
+          int len_local_list_snd, int *merged_list)
+{
+    int i, j;
+    int aux = 0;
+
+    for (i = 0, j = 0; i < len_local_list_rcv; i++)
+    {
+        # Garantia de ordem
+        while ((local_list_snd[j] < local_list_rcv[i]) && j < len_local_list_snd)
+        {
+            merged_list[aux++] = local_list_snd[j++];
+        }
+        merged_list[aux++] = local_list_rcv[i];
+    }
+    while (j < len_local_list_snd)
+    {
+        merged_list[aux++] = local_list_snd[j++];
+    }
+
+    return 0;
 }
 ```
 
 ## Desenvolvimento
 
-Para esta análise, serão realizadas **5 execuções** com tamanhos de problema 374.500.000, 550.000.000, 900.000.000 e 1.500.000.000 - definidos empiricamente de modo a atingir os limites mínimos determinados pela [referência](https://github.com/ozielalves/prog-paralela/tree/master/referencia) - em **3 quantidades de cores** (2, 4 e 8). Se espera que o comportamento de ambos os algoritmos quanto a aproximação do Pi seja parecido para um mesmo tamanho de problema quando se altera apenas o número de cores, sendo o tempo de execução o único fator variável. Uma descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
+Para esta análise, serão realizadas **5 execuções** com tamanhos de problema 92.000, 108.000, 124.000 e 140.000 - definidos empiricamente de modo a atingir os limites mínimos determinados pela [referência](https://github.com/ozielalves/prog-paralela/tree/master/referencia) da análise - em **3 quantidades de cores** (2, 4 e 8). Se espera que a eficiência do algorítimo paralelo quanto à ordenação da lista seja maior para um mesmo tamanho de problema quando se altera apenas o número de cores. Uma descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
 
 ### Corretude
 
