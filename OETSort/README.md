@@ -290,7 +290,7 @@ void MPI_OETS(int n, int *list, MPI_Comm comm)
 }
 ```
 
-**Obs.**: Em uma tentativa de otimizar o algorítimo foi feita uma mudança na etapa 5 da rotina implementada para a ordenação da lista, a função `Join`, utilizada nesta etapa, foi substituida pela função `Merge` que reliza a união das duas listas locais preservando a ordenação já existente nestas parcelas, o que descarta a necessidade de utilizar novamentea função `oddEvenSort`. Esta técnica tem como proposito a redução do tempo gasto em mais uma ordenação para cada comunicação realizada, os resultados desta decisão podem ser analisados e comparados no tópido de [desenolvimento](). Observe abaixo a implementação da função `Merge`:
+**Obs.**: Em uma tentativa de otimizar o algorítimo foi feita uma mudança na etapa 5 da rotina implementada para a ordenação da lista, a função `Join`, utilizada nesta etapa, foi substituida pela função `Merge` que reliza a união das duas listas locais preservando a ordenação já existente nestas parcelas, o que descarta a necessidade de utilizar novamentea função `oddEvenSort`. Esta técnica tem como proposito a redução do tempo gasto em mais uma ordenação para cada comunicação realizada, os resultados desta decisão podem ser analisados e comparados no tópido de [desenvolvimento](#desenvolvimento). Observe abaixo a implementação da função `Merge`:
 
 ```
 bash
