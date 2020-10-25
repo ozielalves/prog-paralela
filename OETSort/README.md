@@ -93,9 +93,9 @@ Dado um número `n` de elementos para criação de uma lista com inteiros randô
 
 2. Em seguida, a função `genList` se responsabiliza por popular `list` com números inteiros pseudoaleatórios.
 
-3. Feito isto, a função `oddEvenSort` pode da inicio ao processo de ordenação como descrito anteriormente.
+3. Feito isto, a função `oddEvenSort` pode dar início ao processo de ordenação de maneira análoga à descrição anterior.
 
-4. Após o termino da ordenação a memória alocada a `list` é liberada.
+4. Após o termino da ordenação, a memória alocada para `list` é liberada.
 
 A implementação da função `oddEvenSort` é apresentada abaixo:
 ```bash
@@ -141,15 +141,15 @@ Ainda sendo `n` o número de elementos para criação de uma lista com inteiros 
 
 2. Em seguida, a função `genList` se responsabiliza por popular `list` com números inteiros pseudoaleatórios.
 
-3. Feito isto, a função `MPI_OETS` se responsabiliza pelo processo de distribuição das parcelas de listas, utilizando `MPI_Scatter`, e ordenação local para cada processo, usando a função `oddEvenSort` já implementada para o código serial.
+3. Feito isto, é chamada a função `MPI_OETS` para destribuir as parcelas de lista igualmente entre os processos, utilizando `MPI_Scatter`, e ordenar as parcelas de lista em cada processo, usando a função `oddEvenSort` já implementada no código serial.
 
-4. Feito isto, é dado início à etapa de comunicação e troca de dados entre os processos utilizando a dinâmica de fases Odd-Even. Para auxiliar este processo é então chamada a função `MPI_SWAP` para cada 2 processos que precisam realizar a comunicação, também passando como paramêtro a lista local referente ao processo que está enviando o dado.
+4. Feito isto, é dado início à etapa de comunicação e troca de dados entre os processos utilizando a dinâmica de fases **Odd-Even**. Para auxiliar este processo é então chamada a função `MPI_SWAP` para cada 2 processos que precisam realizar a comunicação, também passando como paramêtro a lista local referente ao processo que está enviando o dado.
 
-5. Dentro da `MPI_SWAP`, As listas locais, ferentes ao processo remetente e ao processo destinatário, são unidas usando a função `Join`. A lista `merged_list`, resultante da união, é então ordenada, utilizando novamente a função `oddEvenSort`, para que a menor e a maior parcela sejam redestribuidas aos processos em comunicação a partir da divisão de `merged_list`.
+5. Dentro da `MPI_SWAP`, as listas locais referentes ao processo remetente e ao processo destinatário são unidas usando a função `Join`. A lista `merged_list`, resultante da união, é então ordenada, utilizando novamente a função `oddEvenSort`, para que a menor e a maior parcela sejam redestribuidas aos processos em comunicação de acordo com a hierarquia entre eles.
 
 6. Finalizado o processo de comunicação e Troca de dados entre os processos, as listas locais são reunidas na lista principal de forma ordenada usando `MPI_Gather`.
 
-7. Após o termino da ordenação a memória alocada a `list` é liberada.
+7. Após o termino da ordenação, a memória alocada para `list` é liberada.
 
 8. A comunicação MPI é finalizada.
 
