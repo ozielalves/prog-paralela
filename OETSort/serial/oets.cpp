@@ -47,7 +47,7 @@ void genList(int *list, int tamanho) {
     }
 } 
   
-// Imprime uma lista de tamanho n
+// Imprime uma lista de tamanho n para por fins de Debug
 void printList(int *list, int tamanho) 
 { 
     for (size_t i = 0; i < tamanho; i++)
@@ -91,13 +91,6 @@ int main(int argc, char *argv[])
     fprintf(fp, "\tTempo: %1.2e\n", ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)));
 
     fclose(fp);
-
-    /* ofstream times_file;
-    times_file.open ("./tempo_oets.txt");
-    times_file << "\tTempo: " << ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)) << endl;
-    times_file.close(); */
-
-    /* cout << "Tempo: " << ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)) << endl; */
 
     free(list);
 

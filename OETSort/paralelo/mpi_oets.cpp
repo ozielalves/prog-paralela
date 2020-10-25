@@ -6,7 +6,7 @@
 using namespace std;
 
 /*
- * Merge nos dois vetores de forma a preservar a ordenação
+ * Merge nas duas listas locais de forma a preservar a ordenação
  * 
  * arg list_rcv: local_list_rcv
  * arg len_list_rcv: tamanho de local_list_rcv
@@ -38,17 +38,28 @@ int Merge(int *local_list_rcv, int len_local_list_rcv, int *local_list_snd,
     return 0;
 }
 
-int Merge2(int *local_list_rcv, int len_local_list_rcv, int *local_list_snd,
+/*
+ * Join nas duas listas locais (Ordem não preservada)
+ * 
+ * arg list_rcv: local_list_rcv
+ * arg len_list_rcv: tamanho de local_list_rcv
+ * arg list_snd: local_list_snd
+ * arg len_list_snd: tamanho de local_list_snd
+ * arg merged_list: lista auxiliar resultante 
+ */
+
+int Join(int *local_list_rcv, int len_local_list_rcv, int *local_list_snd,
           int len_local_list_snd, int *merged_list)
 {
     int i, j = 0;
     int aux = 0;
 
-    // Sem garantia de ordem
+    
     while (i < len_local_list_rcv)
     {
         merged_list[aux++] = local_list_snd[i++];
     }
+    // Sem garantia de ordem
     while (j < len_local_list_snd)
     {
         merged_list[aux++] = local_list_snd[j++];
@@ -91,6 +102,7 @@ void oddEvenSort(int *list, int n)
     return;
 }
 
+// Imprime o processo de comunicação e resultado final para Debug
 void printStatus(int my_rank, int iter, char *txt, int *list, int n)
 {
     cout << "Processo " << my_rank << txt << " da comunicacao " << iter << ": [";
@@ -132,11 +144,11 @@ void MPI_SWAP(int local_n, int *local_list, int snd_rank, int rcv_rank, MPI_Comm
         MPI_Recv(aux_list, local_n, MPI_INT, snd_rank, merge_id, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
         // Uniao da local_list do rank destinatario com a local_list do rank remetente (aux_list)
-        //Merge(local_list, local_n, aux_list, local_n, merged_list);
-        Merge2(local_list, local_n, aux_list, local_n, merged_list);
+        Merge(local_list, local_n, aux_list, local_n, merged_list);
+        //Join(local_list, local_n, aux_list, local_n, merged_list);
         
-        // Ordenação pós merge
-        oddEvenSort(merged_list, 2 * local_n);
+        // Ordenação pós join
+        //oddEvenSort(merged_list, 2 * local_n);
 
         int start = 0;
         int end = local_n;
@@ -149,7 +161,7 @@ void MPI_SWAP(int local_n, int *local_list, int snd_rank, int rcv_rank, MPI_Comm
         }
         else
         {
-            /* Nothing */
+            /* Nada */
         }
 
         // Envia a parte que cabe ao rementente já ordenada, após o Merge
@@ -202,7 +214,7 @@ void MPI_OETS(int n, int *list, MPI_Comm comm)
         }
         else
         {
-            /* Nothing */
+            /* Nada */
         }
     }
 
@@ -270,7 +282,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        /* Nothing */
+        /* Nada */
     }
     
     free(list);
