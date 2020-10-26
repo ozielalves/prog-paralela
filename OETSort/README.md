@@ -337,36 +337,54 @@ Para esta análise, serão realizadas **5 execuções** com tamanhos de problema
 
 ### Corretude
 
-Para validar a corretude dos algoritmos implementados foi realizado um teste utilizando **4.550.000** como tamanho de problema para os dois códigos:
+Para validar a corretude dos algoritmos implementados foi realizado um teste utilizando **15** como tamanho de problema para os dois códigos:
 
-![Alt Corretude - Pi Paralelo e Pi Serial](./data/pi_graphs/pi_terminal_print.PNG)
+![Alt Corretude](./data/Corretude.PNG)
 
-Como é possível perceber, ambos os códigos conseguem aproximar de maneira correta o valor de pi, dado o número de pontos solicitados.<br><br>
-**Obs.:** Vale salientar que para este modelo de amostragem quanto maior o número de pontos a serem definidos mais preciso será o valor de pi retornado.
-
+Como é possível perceber, ambos os códigos conseguem ordenar corretamente as lista gerada com seed única.<br><br>
 
 ### Gráficos
 
 ![Alt Tempo não Otimizado x problema](./data/tempo_p2_x_problema.PNG)
 
-Através do gráfico comparativo, é possível observar que o código paralelo é mais eficiente que o código serial pois a reta relativa a este último apresenta um coefiente angular maior do que as relativas ao primeiro, o que indica que ao se aumentar o temanho de problema no código serial o aumento em tempo de execução é proporcionalmente maior que o que seria observado no código paralelo. Vale salientar que as curvas referentes a 4 e 8 cores são praticamente idênticas, isso ocorre devido aos limites da máquina de teste, fenômeno que será mais bem explicado no item [Considerações Finais](#considerções-finais).
+Através do gráfico de tempos por problema, é possível observar que o código paralelo é executado em um tempo menor que o código serial pois a reta relativa a este último apresenta um coefiente angular maior do que as relativas ao primeiro, o que indica que ao se aumentar o tamanho de problema no código serial o aumento em tempo de execução é proporcionalmente maior que o que seria observado no código paralelo. No entado, a utilização da ordenação na função `MPI_SWAP` acabou trazendo consequências visíveis conforme executamos o código para um número maior de cores.<br><br>
+
+Observe agora um segundo gráfico de tempos considerando a execução do código paralelo utilizando a otimização implementada pela função `Merge` na comunicação entre os processos.
 
 ![Alt Tempo Otimizado x problema](./data/tempo_p1_x_problema.PNG)
 
+O tempo de execução para o código paralelo cai de maneira bastante considerável, note ainda que existe uma redução na velocidade conforme aumentamos o número de cores utilizados, como era esperado em um modelo ótimo. Isso acontece, em resumo, porque a conservação da ordenação garantida pela função `Merge` economiza eventuais comparações desnecessárias.
+
 ### Análise de Speedup
-É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. Sabendo que o limite de cores/threads da máquina de testes é 4, é esperado que o speedup da execução dos problemas para 4 e 8 cores seja aproximadamente idêntico.
+É possível definir o speedup, quando da utilização de n cores, como sendo o tempo médio de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. Perceba abaixo de maneira mais clara o que acontece com o speedup do código paralelo quando é preciso ordenar as parcelas de listas passadas a cada comunicação de processos.
 
 ![Alt Speedup não Otimizado x Cores](./data/speedup_p2_x_cores.PNG)
 
-Como esperado, o gráfico nos mostra um desempenho bastante similiar para 4 e 8 cores, no entanto, para cores virtuais, a execução dos problemas em 4 cores obteve um speedup relativamente bom se comparado ao speedup para a execução nos 2 cores físicos.
+Conforme foi mencionado anteriormente, perceba que a execução dos problemas em 4 cores levou um tempo maior quando comparada a utilização de 2 cores, e que o desempenho para 8 cores se mostrou similar ao desempenho para 2 cores, isto ocorre porque o código paralelo inicial realiza também a ordenação sempre que existe uma comunicação entre os processos.<br><br> 
+ 
+Observe agora o speedup relativo ao cógio paralelo otimizado:
  
 ![Alt Speedup Otimizado x Cores](./data/speedup_p1_x_cores.PNG)
 
-A tabela abaixo apresenta o speedup para cada tamanho de problema por número de cores executados:
+Existe um crescimento visível no speedup quando aumentamos o número de cores em execução, observe de maneira mais precisa que até o terceiro tamanho de problema o algorítmo demonstrou apresentar um maior speedup conforme aumentamos o tamanho do problema. No entando, para o 4º tamanho de problema o speedup reduz se comparado hierarquicamente aos demais na execução com 8 cores, por exemplo.
 
-| Número de Cores | 2 | 4 | 8 |
+A tabela abaixo apresenta uma comapração do speedup entre o código paralelo inicial e o código paralelo otimizado, para cada tamanho de problema, por número de cores executados:
+
+| Cores	| Tamanho do Problema	| Speedup Inicial	| Speedup Otimizado
 | --- | --- | ---| --- |
-|**Speedup Médio**|1.80|2.47|2.44| 
+| 2	| 92000	| 3.80	| 1.34 |
+| 2	| 108000	| 3.65	| 1.38 |
+| 2	| 124000	| 3.65	| 1.38 |
+| 2	| 140000	| 3.64	| 1.39 |
+| 4	| 92000	| 9.23	| 1.25 |
+| 4	| 108000	| 9.26	| 1.24 |
+| 4	| 124000	| 9.48	| 1.25 |
+| 4	| 140000	| 9.57	| 1.25 |
+| 8	|  92000	| 1.18	| 1.38 |
+| 8	| 108000	| 1.36	| 1.39 |
+| 8	| 124000	| 1.42	| 1.40 |
+| 8	| 140000	| 1.28	| 1.38 |
+
 
 ### Análise de Eficiência
 Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando n cores pelos n cores utilizados. Como a máquina de testes possui apenas 2 cores físicos e implementa um hyper-threading para executar programas em 4 cores, para efeitos de análise comparativa iremos relacionar apenas estas duas quantidades. Porém, note que a eficiência de cores virtuais equivale a cerca de 30% da eficiência de cores físicos.
