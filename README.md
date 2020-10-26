@@ -40,6 +40,14 @@ Serão realizadas **5 execuções** com **4 tamanhos de problema** , em **3 quan
 # Para o algorítimo que calcula a integral de forma paralela
 ./Pi-Tapezio/trapezio_paralelo_start.sh
 ```
+```bash
+# Para o algorítimo que ordena uma lista gerada de forma serial
+./OETSort/OETS_serial_start.sh
+```
+```bash
+# Para o algorítimo que ordena uma lista gerada de forma paralela
+./OETSort/OETS_paralelo_start.sh
+```
 
 **Obs.:** Caso seja necessário conceder permissão máxima para os scripts, execute:<br> `chmod 777 [NOME DO SCRIPT].sh`.
 
@@ -64,6 +72,8 @@ Após o termino das execuções do script é possível ter acesso aos arquivos `
 #### [Cálculo do Pi - Método de Monte Carlo](https://github.com/ozielalves/prog-paralela/tree/master/Pi-Tapezio#c%C3%A1lculo-do-pi---m%C3%A9todo-de-monte-carlo)
 
 #### [Cálculo da Integral - Regra do Trapézio](https://github.com/ozielalves/prog-paralela/tree/master/Pi-Tapezio#c%C3%A1lculo-da-integral---regra-do-trap%C3%A9zio)
+
+#### [Odd-Even Transposition Sort](https://github.com/ozielalves/prog-paralela/tree/master/OETSort#odd-even-transposition-sort-1)
 
 ### Softwares utilizados
 ```bash
