@@ -363,7 +363,7 @@ O tempo de execução para o código paralelo cai de maneira bastante considerá
 
 Conforme foi mencionado anteriormente, perceba que a execução dos problemas em 4 cores levou um tempo maior quando comparada a utilização de 2 cores, e que o desempenho para 8 cores se mostrou similar ao desempenho para 2 cores, isto ocorre porque o código paralelo inicial realiza também a ordenação sempre que existe uma comunicação entre os processos. Como resultado temos um speedup médio muito similar para 2 e 8 cores, e um menor speedup médio para 4 cores.<br><br> 
  
-Observe agora o speedup relativo ao cógio paralelo otimizado pela função `Merge`:
+Observe agora o speedup relativo ao código paralelo otimizado pela função `Merge`:
  
 ![Alt Speedup Otimizado x Cores](./data/speedup_p1_x_cores.PNG)
 
