@@ -30,6 +30,4 @@ Tamanho do Problema: 140000
 	Tempo: 7.22e+01
 	Tempo: 7.23e+01
 	Tempo: 7.25e+01
-	Tempo: 6.22e-04
-	Tempo: 4.36e-04
-	Tempo: 4.81e-04
+	
