@@ -82,6 +82,9 @@ Após o termino das execuções do script é possível ter acesso aos arquivos d
 ### Apresentação do Algoritmo
 
 #### Odd-Even Transposition Sort
+
+![Alt OETS](./data/Odd_even_sort_animation.gif)
+
 O algoritmo Odd-Even Transposition ordena n elementos em `n` fases (n é par), cada fase requer `n / 2` operações de troca de comparação. Esse algoritmo alterna entre duas fases, **Odd** (ímpares) e **Even** (pares). Seja `[a1, a2, ..., an]` uma lista a ser ordenada. Durante a fase Odd, os elementos com índices ímpares são comparados com seus vizinhos direitos e, se estiverem fora da sequência, são trocados; assim, os pares `(a 1, a2), (a3, a 4), ... , (an-1, an)` são trocados por comparação (assumindo que n é par). Da mesma forma, durante a fase Even, os elementos com índices pares são comparados com seus vizinhos direitos, e se eles estiverem fora de sequência, eles são trocados; assim, os pares `(a2, a3), (a4, a5), ... , (an-2, an-1)` são trocados por comparação. Após `n` fases de trocas Odd-Even, a lista é ordenada. Cada fase do algoritmo (Odd ou Even) requer comparações **`Q(n)`**, e há um total de n fases; assim, a complexidade sequencial é **`Q(n²)`**.<br><br>
 **Referência**: Introduction to Parallel Computing-Ananth Gramma (2nd Edition)
 
@@ -290,7 +293,7 @@ void MPI_OETS(int n, int *list, MPI_Comm comm)
 }
 ```
 
-**Obs.**: Em uma tentativa de otimizar o algorítimo foi feita uma mudança na etapa 5 da rotina implementada para a ordenação da lista, a função `Join`, utilizada nesta etapa, foi substituida pela função `Merge` que reliza a união das duas listas locais preservando a ordenação já existente nestas parcelas, o que descarta a necessidade de utilizar novamentea função `oddEvenSort`. Esta técnica tem como proposito a redução do tempo gasto em mais uma ordenação para cada comunicação realizada, os resultados desta decisão podem ser analisados e comparados no tópido de [desenvolvimento](#desenvolvimento). Observe abaixo a implementação da função `Merge`:
+**Obs.**: Em uma tentativa de otimizar o algorítimo foi feita uma mudança na etapa 5 da sub-rotina implementada para a ordenação da lista, a função `Join`, utilizada nesta etapa, foi substituida pela função `Merge` que reliza a união das duas listas locais preservando a ordenação já existente nestas parcelas, o que descarta a necessidade de utilizar novamentea função `oddEvenSort`. Esta técnica tem como propósito a redução do tempo gasto em mais uma ordenação para cada comunicação realizada. A eficiência obtida a partir desta decisão serão analisados e comparados no ítem [desenvolvimento](#desenvolvimento). Observe abaixo a implementação da função `Merge`:
 
 ```
 bash
@@ -344,29 +347,22 @@ Como é possível perceber, ambos os códigos conseguem aproximar de maneira cor
 
 ### Gráficos
 
-#### Serial e Paralelo - Tempo x Tamanho do Problema
-
-![Alt Serial e Paralelo - Tempo x Tamanho do Problema](./data/pi_graphs/serial_paralelo_tempo_por_tamanho_do_problema.PNG)
+![Alt Tempo não Otimizado x problema](./data/tempo_p2_x_problema.PNG)
 
 Através do gráfico comparativo, é possível observar que o código paralelo é mais eficiente que o código serial pois a reta relativa a este último apresenta um coefiente angular maior do que as relativas ao primeiro, o que indica que ao se aumentar o temanho de problema no código serial o aumento em tempo de execução é proporcionalmente maior que o que seria observado no código paralelo. Vale salientar que as curvas referentes a 4 e 8 cores são praticamente idênticas, isso ocorre devido aos limites da máquina de teste, fenômeno que será mais bem explicado no item [Considerações Finais](#considerções-finais).
 
-#### Tamanho do Problema - Tempo x Cores
-
-![Alt Paralelo - Tempo x Cores](./data/pi_graphs/paralelo_tempo_por_cores.PNG)
-
-A partir do gráfico apresentado, é clara a influência do número de cores no tempo de execução. Note que, por exemplo, o tempo de execução para o problema de maior tamanho cai cerca de 45% ao se passar do código serial para o código paralelo ultilizando 2 cores. Novamente, verifica-se que o desempenho para 4 e 8 cores é idêntico.
-
+![Alt Tempo Otimizado x problema](./data/tempo_p1_x_problema.PNG)
 
 ### Análise de Speedup
 É possível definir o speedup, quando da utilização de n cores, como sendo o tempo de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. Sabendo que o limite de cores/threads da máquina de testes é 4, é esperado que o speedup da execução dos problemas para 4 e 8 cores seja aproximadamente idêntico.
 
-#### Speedup x Número de Cores Utilizados
-
-![Alt Speedup x Cores](./data/pi_graphs/Speedup_pi.jpg)
+![Alt Speedup não Otimizado x Cores](./data/speedup_p2_x_cores.PNG)
 
 Como esperado, o gráfico nos mostra um desempenho bastante similiar para 4 e 8 cores, no entanto, para cores virtuais, a execução dos problemas em 4 cores obteve um speedup relativamente bom se comparado ao speedup para a execução nos 2 cores físicos.
  
-A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativas de execução dos 4 problemas descritos neste item.
+![Alt Speedup Otimizado x Cores](./data/speedup_p1_x_cores.PNG)
+
+A tabela abaixo apresenta o speedup para cada tamanho de problema por número de cores executados:
 
 | Número de Cores | 2 | 4 | 8 |
 | --- | --- | ---| --- |
@@ -375,11 +371,11 @@ A tabela abaixo apresenta o speedup médio por número de cores após 5 tentativ
 ### Análise de Eficiência
 Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando n cores pelos n cores utilizados. Como a máquina de testes possui apenas 2 cores físicos e implementa um hyper-threading para executar programas em 4 cores, para efeitos de análise comparativa iremos relacionar apenas estas duas quantidades. Porém, note que a eficiência de cores virtuais equivale a cerca de 30% da eficiência de cores físicos.
 
-#### Eficiêcia x Tamanhos do Problema
-
-![Alt Eficiêcia x Tamanhos do Problema](./data/pi_graphs/Eficiencia_pi.jpg)
+![Alt Eficiêcia x Tamanhos do Problema](./data/eficiencia_p2_x_cores.PNG)
 
 Se olharmos atentamente para a linha representa a eficiência para 2 cores é possível identificar uma mínima queda quando aumentamos pela primeria vez o tamanho do problema, no entanto, quando aumentamos mais uma vez o tamanho de problema, a linha volta a subir de maneira a permanecer praticamente estável para o próximo tamanho de problema. Já a linha que representa a eficiência para 4 cores se aproxima visivelmente de uma reta, o que índica uma constância na eficiência se aumentando o tamanho do problema na mesma proporção em que o número de cores. Desse modo, é possível definir o algoritmo analisado como **fracamente escalável**.<br>
+
+![Alt Eficiêcia x Tamanhos do Problema](./data/eficiencia_p1_x_cores.PNG)
 
 Apesar dos limites da máquina de testes, a eficiência média reduz de maneira considerável se compararmos o passo no uso de 2 para 4 cores, isso acontece porque aumentar a quantidade de cores utilizados gera mais comunicação, o que implica em uma maior distância em relaçao a eficiência linear. A tabela abaixo apresenta a eficiência média calculada através dos valores de speedup médio anteriormente mencionados.
 
