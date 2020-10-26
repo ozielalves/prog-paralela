@@ -367,7 +367,7 @@ Observe agora o speedup relativo ao cógio paralelo otimizado pela função `Mer
  
 ![Alt Speedup Otimizado x Cores](./data/speedup_p1_x_cores.PNG)
 
-Existe um crescimento visível no speedup quando aumentamos o número de cores em execução, observe de maneira mais precisa que até o terceiro tamanho de problema o algorítmo demonstrou apresentar um maior speedup conforme aumentamos o tamanho do problema. No entando, existe uma maior variação no speedup relativo aos tamanhos de problema na execução com 8 cores, isso acontece devidos aos limites da máquina teste, a virtualização de cores termina não entregando o mesmo desempenho que um core físico consegue demonstrar.
+Existe um crescimento visível no speedup quando aumentamos o número de cores em execução, observe também que o speedup -de maneira geral- também aumenta conforme aumentamos o tamanho do problema. No entando, existe uma maior variação no speedup relativo aos tamanhos de problema na execução com 8 cores, isso acontece devidos aos limites da máquina de testes, a virtualização de cores termina não entregando o mesmo desempenho que um core físico consegue demonstrar.<br>
 
 A tabela abaixo apresenta uma comapração mais detalhada do speedup entre o código paralelo inicial e o código paralelo otimizado, para cada tamanho de problema, por número de cores executados.
 
@@ -392,11 +392,11 @@ Através do cáculo do speedup, é possível obter a eficiência do algoritmo qu
 
 ![Alt Eficiêcia x Tamanhos do Problema](./data/eficiencia_p2_x_cores.PNG)
 
-Observando as linhas que representa a eficiência para 2, 4 e 8 cores é possível identificar uma tendência à estabilidade conforme aumemtamos o tamanho de problema. Isso índica uma constância na eficiência se aumentando o tamanho do problema na mesma proporção em que o número de cores. Desse modo, é possível definir o algoritmo paralelo inicial como **fracamente escalável**.<br>
+Observando as linhas que representa a eficiência para 2, 4 e 8 cores é possível identificar uma tendência à estabilidade conforme aumentamos o tamanho de problema. Isso índica uma constância na eficiência se aumentado o tamanho do problema na mesma proporção em que o número de cores. Desse modo, é possível definir o algoritmo paralelo inicial como **fracamente escalável**.<br>
 
 ![Alt Eficiêcia x Tamanhos do Problema](./data/eficiencia_p1_x_cores.PNG)
 
-Diferente do gráfico anterior, apesar de simular constância, o gráfico não é capaz de indentificar com precisão o comportamento da eficiência conforme aumentamos o número de cores, basta observar separadamente as linhas que representam a eficiência em cada quantiade de cores para perceber que nenhuma linha simula um comportamento padrão. No entanto, novamente dadas as circunstâncias relativas aos limites da máquina de testes, resta deduzir que o algoritmo paralelo otimizado tende a ser também **fracamente escalável**.<br><br>
+Diferente do gráfico anterior, apesar de simular constância, o gráfico não é capaz de indentificar com precisão o comportamento da eficiência conforme aumentamos o número de cores, basta observar separadamente as linhas que representam a eficiência em cada quantiade de cores para perceber que nenhuma linha simula um comportamento padrão. No entanto, novamente dadas as circunstâncias relativas aos limites da máquina de testes, resta deduzir que o algoritmo paralelo otimizado tende a ser também **fracamente escalável**.<br>
 
 A tabela abaixo apresenta a eficiência calculada através dos valores de speedup anteriormente fornecidos.
 
@@ -421,7 +421,7 @@ A tabela abaixo apresenta a eficiência calculada através dos valores de speedu
 
 ### Considerações Finais
 
-Devido aos limites da máquina de testes, o número de cores passíveis de utilização é restrito. Das análises apresentadas, fica explicito que 4 cores é o limite do dispositivo junto a implementação do Hyper-threading, de  maneira a obter ainda um speedup relevante, não sendo possível estender o número de cores utilizados para 8. Apesar disto, através desta análise foi possível perceber que a paralelização de códigos seriais, ainda que simples, traz resultados bastante promissores no que diz respeito a eficiência e velocidade. Além disto, também foi permitido constatar que o speedup é ainda mais pronunciado para tamanhos maiores de problema. No entando, isto não quer dizer necessáriamente que o algoritmo tenha uma boa escalabiliade.
+Foi possível obter resultados bastante satisfatórios quanto a comparação do algoritmo paralelo antes da otimização e após a otimização. É importante perceber o impacto de pequenas tarefas na rotina de comunicação entre os processos. No caso do código paralelo inicial, a realização de uma segunda ordenação a cada troca de informações entre os processos acabou diminuindo o speedup, e em consequência também a eficiência, conforme aumentado o número de cores utilizados, visto que ao aumentar a quantidade de cores em execução implica a realização de um maior número de comunicações. Após a otimização do algoritmo paralelo houve uma diminuição nas comparações que precisam ser realizadas a cada comunicação, através da conservação da ordenação das listas comparadas. Como consequência houve uma redução no tempo de execução para cada tamanho de problema e um aumento do speedup quando também aumentado o número de cores em utilização. Por implicação, a razão que define a eficiência também foi impactada de maneira positiva, gerando inclusive resultados superlineares. Devido aos limites da máquina de testes não foi possível definir com precisão as características do algoritmo quanto a eficiência. Porém, através dos resultados encontrados é possível inferir que ambos os códigos são fracamente escaláveis.
 
 ### Softwares utilizados
 ```bash
