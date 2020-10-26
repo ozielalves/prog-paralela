@@ -3,7 +3,10 @@
 Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)), 2020.
 
 #### Análise por:
-- [Oziel Alves](https://github.com/ozielalves/)
+[Oziel Alves](https://github.com/ozielalves/)
+
+#### Esta análise se encontra disponível em: 
+`https://github.com/ozielalves/prog-paralela/tree/master/OETSort`
 
 ## Sumário
 + [Introdução](#introdução)
@@ -144,7 +147,7 @@ Ainda sendo `n` o número de elementos para criação de uma lista com inteiros 
 
 3. Feito isto, é chamada a função `MPI_OETS` para destribuir as parcelas de lista igualmente entre os processos, utilizando `MPI_Scatter`, e ordenar as parcelas de lista em cada processo, usando a função `oddEvenSort` já implementada no código serial.
 
-4. Feito isto, é dado início à etapa de comunicação e troca de dados entre os processos utilizando a dinâmica de fases **Odd-Even**. Para auxiliar este processo é então chamada a função `MPI_SWAP` para cada 2 processos que precisam realizar a comunicação, também passando como paramêtro a lista local referente ao processo que está enviando o dado.
+4. Logo em seguida, é dado início à etapa de comunicação e troca de dados entre os processos utilizando a dinâmica de fases **Odd-Even**. Para auxiliar este processo é então chamada a função `MPI_SWAP` para cada 2 processos que precisam realizar a comunicação, também passando como paramêtro a lista local referente ao processo que está enviando o dado.
 
 5. Dentro da `MPI_SWAP`, as listas locais referentes ao processo remetente e ao processo destinatário são unidas usando a função `Join`. A lista `merged_list`, resultante da união, é então ordenada, utilizando novamente a função `oddEvenSort`, para que a menor e a maior parcela sejam redestribuidas aos processos em comunicação de acordo com a hierarquia entre eles.
 
@@ -291,7 +294,7 @@ void MPI_OETS(int n, int *list, MPI_Comm comm)
 }
 ```
 
-**Obs.:** Em uma tentativa de otimizar o algorítimo foi feita uma mudança na etapa 5 da sub-rotina implementada para a ordenação da lista, a função `Join`, utilizada nesta etapa, foi substituida pela função `Merge` que reliza a união das duas listas locais preservando a ordenação já existente nestas parcelas, o que descarta a necessidade de utilizar novamentea função `oddEvenSort`. Esta técnica tem como propósito a redução do tempo gasto em mais uma ordenação para cada comunicação realizada. A eficiência obtida a partir desta decisão serão analisados e comparados no ítem [Desenvolvimento](#desenvolvimento). Observe abaixo a implementação da função `Merge`:
+**Obs.:** Em uma tentativa de otimizar o algorítimo foi feita uma mudança na etapa 5 da sub-rotina implementada para a ordenação da lista, a função `Join`, utilizada nesta etapa, foi substituida pela função `Merge` que realiza a união das duas listas locais preservando a ordenação já existente nestas parcelas, o que descarta a necessidade de utilizar novamente a função `oddEvenSort`. Esta técnica tem como propósito a redução do tempo gasto em mais uma ordenação para cada comunicação realizada. A eficiência obtida a partir desta decisão serão analisados e comparados no ítem [Desenvolvimento](#desenvolvimento). Observe abaixo a implementação da função `Merge`:
 
 ```
 bash
@@ -335,7 +338,7 @@ Para esta análise, serão realizadas **5 execuções** com tamanhos de problema
 
 ### Corretude
 
-Para validar a corretude dos algoritmos implementados foi realizado um teste utilizando **15** como tamanho de problema para os dois códigos:
+Para validar a corretude dos algoritmos implementados foi realizado um teste utilizando **10** como tamanho de problema para os dois códigos:
 
 ![Alt Corretude](./data/Corretude.PNG)
 
@@ -351,14 +354,14 @@ Observe agora um segundo gráfico de tempos considerando a execução do código
 
 ![Alt Tempo Otimizado x problema](./data/tempo_p1_x_problema.PNG)
 
-O tempo de execução para o código paralelo cai de maneira bastante considerável, note ainda que existe uma redução na velocidade conforme aumentamos o número de cores utilizados, como era esperado em um modelo ótimo. Isso acontece, em resumo, porque a conservação da ordenação garantida pela função `Merge` economiza eventuais comparações desnecessárias.
+O tempo de execução para o código paralelo cai de maneira bastante considerável, note ainda que existe um aumento na velocidade da execução para todos os tamanhos de problema conforme aumentamos o número de cores utilizados, como era esperado em um modelo ótimo. Isso acontece, em resumo, porque a conservação da ordenação garantida pela função `Merge` economiza eventuais comparações desnecessárias.
 
 ### Análise de Speedup
 É possível definir o speedup, quando da utilização de `n` cores, como sendo o tempo médio de execução no código serial dividido pelo tempo médio de execução para `n` cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. Perceba abaixo de maneira mais clara o que acontece com o speedup do código paralelo quando é preciso ordenar as parcelas de listas passadas a cada comunicação de processos.
 
 ![Alt Speedup não Otimizado x Cores](./data/speedup_p2_x_cores.PNG)
 
-Conforme foi mencionado anteriormente, perceba que a execução dos problemas em 4 cores levou um tempo maior quando comparada a utilização de 2 cores, e que o desempenho para 8 cores se mostrou similar ao desempenho para 2 cores, isto ocorre porque o código paralelo inicial realiza também a ordenação sempre que existe uma comunicação entre os processos.<br><br> 
+Conforme foi mencionado anteriormente, perceba que a execução dos problemas em 4 cores levou um tempo maior quando comparada a utilização de 2 cores, e que o desempenho para 8 cores se mostrou similar ao desempenho para 2 cores, isto ocorre porque o código paralelo inicial realiza também a ordenação sempre que existe uma comunicação entre os processos. Como resultado temos um speedup médio muito similar para 2 e 8 cores, e um menor speedup médio para 4 cores.<br><br> 
  
 Observe agora o speedup relativo ao cógio paralelo otimizado pela função `Merge`:
  
