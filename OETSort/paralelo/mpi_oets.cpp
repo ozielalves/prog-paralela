@@ -49,12 +49,11 @@ int Merge(int *local_list_rcv, int len_local_list_rcv, int *local_list_snd,
  */
 
 int Join(int *local_list_rcv, int len_local_list_rcv, int *local_list_snd,
-          int len_local_list_snd, int *merged_list)
+         int len_local_list_snd, int *merged_list)
 {
     int i, j = 0;
     int aux = 0;
 
-    
     while (i < len_local_list_rcv)
     {
         merged_list[aux++] = local_list_snd[i++];
@@ -66,7 +65,7 @@ int Join(int *local_list_rcv, int len_local_list_rcv, int *local_list_snd,
     }
 
     return 0;
-}          
+}
 
 // Ordena a Lista usando Odd and Even Transposition Sort
 void oddEvenSort(int *list, int n)
@@ -115,6 +114,16 @@ void printStatus(int my_rank, int iter, char *txt, int *list, int n)
     cout << list[n - 1] << "]" << endl;
 }
 
+// Imprime uma lista de tamanho n para por fins de Corretude
+void printList(int *list, int tamanho)
+{
+    for (size_t i = 0; i < tamanho; i++)
+    {
+        cout << list[i] << " ";
+    }
+    cout << "\n";
+}
+
 /*
  * O rank remetente envia os dados para fazer o swap e aguarda o retorno. 
  * O rank destinatario recebe os dados, ordena o novo array e retorna 
@@ -146,7 +155,7 @@ void MPI_SWAP(int local_n, int *local_list, int snd_rank, int rcv_rank, MPI_Comm
         // Uniao da local_list do rank destinatario com a local_list do rank remetente (aux_list)
         Merge(local_list, local_n, aux_list, local_n, merged_list);
         //Join(local_list, local_n, aux_list, local_n, merged_list);
-        
+
         // Ordenação pós join
         //oddEvenSort(merged_list, 2 * local_n);
 
@@ -224,10 +233,10 @@ void MPI_OETS(int n, int *list, MPI_Comm comm)
     MPI_Gather(local_list, n / p, MPI_INT, list, n / p, MPI_INT, root_rank, comm);
 
     // Fim da linha
-    /* if (my_rank == root_rank)
-        printStatus(my_rank, i, "Lista Ordenada", list, n); */
-
-    /*     return MPI_SUCCESS; */
+    /*     if (my_rank == root_rank)
+    {
+        printStatus(my_rank, i, " Lista Ordenada", list, n);
+    } */
 }
 
 // Gera lista de n elementos com números randomicos com números randomicos
@@ -264,7 +273,7 @@ int main(int argc, char **argv)
 
     gettimeofday(&stop, 0);
 
-    if (my_rank == 0) 
+    if (my_rank == 0)
     {
         FILE *fp;
         char outputFilename[] = "./paralelo/tempo_mpi_oets.txt";
@@ -284,7 +293,7 @@ int main(int argc, char **argv)
     {
         /* Nada */
     }
-    
+
     free(list);
 
     MPI_Finalize();

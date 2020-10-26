@@ -94,3 +94,19 @@ Cores Qtd: 8	Tamanho do Problema: 140000
 	Tempo: 5.55e+00
 	Tempo: 5.83e+00
 	Tempo: 5.78e+00
+	Tempo: 1.67e-01
+	Tempo: 2.43e-02
+	Tempo: 2.67e-02
+	Tempo: 2.47e-02
+	Tempo: 1.29e-01
+	Tempo: 2.73e-02
+	Tempo: 3.15e-02
+	Tempo: 2.38e-02
+	Tempo: 2.61e-02
+	Tempo: 2.58e-02
+	Tempo: 2.44e-02
+	Tempo: 3.92e-02
+	Tempo: 4.50e-02
+	Tempo: 2.45e-02
+	Tempo: 2.08e-02
+	Tempo: 1.96e-02
