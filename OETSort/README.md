@@ -22,8 +22,6 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
 + [Desenvolvimento](#desenvolvimento)      
   + [Corretude](#corretude)
   + [Gráficos](#gráficos)
-  + [Serial e Paralelo - Tempo x Tamanho do Problema](#serial-e-paralelo---tempo-x-tamanho-do-problema)
-  + [Tamanho do Problema - Tempo x Cores](tamanho-do-problema---tempo-x-cores)
   + [Análise de Speedup](#análise-de-speedup)
   + [Análise de Eficiência](#análise-de-eficiência)
 + [Conclusão](#conclusão)
@@ -85,7 +83,7 @@ Após o termino das execuções do script é possível ter acesso aos arquivos d
 
 ![Alt OETS](./data/Odd_even_sort_animation.gif)
 
-O algoritmo Odd-Even Transposition ordena n elementos em `n` fases (n é par), cada fase requer `n / 2` operações de troca de comparação. Esse algoritmo alterna entre duas fases, **Odd** (ímpares) e **Even** (pares). Seja `[a1, a2, ..., an]` uma lista a ser ordenada. Durante a fase Odd, os elementos com índices ímpares são comparados com seus vizinhos direitos e, se estiverem fora da sequência, são trocados; assim, os pares `(a 1, a2), (a3, a 4), ... , (an-1, an)` são trocados por comparação (assumindo que n é par). Da mesma forma, durante a fase Even, os elementos com índices pares são comparados com seus vizinhos direitos, e se eles estiverem fora de sequência, eles são trocados; assim, os pares `(a2, a3), (a4, a5), ... , (an-2, an-1)` são trocados por comparação. Após `n` fases de trocas Odd-Even, a lista é ordenada. Cada fase do algoritmo (Odd ou Even) requer comparações **`Q(n)`**, e há um total de n fases; assim, a complexidade sequencial é **`Q(n²)`**.<br><br>
+O algoritmo Odd-Even Transposition ordena `n` elementos em `n` fases (n é par), cada fase requer `n / 2` operações de troca de comparação. Esse algoritmo alterna entre duas fases, **Odd** (ímpares) e **Even** (pares). Seja `[a1, a2, ..., an]` uma lista a ser ordenada. Durante a fase Odd, os elementos com índices ímpares são comparados com seus vizinhos direitos e, se estiverem fora da sequência, são trocados; assim, os pares `(a 1, a2), (a3, a 4), ... , (an-1, an)` são trocados por comparação (assumindo que n é par). Da mesma forma, durante a fase Even, os elementos com índices pares são comparados com seus vizinhos direitos, e se eles estiverem fora de sequência, eles são trocados; assim, os pares `(a2, a3), (a4, a5), ... , (an-2, an-1)` são trocados por comparação. Após `n` fases de trocas Odd-Even, a lista é ordenada. Cada fase do algoritmo (Odd ou Even) requer comparações **`Q(n)`**, e há um total de n fases; assim, a complexidade sequencial é **`Q(n²)`**.<br><br>
 **Referência**: Introduction to Parallel Computing-Ananth Gramma (2nd Edition)
 
 
@@ -293,7 +291,7 @@ void MPI_OETS(int n, int *list, MPI_Comm comm)
 }
 ```
 
-**Obs.**: Em uma tentativa de otimizar o algorítimo foi feita uma mudança na etapa 5 da sub-rotina implementada para a ordenação da lista, a função `Join`, utilizada nesta etapa, foi substituida pela função `Merge` que reliza a união das duas listas locais preservando a ordenação já existente nestas parcelas, o que descarta a necessidade de utilizar novamentea função `oddEvenSort`. Esta técnica tem como propósito a redução do tempo gasto em mais uma ordenação para cada comunicação realizada. A eficiência obtida a partir desta decisão serão analisados e comparados no ítem [desenvolvimento](#desenvolvimento). Observe abaixo a implementação da função `Merge`:
+**Obs.:** Em uma tentativa de otimizar o algorítimo foi feita uma mudança na etapa 5 da sub-rotina implementada para a ordenação da lista, a função `Join`, utilizada nesta etapa, foi substituida pela função `Merge` que reliza a união das duas listas locais preservando a ordenação já existente nestas parcelas, o que descarta a necessidade de utilizar novamentea função `oddEvenSort`. Esta técnica tem como propósito a redução do tempo gasto em mais uma ordenação para cada comunicação realizada. A eficiência obtida a partir desta decisão serão analisados e comparados no ítem [Desenvolvimento](#desenvolvimento). Observe abaixo a implementação da função `Merge`:
 
 ```
 bash
@@ -356,50 +354,65 @@ Observe agora um segundo gráfico de tempos considerando a execução do código
 O tempo de execução para o código paralelo cai de maneira bastante considerável, note ainda que existe uma redução na velocidade conforme aumentamos o número de cores utilizados, como era esperado em um modelo ótimo. Isso acontece, em resumo, porque a conservação da ordenação garantida pela função `Merge` economiza eventuais comparações desnecessárias.
 
 ### Análise de Speedup
-É possível definir o speedup, quando da utilização de n cores, como sendo o tempo médio de execução no código serial dividido pelo tempo médio de execução para n cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. Perceba abaixo de maneira mais clara o que acontece com o speedup do código paralelo quando é preciso ordenar as parcelas de listas passadas a cada comunicação de processos.
+É possível definir o speedup, quando da utilização de `n` cores, como sendo o tempo médio de execução no código serial dividido pelo tempo médio de execução para `n` cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. Perceba abaixo de maneira mais clara o que acontece com o speedup do código paralelo quando é preciso ordenar as parcelas de listas passadas a cada comunicação de processos.
 
 ![Alt Speedup não Otimizado x Cores](./data/speedup_p2_x_cores.PNG)
 
 Conforme foi mencionado anteriormente, perceba que a execução dos problemas em 4 cores levou um tempo maior quando comparada a utilização de 2 cores, e que o desempenho para 8 cores se mostrou similar ao desempenho para 2 cores, isto ocorre porque o código paralelo inicial realiza também a ordenação sempre que existe uma comunicação entre os processos.<br><br> 
  
-Observe agora o speedup relativo ao cógio paralelo otimizado:
+Observe agora o speedup relativo ao cógio paralelo otimizado pela função `Merge`:
  
 ![Alt Speedup Otimizado x Cores](./data/speedup_p1_x_cores.PNG)
 
-Existe um crescimento visível no speedup quando aumentamos o número de cores em execução, observe de maneira mais precisa que até o terceiro tamanho de problema o algorítmo demonstrou apresentar um maior speedup conforme aumentamos o tamanho do problema. No entando, para o 4º tamanho de problema o speedup reduz se comparado hierarquicamente aos demais na execução com 8 cores, por exemplo.
+Existe um crescimento visível no speedup quando aumentamos o número de cores em execução, observe de maneira mais precisa que até o terceiro tamanho de problema o algorítmo demonstrou apresentar um maior speedup conforme aumentamos o tamanho do problema. No entando, existe uma maior variação no speedup relativo aos tamanhos de problema na execução com 8 cores, isso acontece devidos aos limites da máquina teste, a virtualização de cores termina não entregando o mesmo desempenho que um core físico consegue demonstrar.
 
-A tabela abaixo apresenta uma comapração do speedup entre o código paralelo inicial e o código paralelo otimizado, para cada tamanho de problema, por número de cores executados:
+A tabela abaixo apresenta uma comapração mais detalhada do speedup entre o código paralelo inicial e o código paralelo otimizado, para cada tamanho de problema, por número de cores executados.
 
 | Cores	| Tamanho do Problema	| Speedup Inicial	| Speedup Otimizado
 | --- | --- | ---| --- |
-| 2	| 92000	| 3.80	| 1.34 |
-| 2	| 108000	| 3.65	| 1.38 |
-| 2	| 124000	| 3.65	| 1.38 |
-| 2	| 140000	| 3.64	| 1.39 |
-| 4	| 92000	| 9.23	| 1.25 |
-| 4	| 108000	| 9.26	| 1.24 |
-| 4	| 124000	| 9.48	| 1.25 |
-| 4	| 140000	| 9.57	| 1.25 |
-| 8	|  92000	| 1.18	| 1.38 |
-| 8	| 108000	| 1.36	| 1.39 |
-| 8	| 124000	| 1.42	| 1.40 |
-| 8	| 140000	| 1.28	| 1.38 |
+| 2	| 92000	| 1.34	|  3.80 |
+| 2	| 108000	| 1.38	|  3.65 |
+| 2	| 124000	| 1.38	|  3.65 |
+| 2	| 140000	| 1.39	|  3.64 |
+| 4	| 92000	| 1.25	|  9.23 |
+| 4	| 108000	| 1.24	|  9.26 |
+| 4	| 124000	| 1.25	|  9.48 |
+| 4	| 140000	| 1.25	|  9.57 |
+| 8	|  92000	| 1.38	|  1.18 |
+| 8	| 108000	| 1.39	|  1.36 |
+| 8	| 124000	| 1.40	|  1.42 |
+| 8	| 140000	| 1.38	|  1.28 |
 
 
 ### Análise de Eficiência
-Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando n cores pelos n cores utilizados. Como a máquina de testes possui apenas 2 cores físicos e implementa um hyper-threading para executar programas em 4 cores, para efeitos de análise comparativa iremos relacionar apenas estas duas quantidades. Porém, note que a eficiência de cores virtuais equivale a cerca de 30% da eficiência de cores físicos.
+Através do cáculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando `n` cores pelos `n` cores utilizados. Seria interessante executar ambos os códigos paralelo inicial e paralelo otimizado para um maior número de cores, com o objetivo de definir a escabilidade dos algoritmos de maneira mais precisa. No entanto, como a máquina de testes possui apenas 2 cores físicos e implementa hyper-threading para executar programas em pelo menos 4 cores, a escalabilidade dos algorítimos será definida a partir da execução dos problemas com as 3 quantidades de cores utilizadas. Porém, tenha em mente que a eficiência de cores virtuais equivale a cerca de 30% da eficiência de cores físicos.
 
 ![Alt Eficiêcia x Tamanhos do Problema](./data/eficiencia_p2_x_cores.PNG)
 
-Se olharmos atentamente para a linha representa a eficiência para 2 cores é possível identificar uma mínima queda quando aumentamos pela primeria vez o tamanho do problema, no entanto, quando aumentamos mais uma vez o tamanho de problema, a linha volta a subir de maneira a permanecer praticamente estável para o próximo tamanho de problema. Já a linha que representa a eficiência para 4 cores se aproxima visivelmente de uma reta, o que índica uma constância na eficiência se aumentando o tamanho do problema na mesma proporção em que o número de cores. Desse modo, é possível definir o algoritmo analisado como **fracamente escalável**.<br>
+Observando as linhas que representa a eficiência para 2, 4 e 8 cores é possível identificar uma tendência à estabilidade conforme aumemtamos o tamanho de problema. Isso índica uma constância na eficiência se aumentando o tamanho do problema na mesma proporção em que o número de cores. Desse modo, é possível definir o algoritmo paralelo inicial como **fracamente escalável**.<br>
 
 ![Alt Eficiêcia x Tamanhos do Problema](./data/eficiencia_p1_x_cores.PNG)
 
-Apesar dos limites da máquina de testes, a eficiência média reduz de maneira considerável se compararmos o passo no uso de 2 para 4 cores, isso acontece porque aumentar a quantidade de cores utilizados gera mais comunicação, o que implica em uma maior distância em relaçao a eficiência linear. A tabela abaixo apresenta a eficiência média calculada através dos valores de speedup médio anteriormente mencionados.
+Diferente do gráfico anterior, apesar de simular constância, o gráfico não é capaz de indentificar com precisão o comportamento da eficiência conforme aumentamos o número de cores, basta observar separadamente as linhas que representam a eficiência em cada quantiade de cores para perceber que nenhuma linha simula um comportamento padrão. No entanto, novamente dadas as circunstâncias relativas aos limites da máquina de testes, resta deduzir que o algoritmo paralelo otimizado tende a ser também **fracamente escalável**.<br><br>
 
-| Número de Cores | 2 | 4 | 8 |
+A tabela abaixo apresenta a eficiência calculada através dos valores de speedup anteriormente fornecidos.
+
+| Cores	| Tamanho do Problema	| Eficiência Inicial	| Eficiência Otimizada
 | --- | --- | ---| --- |
-|**Eficiência Média**|0.90|0.61|0.30| 
+| 2	| 92000	| 0.67	|  1.90 |
+| 2	| 108000	| 0.69	|  1.83 |
+| 2	| 124000	| 0.69	|  1.83 |
+| 2	| 140000	| 0.70	|  1.82 |
+| 4	| 92000	| 0.31	|  2.31 |
+| 4	| 108000	| 0.31	|  2.31 |
+| 4	| 124000	| 0.31	|  2.37 |
+| 4	| 140000	| 0.31	|  2.39 |
+| 8	|  92000	| 0.17	|  1.47 |
+| 8	| 108000	| 0.17	|  1.70 |
+| 8	| 124000	| 0.17	|  1.77 |
+| 8	| 140000	| 0.17	|  1.60 |
+
+**Obs.:** Os valores superlineares encontrados para eficiência do algoritmo paralelo otimizado podem ser explicados pela otimização realizada no processo de comunicação já explicado anteriormente.
 
 ## Conclusão
 
