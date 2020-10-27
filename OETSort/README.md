@@ -34,7 +34,7 @@ Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)),
 ## Introdução
 
 ### Objetivos
-Analisar e avaliar o comportamento, eficiência e speedup dos algoritmos em relação ao seu tempo de execução, tamanho do problema analisado e resultados obtidos. Os cenários irão simular a execução dos algoritmos para 1 (serial), 2, 4 e 8 cores, com 4 tamanhos de problema definidos empiricamente. Os limites de tamanhos foram estabelecidos com o objetivo de atingir o tempo mínimo de execução determinado pela [referência](https://github.com/ozielalves/prog-paralela/tree/master/referencia) desta Análise.
+Analisar e avaliar o comportamento, eficiência e speedup dos códigos seriais e paralelos referentes a implementação do algoritmo de ordenação **Odd-Even Transposition** em relação aos tempos de execução, tamanhos de problema analisados e resultados obtidos. Os cenários irão simular a execução dos algoritmos para 1 (serial), 2, 4 e 8 cores, com 4 tamanhos de problema definidos empiricamente. Os limites de tamanhos foram estabelecidos com o objetivo de atingir o tempo mínimo de execução determinado pela [referência](https://github.com/ozielalves/prog-paralela/tree/master/referencia) desta Análise.
 
 ### Dependências
 #### G++ Compiler
@@ -294,7 +294,7 @@ void MPI_OETS(int n, int *list, MPI_Comm comm)
 }
 ```
 
-**Obs.:** Em uma tentativa de otimizar o algoritmo foi feita uma mudança na etapa 5 da sub-rotina implementada para a ordenação da lista, a função `Join`, utilizada nesta etapa, foi substituída pela função `Merge` que realiza a união das duas listas locais preservando a ordenação já existente nestas parcelas, o que descarta a necessidade de utilizar novamente a função `oddEvenSort`. Esta técnica tem como propósito a redução do tempo gasto em mais uma ordenação para cada comunicação realizada. A eficiência obtida a partir desta decisão será melhor discutida no item [Desenvolvimento](#desenvolvimento). Observe abaixo a implementação da função `Merge`:
+**Obs.:** Em uma tentativa de otimizar o algoritmo foi feita uma mudança na etapa 5 da sub-rotina implementada para a ordenação da lista. A função `Join`, utilizada nesta etapa, foi substituída pela função `Merge` que realiza a união das duas listas locais preservando a ordenação já existente nestas parcelas, o que descarta a necessidade de utilizar novamente a função `oddEvenSort`. Esta técnica tem como propósito a redução do tempo gasto em mais uma ordenação para cada comunicação realizada. A eficiência obtida a partir desta decisão será melhor discutida no item [Desenvolvimento](#desenvolvimento). Observe abaixo a implementação da função `Merge`:
 
 ```
 bash
@@ -342,32 +342,32 @@ Para validar a corretude dos algoritmos implementados foi realizado um teste uti
 
 ![Alt Corretude](./data/Corretude.PNG)
 
-Como é possível perceber, ambos os códigos conseguem ordenar corretamente as lista gerada com *seed* única.<br><br>
+Como é possível perceber, ambos os códigos conseguem ordenar corretamente as listas geradas com *seed* única.<br><br>
 
 ### Gráficos
 
 ![Alt Tempo não Otimizado x problema](./data/tempo_p2_x_problema.PNG)
 
-Através do gráfico de tempos por problema, é possível observar que o código paralelo é executado em um tempo menor que o código serial pois a reta relativa a este último apresenta um coeficiente angular maior do que as relativas ao primeiro, o que indica que ao se aumentar o tamanho de problema no código serial o aumento em tempo de execução é proporcionalmente maior que o que seria observado no código paralelo. No entanto, a utilização da ordenação na função `MPI_SWAP` acabou trazendo consequências visíveis conforme executamos o código para um número maior de cores.<br><br>
+Através do gráfico de tempos por problema, é possível observar que o código paralelo consegue reduzir o tempo de execução do algoritmo se comparado ao código serial. Também é evidente o impacto da utilização da ordenação na função `MPI_SWAP`, percebe-se que o tempo de execução dos problemas não sofre redução alguma se aumentado o número de cores utilizados.<br><br>
 
 Observe agora um segundo gráfico de tempos considerando a execução do código paralelo utilizando a otimização implementada pela função `Merge` na comunicação entre os processos.
 
 ![Alt Tempo Otimizado x problema](./data/tempo_p1_x_problema.PNG)
 
-O tempo de execução para o código paralelo cai de maneira bastante considerável, note ainda que existe um aumento na velocidade da execução para todos os tamanhos de problema conforme aumentamos o número de cores utilizados, como era esperado em um modelo ótimo. Isso acontece, em resumo, porque a conservação da ordenação garantida pela função `Merge` economiza eventuais comparações desnecessárias.
+O tempo de execução para o código paralelo cai de maneira bastante considerável. Nota-se ainda que existe um aumento na velocidade da execução para todos os tamanhos de problema, de maneira proporcional ao aumento do número de cores utilizados, como era esperado em um modelo ótimo. Isso acontece, em resumo, porque a conservação da ordenação garantida pela função `Merge` economiza eventuais comparações desnecessárias.
 
 ### Análise de Speedup
-É possível definir o *speedup*, quando da utilização de `n` cores, como sendo o tempo médio de execução no código serial dividido pelo tempo médio de execução para `n` cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. Perceba abaixo de maneira mais clara o que acontece com o speedup do código paralelo quando é preciso ordenar as parcelas de listas passadas a cada comunicação de processos.
+É possível definir o *speedup*, quando da utilização de `n` cores, como sendo o tempo médio de execução no código serial dividido pelo tempo médio de execução para `n` cores em um dado tamanho de problema. Dessa forma, o speedup representa um aumento médio de velocidade na resolução dos problemas. No gráfico abaixo  é possível perceber de maneira mais clara o que acontece com o speedup do código paralelo quando é preciso ordenar as parcelas de listas passadas a cada comunicação de processos.
 
 ![Alt Speedup não Otimizado x Cores](./data/speedup_p2_x_cores.PNG)
 
-Conforme foi mencionado anteriormente, perceba que a execução dos problemas em 4 cores levou um tempo maior quando comparada a utilização de 2 cores, e que o desempenho para 8 cores se mostrou similar ao desempenho para 2 cores, isto ocorre porque o código paralelo inicial realiza também a ordenação sempre que existe uma comunicação entre os processos. Como resultado temos um speedup médio muito similar para 2 e 8 cores, e um menor speedup médio para 4 cores.<br><br> 
+Como foi mencionado anteriormente, fica claro que a execução dos problemas em 4 cores levou um tempo maior quando comparada a utilização de 2 cores, e que o desempenho para 8 cores se mostrou similar ao desempenho para 2 cores, isto ocorre porque o código paralelo inicial realiza também a ordenação sempre que existe uma comunicação entre os processos. Como resultado, temos um speedup médio muito similar para 2 e 8 cores e um menor speedup médio para 4 cores.<br><br> 
  
 Observe agora o speedup relativo ao código paralelo otimizado pela função `Merge`:
  
 ![Alt Speedup Otimizado x Cores](./data/speedup_p1_x_cores.PNG)
 
-Existe um crescimento visível no speedup quando aumentamos o número de cores em execução, observe também que o speedup -de maneira geral- também aumenta conforme aumentamos o tamanho do problema. No entanto, existe uma maior variação no speedup relativo aos tamanhos de problema na execução com 8 cores, isso acontece devidos aos limites da máquina de testes, a virtualização de cores termina não entregando o mesmo desempenho que um core físico consegue demonstrar.<br>
+Existe um crescimento visível no speedup quando aumentamos o número de cores em execução. Além disso, observe também que o speedup aumenta proporcionalmente ao tamanho do problema. No entanto, existe uma maior variação no speedup relativo aos tamanhos de problema na execução com 8 cores, isso acontece devidos aos limites da máquina de testes, a virtualização de cores termina não entregando o mesmo desempenho que um core físico consegue demonstrar.<br>
 
 A tabela abaixo apresenta uma comparação mais detalhada do speedup entre o código paralelo inicial e o código paralelo otimizado, para cada tamanho de problema, por número de cores executados.
 
@@ -388,15 +388,15 @@ A tabela abaixo apresenta uma comparação mais detalhada do speedup entre o có
 
 
 ### Análise de Eficiência
-Através do cálculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando `n` cores pelos `n` cores utilizados. Seria interessante executar ambos o código paralelo inicial e o código paralelo otimizado para um maior número de cores, com o objetivo de definir a escalabilidade dos algoritmos de maneira mais precisa. No entanto, como a máquina de testes possui apenas 2 cores físicos e implementa hyper-threading para executar programas em pelo menos 4 cores, a escalabilidade dos algoritmos será definida a partir da execução dos problemas com as 3 quantidades de cores utilizadas. Porém, tenha em mente que a eficiência de cores virtuais equivale a cerca de 30% da eficiência de cores físicos.
+Através do cálculo do speedup, é possível obter a eficiência do algoritmo quando submetido a execução com as diferentes quantidades de cores. Este cálculo pode ser realizado através da divisão do speedup do algoritmo utilizando `n` cores pelo número `n` de cores utilizados. Seria interessante executar ambos os códigos paralelo inicial e paralelo otimizado para um maior número de cores, com o objetivo de definir a escalabilidade dos algoritmos de maneira mais precisa. No entanto, como a máquina de testes possui apenas 2 cores físicos e implementa hyper-threading para executar programas em pelo menos 4 cores, a escalabilidade dos algoritmos será definida a partir da execução dos problemas com as 3 quantidades de cores definidas. Porém, vale salientar que a eficiência de cores virtuais equivale a cerca de 30% da eficiência de cores físicos.
 
 ![Alt Eficiêcia x Tamanhos do Problema](./data/eficiencia_p2_x_cores.PNG)
 
-Observando as linhas que representa a eficiência para 2, 4 e 8 cores é possível identificar uma tendência à estabilidade conforme aumentamos o tamanho de problema. Isso índica uma constância na eficiência se aumentado o tamanho do problema na mesma proporção em que o número de cores. Desse modo, é possível definir o algoritmo paralelo inicial como **fracamente escalável**.<br>
+Observando as linhas que representam a eficiência para 2, 4 e 8 cores é possível identificar uma tendência à estabilidade conforme aumentamos o tamanho de problema. Isso índica uma constância na eficiência se aumentado o tamanho do problema na mesma proporção em que o número de cores. Desse modo, é possível definir o algoritmo paralelo inicial como **fracamente escalável**.<br>
 
 ![Alt Eficiêcia x Tamanhos do Problema](./data/eficiencia_p1_x_cores.PNG)
 
-Diferente do gráfico anterior, apesar de simular constância, o gráfico não é capaz de identificar com precisão o comportamento da eficiência conforme aumentamos o número de cores, basta observar separadamente as linhas que representam a eficiência em cada quantidade de cores para perceber que nenhuma linha simula um comportamento padrão. No entanto, novamente dadas as circunstâncias relativas aos limites da máquina de testes, resta deduzir que o algoritmo paralelo otimizado tende a ser também **fracamente escalável**.<br>
+Diferente do gráfico anterior, neste gráfico não é possível identificar com precisão o comportamento da eficiência do código paralelo otimizado conforme aumenta-se o número de cores. Apesar das linhas que representam a eficiência para 2 e 4 cores apresentarem tendência à estabilidade, seria interessante executar os mesmos problemas dessa análise para um maior número de cores, para que as linhas assumissem características mais marcantes. No entanto, dadas as circunstâncias relativas aos limites da máquina de testes, resta deduzir que o código paralelo otimizado tende a ser também **fracamente escalável**.<br>
 
 A tabela abaixo apresenta a eficiência calculada através dos valores de speedup anteriormente fornecidos.
 
@@ -421,7 +421,7 @@ A tabela abaixo apresenta a eficiência calculada através dos valores de speedu
 
 ### Considerações Finais
 
-Foi possível obter resultados bastante satisfatórios quanto a comparação do algoritmo paralelo antes da otimização e após a otimização. É importante perceber o impacto de pequenas tarefas na rotina de comunicação entre os processos. No caso do código paralelo inicial, a realização de uma segunda ordenação a cada troca de informações entre os processos acabou diminuindo o speedup, e em consequência também a eficiência, conforme aumentado o número de cores utilizados, visto que ao aumentar a quantidade de cores em execução implica a realização de um maior número de comunicações. Após a otimização do algoritmo paralelo houve uma diminuição nas comparações que precisam ser realizadas a cada comunicação, através da conservação da ordenação das listas comparadas. Como consequência houve uma redução no tempo de execução para cada tamanho de problema e um aumento do speedup quando também aumentado o número de cores em utilização. Por implicação, a razão que define a eficiência também foi impactada de maneira positiva, gerando inclusive resultados superlineares. Devido aos limites da máquina de testes não foi possível definir com precisão as características do algoritmo quanto a eficiência. Porém, através dos resultados encontrados é possível inferir que ambos os códigos são fracamente escaláveis.
+Foi possível obter resultados bastante satisfatórios quanto a comparação do algoritmo paralelo antes da otimização e após a otimização. É importante perceber o impacto de pequenas tarefas na rotina de comunicação entre os processos. No caso do código paralelo inicial, a realização de uma segunda ordenação a cada troca de informações entre os processos acabou diminuindo o speedup de maneira inversamente proporcional ao aumento do número de cores utilizados. Após a otimização do algoritmo paralelo o número de comparações que precisam ser realizadas a cada comunicação diminuiui. Como consequência houve uma redução no tempo de execução para cada tamanho de problema e um aumento do speedup de maneira proporcional ao aumento do número de cores em utilização. Além disso, a razão que define a eficiência também foi impactada de maneira positiva, gerando inclusive resultados superlineares. Devido aos limites da máquina de testes não foi possível definir com precisão as características do algoritmo quanto a eficiência. Porém, através dos resultados encontrados é possível inferir que ambos os códigos são fracamente escaláveis.
 
 ### Softwares utilizados
 ```bash
