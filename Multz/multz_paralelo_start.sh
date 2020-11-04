@@ -4,7 +4,7 @@
 rm ./paralelo/pth_multz
 rm ./paralelo/tempo_pth_multz.txt
 
- g++ -pthread -o ./paralelo/pth_multz ./paralelo/pth_multz.cpp
+ g++ -pthread -w -o ./paralelo/pth_multz ./paralelo/pth_multz.cpp
 
 tentativas=5 
 
