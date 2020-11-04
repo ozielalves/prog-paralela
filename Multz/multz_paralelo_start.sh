@@ -1,10 +1,10 @@
 #!/bin/bash
 # EXECUTAR NO TERMINAL: ./shellscript_start.sh
 
-rm ./paralelo/mpi_oets
-rm ./paralelo/tempo_mpi_oets.txt
+rm ./paralelo/pth_multz
+rm ./paralelo/tempo_pth_multz.txt
 
-mpicc -g -w -o ./paralelo/mpi_oets ./paralelo/mpi_oets.cpp -lstdc++ -lm
+ g++ -pthread -o ./paralelo/pth_multz ./paralelo/pth_multz.cpp
 
 tentativas=5 
 
@@ -12,10 +12,10 @@ tentativas=5
 	do
 			for size in 92000 108000 124000 140000 # Tamanhos do problema
 			do   	
-				echo -e "\nCores Qtd: $cores\tTamanho do Problema: $size\n" >> "./paralelo/tempo_mpi_oets.txt" 
+				echo -e "\nCores Qtd: $cores\tTamanho do Problema: $size\n" >> "./paralelo/tempo_pth_multz.txt" 
 				for tentativa in $(seq $tentativas) 
 				do
-					mpirun -np  $cores ./paralelo/mpi_oets $size 
+					./paralelo/pth_multz $cores $size
 				done
 			done
 

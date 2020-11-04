@@ -1,14 +1,8 @@
 #include <iostream>
-#include <cmath>
 #include <sys/time.h>
 #include <fstream>
 
 using namespace std;
-
-// definindo as matrizes globais
-int **fator_a, **fator_b, **produto;
-// definindo tamanho da matriz e num de threads
-/* int tam, num_thread; */
 
 // função para imprimir as matrizes
 void imprime_matriz(int tam, int **mat){
@@ -25,8 +19,7 @@ void imprime_matriz(int tam, int **mat){
 	printf("\n\n");
 }
 
-// função para gerar uma matriz
-// que vai ser preenchida com 1's
+// Aloca memória a uma matriz e atribui o start_value a todas as posições 
 int **genMatrix(int tam, int start_value) {
 	int i,j,k;
 	int *valores;
@@ -75,6 +68,9 @@ int main(int argc, char *argv[])
 {
     struct timeval start, stop;
     gettimeofday(&start, 0);
+
+    // Definição das matrizes fatores e produto
+    int **fator_a, **fator_b, **produto;
 
     // definindo tamanho da matriz
     int tam;
