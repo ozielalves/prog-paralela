@@ -28,7 +28,7 @@ int **genMatrix(int seed)
 		matrix[i] = &(valores[i * tam]);
 	}
 
-	if (seed != 0 ) 
+	if (seed != 0)
 	{
 		// Populando a matriz
 		for (j = 0; j < tam; j++)
@@ -39,11 +39,11 @@ int **genMatrix(int seed)
 			}
 		}
 	}
-	else 
+	else
 	{
 		return matrix;
 	}
-	
+
 	return matrix;
 }
 
@@ -81,7 +81,7 @@ void *PTH_MULTZ(void *rank)
 	printf("Thread ID: %ld\n", thread_id);
 
 	// Necessário ??
-/* 	if (final > tam)
+	/* 	if (final > tam)
 	{
 		final = tam - 1;
 	} */
@@ -129,14 +129,14 @@ int main(int argc, char *argv[])
 	else
 	{
 		/* Nada */
-	} 
+	}
 
 	// Alocando e declarando matrizes
 	fator_a = genMatrix(42);
-	
+
 	// Uso do método memcpy para fazer uma cópia do fator_a no fator_b
-  memcpy ( &fator_b, &fator_a, sizeof(fator_a) );
-	
+	memcpy(&fator_b, &fator_a, sizeof(fator_a));
+
 	// Alocando espaço dinamicamente para o produto da multiplicação (0 em todas as posições)
 	produto = genMatrix(0);
 
@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
 	// Criação das threads e realização das parcelas de multiplicação em cada processo
 	for (i = 0; i < num_thread; i++)
 	{
-		pthread_create(&threads[i], NULL, PTH_MULTZ, (void*)(i));
+		pthread_create(&threads[i], NULL, PTH_MULTZ, (void *)(i));
 	}
 	// Agrupa e espera até que todos os processos terminem de executar
 	for (j = 0; i < num_thread; i++)
@@ -161,8 +161,10 @@ int main(int argc, char *argv[])
 	// Imprime a matriz produto
 	printMatrix(produto);
 
-	// Libera a memória alocada para threads
+	// Liberção de memória alocada durante a execução
 	free(threads);
+	free(fator_a);
+	free(produto);
 
 	return 0;
 }

@@ -1,0 +1,4 @@
+
+Tamanho do Problema: 5
+
+	Tempo: 1.55e-02
