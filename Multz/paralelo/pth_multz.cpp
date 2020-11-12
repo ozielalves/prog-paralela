@@ -179,6 +179,7 @@ int main(int argc, char *argv[])
 	}
 
 	// Imprime as duas matrizes fatores
+
 /* 	printMatrix(fator_a); */
 /* 	printMatrix(fator_b); */
 
