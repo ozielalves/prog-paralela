@@ -1,0 +1,14 @@
+
+Cores Qtd: 2	Tamanho do Problema: 2000000
+
+
+Cores Qtd: 4	Tamanho do Problema: 2000000
+
+
+	Tempo: 2.12e+00
+	Tempo: 1.45e-03
+	Tempo: 2.28e-03
+	Tempo: 3.14e-03
+	Tempo: 1.71e-02
+	Tempo: 9.29e-03
+	Tempo: 2.14e-02
