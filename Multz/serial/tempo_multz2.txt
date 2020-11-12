@@ -1,4 +1,52 @@
 
-Tamanho do Problema: 5
+Tamanho do Problema: 1200
 
-	Tempo: 1.55e-02
+	Tempo: 4.39e+01
+	Tempo: 4.38e+01
+	Tempo: 4.38e+01
+	Tempo: 4.36e+01
+	Tempo: 4.37e+01
+	Tempo: 4.37e+01
+	Tempo: 4.43e+01
+	Tempo: 4.38e+01
+	Tempo: 4.38e+01
+	Tempo: 4.38e+01
+
+Tamanho do Problema: 1400
+
+	Tempo: 6.97e+01
+	Tempo: 6.98e+01
+	Tempo: 6.98e+01
+	Tempo: 7.00e+01
+	Tempo: 6.97e+01
+	Tempo: 7.03e+01
+	Tempo: 6.98e+01
+	Tempo: 6.97e+01
+	Tempo: 7.02e+01
+	Tempo: 7.00e+01
+
+Tamanho do Problema: 1800
+
+	Tempo: 1.49e+02
+	Tempo: 1.49e+02
+	Tempo: 1.53e+02
+	Tempo: 1.50e+02
+	Tempo: 1.48e+02
+	Tempo: 1.48e+02
+	Tempo: 1.48e+02
+	Tempo: 1.49e+02
+	Tempo: 1.48e+02
+	Tempo: 1.48e+02
+
+Tamanho do Problema: 2000
+
+	Tempo: 2.01e+02
+	Tempo: 2.01e+02
+	Tempo: 2.01e+02
+	Tempo: 2.01e+02
+	Tempo: 2.01e+02
+	Tempo: 2.01e+02
+	Tempo: 2.02e+02
+	Tempo: 2.02e+02
+	Tempo: 2.01e+02
+	Tempo: 2.01e+02

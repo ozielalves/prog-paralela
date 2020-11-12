@@ -1,4 +1,7 @@
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <cstring>
 #include <sys/time.h>
 #include <fstream>
@@ -114,11 +117,11 @@ int main(int argc, char *argv[])
     MULTZ(tam, fator_a, fator_b, produto);
 
     // Imprime as matrizes
-    printMatrix(tam, fator_a);
-    printMatrix(tam, fator_b);
+    //printMatrix(tam, fator_a);
+    //printMatrix(tam, fator_b);
 
     // Imprime resultado
-    printMatrix(tam, produto);
+    //printMatrix(tam, produto);
 
     gettimeofday(&stop, 0);
 
@@ -138,7 +141,7 @@ int main(int argc, char *argv[])
 
     // Liberção de memória alocada durante a execução
     free(fator_a);
-	free(produto);
+	  free(produto);
 
     return 0;
 }
