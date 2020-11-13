@@ -1,67 +1,46 @@
-#include <iostream>
 #include <stdio.h>
-#include <cmath>
+#include <stdlib.h>
 #include <sys/time.h>
-#include <cstring>
 #include <pthread.h>
 
-using namespace std;
-
 // Definição das matrizes globais
-int **fator_a, **fator_b; 
-long long **produto;
+long **fator_a, **fator_b, **produto;
 
 // Declaração do tamanho da matriz e do número de threads
-int tam, num_thread;
+int size, num_threads;
 
-// Aloca memória a uma matriz e atribui o valores às posições semi-randomicamente
-void genMatrix(int seed)
+// Aloca memória para uma matriz sizeXsize
+long ** genMatrix( int size )
 {
-	int i, j, k;
-	srandom(seed);
+  /* Allocate 'size' * 'size' longs contiguously. */
+  long * vals = (long *) malloc( size * size * sizeof(long) );
 
-	if (seed != 0)
-	{
-		int *valores;
+  /* Allocate array of long* with size 'size' */
+  long ** ptrs = (long **) malloc( size * sizeof(long*) );
 
-		// Alocação de memória
-		valores = (int *)malloc(tam * tam * sizeof(int));
-		fator_a = (int **)malloc(tam * sizeof(int *));
+  int i;
+  for (i = 0; i < size; ++i) {
+    ptrs[ i ] = &vals[ i * size ];
+  }
 
-		for (i = 0; i < tam; i++)
-		{
-			fator_a[i] = &(valores[i * tam]);
-		}
+  return ptrs;
+}
 
-		// Populando a matriz
-		for (j = 0; j < tam; j++)
-		{
-			for (k = 0; k < tam; k++)
-			{
-				fator_a[j][k] = rand() % 10;
-			}
-		}
-	}
-	else
-	{
-		long long *valores;
+// Inicialização de uma matriz sizeXsize com valores semi-randomicos
+void initMatrix( long **matrix, int size, int seed )
+{
+  int i, j;
+  srandom(seed);
 
-		// Alocação de memória
-		valores = (long long *)calloc(tam, tam * tam * sizeof(long long));
-		produto = (long long **)calloc(tam, tam * sizeof(long long *));
-
-		for (i = 0; i < tam; i++)
-		{
-			produto[i] = &(valores[i * tam]);
-		}
-
-	}
-
+  for (i = 0; i < size; ++i) {
+    for (j = 0; j < size; ++j) {
+      matrix[ i ][ j ] = rand() % 10;
+    }
+  }
 }
 
 // Imprime uma matriz
-template <typename T>
-void printMatrix(T **mat)
+void printMatrix( long **mat, int tam )
 {
 	int i, j;
 
@@ -77,120 +56,107 @@ void printMatrix(T **mat)
 	printf("\n\n");
 }
 
-// Libera o espaço armazenado para as matrizes
-void freeMatrix()
+/**
+ * Thread routine.
+ * Each thread works on a portion of the 'fator_a'.
+ * The start and end of the portion depend on the 'arg' which
+ * is the ID assigned to threads sequentially. 
+ */
+void * PTH_MULTZ( void *arg )
 {
-	free(fator_a[0]);
-	free(produto[0]);
-	free(fator_a);
-	free(produto);
+  int i, j, k, tid, portion_size, row_start, row_end;
+  long sum;
+  
+  tid = *(int *)(arg); // get the thread ID assigned sequentially.
+  portion_size = size / num_threads;
+  row_start = tid * portion_size;
+  row_end = (tid+1) * portion_size;
+
+  for (i = row_start; i < row_end; ++i) { // hold row index of 'fator_a'
+    for (j = 0; j < size; ++j) { // hold column index of 'fator_b'
+      sum = 0; // hold value of a cell
+      /* one pass to sum the multiplications of corresponding cells
+	 in the row vector and column vector. */
+      for (k = 0; k < size; ++k) { 
+	sum += fator_a[ i ][ k ] * fator_b[ k ][ j ];
+      }
+      produto[ i ][ j ] = sum;
+    }
+  }
 }
 
-void *PTH_MULTZ(void *rank)
+int main( int argc, char *argv[] )
 {
-	int i, j, k;		// Variáveis auxiliáres
-	long thread_id; // ID da thread atual
-	int passo;			// Passo da multiplicação
-	int inicio;			// Início do intervalo
-	int final;			// Fim do intervalo
-
-	thread_id = (long)rank;
-	passo = tam / num_thread;
-	inicio = thread_id * passo;
-	final = (thread_id + 1) * passo - 1;
-	
-	if(final > tam){
-		final = tam -1;
-	}
-
-	/* printf("\nPara Thread %ld: %d\n", thread_id, passo); */
-
-	// Início da multiplicação
-	/* 	printf("Inicio %d - Final %d \n", inicio, final); */
-
-	for (i = inicio; i <= final; i++)
-	{
-		for (j = 0; j < tam; j++)
-		{
-			/* produto[i][j] = 0; */
-			for (k = 0; k < tam; k++)
-			{
-				produto[i][j] += fator_a[i][k] * fator_b[k][j];
-			}
-		}
-	}
-
-	return NULL;
-}
-
-int main(int argc, char *argv[])
-{
-	struct timeval start, stop;
+  struct timeval start, stop;
 	gettimeofday(&start, 0);
-	
-	int i, j; // Variáveis atuxiliares
 
-	// Threads
-	pthread_t *threads;
+  int i;
+  long sum = 0;
+  struct timeval tstart, tend;
+  double exectime;
+  pthread_t * threads;
 
-	// Definição do número de processos
-	num_thread = atoi(argv[1]);
+  // Tratamento para nenhuma enrada de dado 
+  if (argc != 3) {
+    fprintf( stderr, "%s <numero de threads> <tamanho da matriz>\n", argv[0], argv[1] );
+    return -1;
+  }
 
-	// Definição do tamanho da matriz
-	tam = atoi(argv[2]);
+  num_threads = atoi( argv[1] );
+  size = atoi( argv[2] );
 
-	// Tratamento das entradas
-	if (num_thread > tam)
-	{
-		printf("O número de threads é maior que o tamanho da matriz. Por favor selecione um número menor de threads.\n");
-		return 0;
-	}
-	else if (tam % num_thread != 0)
-	{
-		printf("Tamanho de problema não divisível pelo número de threads.\n");
-		return 0;
-	}
-	else
-	{
-		/* Nada */
-	}
+  // Tratamento para entrada de valores que gere uma divisão de problam exata
+  if ( size % num_threads != 0 ) {
+    fprintf( stderr, "tamanho %d deve ser um multiplo do numero de threads %d\n",
+	     size, num_threads );
+    return -1;
+  }
 
-	// Alocando e declarando a matriz fator_a
-	genMatrix(42);
+  threads = (pthread_t *) malloc( num_threads * sizeof(pthread_t) );
 
-	// Uso do método memcpy para fazer uma cópia do fator_a no fator_b
-	memcpy(&fator_b, &fator_a, sizeof(fator_a));
+  // Alocação de memória para as matrizes
+  fator_a = genMatrix( size );
+  fator_b = genMatrix( size );
+  produto = genMatrix( size );
+  
+  // Inicialização das matrizes produto
+  initMatrix( fator_a, size, 48 );
+  initMatrix( fator_b, size, 48 );
 
-	// Alocando espaço dinamicamente para o produto da multiplicação (0 em todas as posições)
-	genMatrix(0);
+  // Tratamento para uma impressão limpa em tela
+  if ( size <= 48 ) {
+    printf( "Matrix 1:\n" );
+    printMatrix( fator_a, size );
+    printf( "Matrix 2:\n" );
+    printMatrix( fator_b, size );
+  }
 
-	// Alocação dinâmica de memória para threads
-	threads = (pthread_t *)malloc(num_thread * sizeof(pthread_t));
+  // Início da multiplicação
+  gettimeofday( &tstart, NULL );
+  for ( i = 0; i < num_threads; ++i ) {
+    int *tid;
+    tid = (int *) malloc( sizeof(int) );
+    *tid = i;
+    pthread_create( &threads[i], NULL, PTH_MULTZ, (void *)tid );
+  }
 
-	// Criação das threads e realização das parcelas de multiplicação em cada processo
-	for (i = 0; i < num_thread; i++)
-	{
-		pthread_create(&threads[i], NULL, PTH_MULTZ, (void *)(i));
-	}
-	// Agrupa e espera até que todos os processos terminem de executar
-	for (j = 0; j < num_thread; j++)
-	{
-		pthread_join(threads[i], NULL);
-	}
+  for ( i = 0; i < num_threads; ++i ) {
+    pthread_join( threads[i], NULL );
+  }
+  gettimeofday( &tend, NULL );
+  
+  if ( size <= 48 ) {
+    printf( "Resultado:\n" );
+    printMatrix( produto, size );
+  }
 
-	// Imprime as duas matrizes fatores
+  exectime = (tend.tv_sec - tstart.tv_sec) * 1000.0; // sec to ms
+  exectime += (tend.tv_usec - tstart.tv_usec) / 1000.0; // us to ms   
 
-/* 	printMatrix(fator_a); */
-/* 	printMatrix(fator_b); */
+  /* printf( "Number of MPI ranks: 0\tNumber of threads: %d\tExecution time:%.3lf sec\n",
+          num_threads, exectime/1000.0); */
 
-	// Imprime a matriz produto
-/* 	printMatrix(produto); */
-
-	// libera as memórias alocadas
-	freeMatrix();
-	free(threads);
-
-	gettimeofday(&stop, 0);
+  gettimeofday(&stop, 0);
 
 	FILE *fp;
 	char outputFilename[] = "./paralelo/tempo_pth_multz.txt";
@@ -205,6 +171,16 @@ int main(int argc, char *argv[])
 	fprintf(fp, "\tTempo: %1.2e\n", ((double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec)));
 
 	fclose(fp);
-	
-	return 0;
+
+  // Liberação de memória contínua
+  free(fator_a[0]);
+  free(fator_b[0]);
+  free(produto[0]);
+  
+  // Liberação de ponteiro para "vetor" contínuo de valores
+  free( fator_a );
+  free( fator_b );
+  free( produto );
+
+  return 0;
 }

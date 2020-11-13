@@ -3,3 +3,7 @@ Cores Qtd: 2	Tamanho do Problema: 2000000
 
 
 Cores Qtd: 4	Tamanho do Problema: 2000000
+	Tempo: 2.37e-02
+	Tempo: 2.91e-02
+	Tempo: 7.21e-02
+	Tempo: 3.79e+01
