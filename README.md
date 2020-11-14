@@ -49,11 +49,23 @@ Serão realizadas **5 execuções** com **4 tamanhos de problema** , em **3 quan
 # Para o algorítimo que ordena uma lista gerada de forma paralela
 ./OETSort/OETS_paralelo_start.sh
 ```
+```bash
+# Para o algorítimo que realiza a multiplicação de duas matrizes M x M em ordem aleatória de forma serial
+./Multz/multz1_serial_start.sh
+```
+```bash
+# Para o algorítimo que realiza a multiplicação de duas matrizes M x M utilizando o princío da localidade de forma serial
+./Multz/multz2_serial_start.sh
+```
+```bash
+# Para o algorítimo que realiza a multiplicação de duas matrizes M x M utilizando o princío da localidade de forma paralela
+./Multz/multz_paralelo_start.sh
+```
 
 **Obs.:** Caso seja necessário conceder permissão máxima para os scripts, execute:<br> `chmod 777 [NOME DO SCRIPT].sh`.
 
 ### Arquivo com Resultados 
-Após o termino das execuções do script é possível ter acesso aos arquivos `.txt` na pasta `./Pi-Tapezio/pi`, `./Pi-Tapezio/trapezio`, `./OETSort/serial` e `./OETSort/serial`, de acordo com o script executado. Os dados coletados foram utilizados para da análise.
+Após o termino das execuções do script é possível ter acesso aos arquivos `.txt` na pasta `./Pi-Tapezio/pi`, `./Pi-Tapezio/trapezio`, `./OETSort/serial`,  `./OETSort/serial`, `./Multz/serial` e `./Multz/paralelo`, de acordo com o script executado. Os dados coletados foram utilizados para da análise.
 
 ### Condições de Testes
 #### Informações sobre a máquina utilizada
@@ -75,6 +87,8 @@ Após o termino das execuções do script é possível ter acesso aos arquivos `
 #### [Cálculo da Integral - Regra do Trapézio](https://github.com/ozielalves/prog-paralela/tree/master/Pi-Tapezio#c%C3%A1lculo-da-integral---regra-do-trap%C3%A9zio)
 
 #### [Odd-Even Transposition Sort](https://github.com/ozielalves/prog-paralela/tree/master/OETSort#odd-even-transposition-sort-1)
+
+#### [Multiplicação de Matrizes Quadradas](https://github.com/ozielalves/prog-paralela/tree/master/Multz)
 
 ### Softwares utilizados
 ```bash
