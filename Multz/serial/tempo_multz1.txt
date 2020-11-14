@@ -1,52 +1,52 @@
 
-Tamanho do Problema: 1200
+Tamanho do Problema: 1408
 
-	Tempo: 1.44e+01
-	Tempo: 1.41e+01
-	Tempo: 1.43e+01
-	Tempo: 1.42e+01
-	Tempo: 1.41e+01
-	Tempo: 1.42e+01
-	Tempo: 1.40e+01
-	Tempo: 1.41e+01
-	Tempo: 1.41e+01
-	Tempo: 1.42e+01
+	Tempo: 3.58e+01
+	Tempo: 3.58e+01
+	Tempo: 3.57e+01
+	Tempo: 3.57e+01
+	Tempo: 3.57e+01
+	Tempo: 3.58e+01
+	Tempo: 3.58e+01
+	Tempo: 3.57e+01
+	Tempo: 3.58e+01
+	Tempo: 3.58e+01
 
-Tamanho do Problema: 1400
+Tamanho do Problema: 1664
 
-	Tempo: 2.35e+01
-	Tempo: 2.48e+01
-	Tempo: 2.57e+01
-	Tempo: 2.48e+01
-	Tempo: 2.29e+01
-	Tempo: 2.26e+01
-	Tempo: 2.27e+01
-	Tempo: 2.29e+01
-	Tempo: 2.29e+01
-	Tempo: 2.28e+01
+	Tempo: 6.01e+01
+	Tempo: 6.01e+01
+	Tempo: 6.01e+01
+	Tempo: 6.01e+01
+	Tempo: 6.01e+01
+	Tempo: 6.01e+01
+	Tempo: 6.01e+01
+	Tempo: 6.01e+01
+	Tempo: 6.01e+01
+	Tempo: 6.02e+01
 
-Tamanho do Problema: 1800
+Tamanho do Problema: 1920
 
-	Tempo: 5.11e+01
-	Tempo: 4.85e+01
-	Tempo: 4.89e+01
-	Tempo: 4.97e+01
-	Tempo: 4.89e+01
-	Tempo: 4.82e+01
-	Tempo: 4.90e+01
-	Tempo: 4.91e+01
-	Tempo: 4.86e+01
-	Tempo: 4.91e+01
+	Tempo: 9.00e+01
+	Tempo: 9.02e+01
+	Tempo: 8.93e+01
+	Tempo: 9.00e+01
+	Tempo: 9.00e+01
+	Tempo: 9.13e+01
+	Tempo: 9.68e+01
+	Tempo: 9.26e+01
+	Tempo: 9.01e+01
+	Tempo: 9.00e+01
 
-Tamanho do Problema: 2000
+Tamanho do Problema: 2176
 
-	Tempo: 6.70e+01
-	Tempo: 6.86e+01
-	Tempo: 7.13e+01
-	Tempo: 7.06e+01
-	Tempo: 7.18e+01
-	Tempo: 7.38e+01
-	Tempo: 7.16e+01
-	Tempo: 7.07e+01
-	Tempo: 7.13e+01
-	Tempo: 7.14e+01
+	Tempo: 1.31e+02
+	Tempo: 1.30e+02
+	Tempo: 1.34e+02
+	Tempo: 1.33e+02
+	Tempo: 1.31e+02
+	Tempo: 1.30e+02
+	Tempo: 1.31e+02
+	Tempo: 1.32e+02
+	Tempo: 1.30e+02
+	Tempo: 1.30e+02

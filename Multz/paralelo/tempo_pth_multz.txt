@@ -1,9 +1,210 @@
 
-Cores Qtd: 2	Tamanho do Problema: 2000000
+Cores Qtd: 4	Tamanho do Problema: 1408
 
+	Tempo: 6.32e+00
+	Tempo: 6.08e+00
+	Tempo: 6.07e+00
+	Tempo: 6.08e+00
+	Tempo: 6.05e+00
+	Tempo: 6.08e+00
+	Tempo: 6.07e+00
+	Tempo: 6.08e+00
+	Tempo: 6.10e+00
+	Tempo: 6.03e+00
 
-Cores Qtd: 4	Tamanho do Problema: 2000000
-	Tempo: 2.37e-02
-	Tempo: 2.91e-02
-	Tempo: 7.21e-02
-	Tempo: 3.79e+01
+Cores Qtd: 4	Tamanho do Problema: 1664
+
+	Tempo: 9.96e+00
+	Tempo: 9.92e+00
+	Tempo: 9.90e+00
+	Tempo: 9.92e+00
+	Tempo: 9.90e+00
+	Tempo: 9.92e+00
+	Tempo: 9.91e+00
+	Tempo: 9.91e+00
+	Tempo: 9.93e+00
+	Tempo: 9.92e+00
+
+Cores Qtd: 4	Tamanho do Problema: 1920
+
+	Tempo: 1.48e+01
+	Tempo: 1.48e+01
+	Tempo: 1.46e+01
+	Tempo: 1.48e+01
+	Tempo: 1.48e+01
+	Tempo: 1.48e+01
+	Tempo: 1.48e+01
+	Tempo: 1.48e+01
+	Tempo: 1.48e+01
+	Tempo: 1.48e+01
+
+Cores Qtd: 4	Tamanho do Problema: 2176
+
+	Tempo: 2.18e+01
+	Tempo: 2.18e+01
+	Tempo: 2.19e+01
+	Tempo: 2.18e+01
+	Tempo: 2.18e+01
+	Tempo: 2.19e+01
+	Tempo: 2.19e+01
+	Tempo: 2.18e+01
+	Tempo: 2.18e+01
+	Tempo: 2.19e+01
+
+Cores Qtd: 8	Tamanho do Problema: 1408
+
+	Tempo: 3.09e+00
+	Tempo: 3.08e+00
+	Tempo: 3.07e+00
+	Tempo: 3.08e+00
+	Tempo: 3.09e+00
+	Tempo: 3.08e+00
+	Tempo: 3.09e+00
+	Tempo: 3.09e+00
+	Tempo: 3.11e+00
+	Tempo: 3.12e+00
+
+Cores Qtd: 8	Tamanho do Problema: 1664
+
+	Tempo: 5.06e+00
+	Tempo: 5.02e+00
+	Tempo: 5.01e+00
+	Tempo: 4.97e+00
+	Tempo: 5.05e+00
+	Tempo: 5.02e+00
+	Tempo: 5.00e+00
+	Tempo: 5.01e+00
+	Tempo: 5.01e+00
+	Tempo: 5.02e+00
+
+Cores Qtd: 8	Tamanho do Problema: 1920
+
+	Tempo: 7.50e+00
+	Tempo: 7.49e+00
+	Tempo: 7.49e+00
+	Tempo: 7.48e+00
+	Tempo: 7.51e+00
+	Tempo: 7.51e+00
+	Tempo: 7.53e+00
+	Tempo: 7.50e+00
+	Tempo: 7.49e+00
+	Tempo: 7.51e+00
+
+Cores Qtd: 8	Tamanho do Problema: 2176
+
+	Tempo: 1.10e+01
+	Tempo: 1.11e+01
+	Tempo: 1.11e+01
+	Tempo: 1.10e+01
+	Tempo: 1.10e+01
+	Tempo: 1.11e+01
+	Tempo: 1.10e+01
+	Tempo: 1.10e+01
+	Tempo: 1.10e+01
+	Tempo: 1.10e+01
+
+Cores Qtd: 16	Tamanho do Problema: 1408
+
+	Tempo: 1.59e+00
+	Tempo: 1.61e+00
+	Tempo: 1.59e+00
+	Tempo: 1.59e+00
+	Tempo: 1.58e+00
+	Tempo: 1.58e+00
+	Tempo: 1.58e+00
+	Tempo: 1.58e+00
+	Tempo: 1.58e+00
+	Tempo: 1.58e+00
+
+Cores Qtd: 16	Tamanho do Problema: 1664
+
+	Tempo: 2.57e+00
+	Tempo: 2.56e+00
+	Tempo: 2.56e+00
+	Tempo: 2.56e+00
+	Tempo: 2.55e+00
+	Tempo: 2.56e+00
+	Tempo: 2.55e+00
+	Tempo: 2.55e+00
+	Tempo: 2.55e+00
+	Tempo: 2.56e+00
+
+Cores Qtd: 16	Tamanho do Problema: 1920
+
+	Tempo: 3.81e+00
+	Tempo: 3.81e+00
+	Tempo: 3.82e+00
+	Tempo: 3.80e+00
+	Tempo: 3.82e+00
+	Tempo: 3.82e+00
+	Tempo: 3.82e+00
+	Tempo: 3.82e+00
+	Tempo: 3.82e+00
+	Tempo: 3.82e+00
+
+Cores Qtd: 16	Tamanho do Problema: 2176
+
+	Tempo: 5.59e+00
+	Tempo: 5.60e+00
+	Tempo: 5.60e+00
+	Tempo: 5.61e+00
+	Tempo: 5.57e+00
+	Tempo: 5.58e+00
+	Tempo: 5.59e+00
+	Tempo: 5.61e+00
+	Tempo: 5.60e+00
+	Tempo: 5.59e+00
+
+Cores Qtd: 32	Tamanho do Problema: 1408
+
+	Tempo: 8.42e-01
+	Tempo: 8.37e-01
+	Tempo: 8.42e-01
+	Tempo: 8.41e-01
+	Tempo: 8.28e-01
+	Tempo: 8.29e-01
+	Tempo: 8.13e-01
+	Tempo: 8.36e-01
+	Tempo: 8.39e-01
+	Tempo: 8.41e-01
+
+Cores Qtd: 32	Tamanho do Problema: 1664
+
+	Tempo: 1.34e+00
+	Tempo: 1.34e+00
+	Tempo: 1.34e+00
+	Tempo: 1.34e+00
+	Tempo: 1.34e+00
+	Tempo: 1.34e+00
+	Tempo: 1.33e+00
+	Tempo: 1.34e+00
+	Tempo: 1.34e+00
+	Tempo: 1.33e+00
+
+Cores Qtd: 32	Tamanho do Problema: 1920
+
+	Tempo: 1.98e+00
+	Tempo: 1.98e+00
+	Tempo: 2.00e+00
+	Tempo: 1.99e+00
+	Tempo: 2.00e+00
+	Tempo: 2.00e+00
+	Tempo: 2.08e+00
+	Tempo: 2.00e+00
+	Tempo: 1.99e+00
+	Tempo: 2.00e+00
+
+Cores Qtd: 32	Tamanho do Problema: 2176
+
+	Tempo: 2.90e+00
+	Tempo: 2.90e+00
+	Tempo: 2.90e+00
+	Tempo: 2.90e+00
+	Tempo: 2.90e+00
+	Tempo: 3.02e+00
+	Tempo: 2.94e+00
+	Tempo: 2.90e+00
+	Tempo: 2.93e+00
+	Tempo: 2.89e+00
+	Tempo: 1.35e-01
+	Tempo: 3.24e-03
