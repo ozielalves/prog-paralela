@@ -16,7 +16,7 @@ sudo apt-get install g++
 ```
 
 #### MPI - Message Passing Interface
-É necessário para a compilação e execução dos códigos paralelos.
+É necessário para a compilação e execução dos códigos paralelos que utilizam MPI.
 ```bash
 # Instalação no Ubuntu 20.04 LTS:
 sudo apt-get install -y mpi 
