@@ -14,9 +14,6 @@ Esta análise se encontra disponível em:
 
 ## Sumário
 
-- [Análise de Algoritmos Paralelos e Seriais](#análise-de-algoritmos-paralelos-e-seriais)
-  - [Multiplicação de Matrizes](#multiplicação-de-matrizes)
-  - [Sumário](#sumário)
   - [Introdução](#introdução)
     - [Objetivos](#objetivos)
     - [Dependência](#dependência)
@@ -246,7 +243,7 @@ void *PTH_MULTZ(void *arg)
 
 ## Desenvolvimento
 
-Para esta análise, serão realizadas **5 execuções** com tamanhos de problema 1.408, 1.664, 1.920 e 2.000 - definidos empiricamente de modo a atingir os limites mínimos determinados pela [referência](https://github.com/ozielalves/prog-paralela/tree/master/referencia) da análise - em **5 quantidades de threads** (1, 4, 8, 16 e 32). Se espera que a eficiência do algoritmo paralelo quanto à multiplicação das matrizes seja maior para um mesmo tamanho de problema quando se altera apenas o número de threads utilizadas. Uma descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
+Para esta análise, serão realizadas **5 execuções** com tamanhos de problema **1.408**, **1.664**, **1.920** e **2.176** - definidos empiricamente de modo a atingir os limites mínimos determinados pela [referência](https://github.com/ozielalves/prog-paralela/tree/master/referencia) da análise - em **5 quantidades de threads** (1, 4, 8, 16 e 32). Se espera que a eficiência do algoritmo paralelo quanto à multiplicação das matrizes seja maior para um mesmo tamanho de problema quando se altera apenas o número de threads utilizadas. Uma descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
 
 ### Corretude
 
