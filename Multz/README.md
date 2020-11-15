@@ -239,7 +239,7 @@ void *PTH_MULTZ(void *arg)
 
 ```
 
-**Obs.:** Note que o algoritmo paralelo utiliza o **princípio da localidade** também implementado no código serial 01:
+**Obs.:** Note que o algoritmo paralelo utiliza o **princípio da localidade** também implementado no código serial 01
 
 ## Desenvolvimento
 
