@@ -208,3 +208,4 @@ Cores Qtd: 32	Tamanho do Problema: 2176
 	Tempo: 2.89e+00
 	Tempo: 1.35e-01
 	Tempo: 3.24e-03
+	Tempo: 7.17e-04
