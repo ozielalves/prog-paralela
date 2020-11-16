@@ -36,6 +36,15 @@ Esta análise se encontra disponível em:
   - [Considerações Finais](#considerações-finais)
   - [Softwares utilizados](#softwares-utilizados)
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
 ## Introdução
 
 ### Objetivos
@@ -248,9 +257,7 @@ Para esta análise, serão realizadas **10 execuções** com tamanhos de problem
 Para validar a corretude dos algoritmos implementados foi realizado um teste utilizando **6** como tamanho de problema para para ambos os códigos seriais e para o código paralelo:
 
 ![Alt Corretude S1](./data/corretude_s1.PNG)
-
 ![Alt Corretude S2](./data/corretude_s2.PNG)
-
 ![Alt Corretude P](./data/corretude_p.PNG)
 
 Como é possível perceber através dos prints de execução em terminal, todos os códigos conseguem realizar corretamente a multiplicação das matrizes geradas.<br><br>
