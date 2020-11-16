@@ -14,27 +14,27 @@ Esta análise se encontra disponível em:
 
 ## Sumário
 
-  - [Introdução](#introdução)
-    - [Objetivos](#objetivos)
-    - [Dependência](#dependência)
-      - [G++ Compiler](#g-compiler)
-    - [Compilação e Execução](#compilação-e-execução)
-    - [Arquivo com Resultados](#arquivo-com-resultados)
-    - [Condições de Testes](#condições-de-testes)
-      - [Informações sobre a máquina utilizada](#informações-sobre-a-máquina-utilizada)
-    - [Apresentação do Algoritmo](#apresentação-do-algoritmo)
-      - [Multiplicação de Matrizes Quadradas](#multiplicação-de-matrizes-quadradas)
-      - [**Código serial usando o princípio da localidade (01)**](#código-serial-usando-o-princípio-da-localidade-01)
-      - [**Código serial com acesso de memória aleatório (02)**](#código-serial-com-acesso-de-memória-aleatório-02)
-      - [**Código paralelo**](#código-paralelo)
-  - [Desenvolvimento](#desenvolvimento)
-    - [Corretude](#corretude)
-    - [Gráficos](#gráficos)
-    - [Análise de Speedup](#análise-de-speedup)
-    - [Análise de Eficiência](#análise-de-eficiência)
-  - [Conclusão](#conclusão)
-    - [Considerações Finais](#considerações-finais)
-    - [Softwares utilizados](#softwares-utilizados)
+- [Introdução](#introdução)
+  - [Objetivos](#objetivos)
+  - [Dependência](#dependência)
+    - [G++ Compiler](#g-compiler)
+  - [Compilação e Execução](#compilação-e-execução)
+  - [Arquivo com Resultados](#arquivo-com-resultados)
+  - [Condições de Testes](#condições-de-testes)
+    - [Informações sobre a máquina utilizada](#informações-sobre-a-máquina-utilizada)
+  - [Apresentação do Algoritmo](#apresentação-do-algoritmo)
+    - [Multiplicação de Matrizes Quadradas](#multiplicação-de-matrizes-quadradas)
+    - [**Código serial usando o princípio da localidade (01)**](#código-serial-usando-o-princípio-da-localidade-01)
+    - [**Código serial com acesso de memória aleatório (02)**](#código-serial-com-acesso-de-memória-aleatório-02)
+    - [**Código paralelo**](#código-paralelo)
+- [Desenvolvimento](#desenvolvimento)
+  - [Corretude](#corretude)
+  - [Gráficos](#gráficos)
+  - [Análise de Speedup](#análise-de-speedup)
+  - [Análise de Eficiência](#análise-de-eficiência)
+- [Conclusão](#conclusão)
+  - [Considerações Finais](#considerações-finais)
+  - [Softwares utilizados](#softwares-utilizados)
 
 ## Introdução
 
@@ -101,7 +101,7 @@ O produto de duas matrizes é definido somente quando o número de colunas da pr
 
 ![Alt Matrix Multiplication](./data/formula.png)
 
-O algoritmo desenvolvido para esta análise realiza a multiplicação de matrizes **m**×**n**. A imagem abaixo representa de maneira intuitiva o procedimento de multiplicação de duas matrizes.
+O algoritmo desenvolvido para esta análise realiza a multiplicação de matrizes **m**×**m**. A imagem abaixo representa de maneira intuitiva o procedimento de multiplicação de duas matrizes.
 
 ![Alt Matrix Multiplication](./data/matrix_mult.png)
 
@@ -191,8 +191,6 @@ void MULTZ(int size, int **fator_a, int **fator_b, int **produto)
 
 #### **Código paralelo**
 
-Ainda sendo `n` o número de elementos para criação de uma lista com inteiros randômicos, a seguinte sub-rotina é implementada:
-
 Ainda sendo `size` o tamanho de matriz para criação das matrizes quadradas e `num_threads` o número de threads que serão utilizadas na execução do programa, a seguinte sub-rotina é implementada:
 
 1. O vetor de threads é alocado de acordo com o número de threads `num_threads` fornecido.
@@ -207,7 +205,7 @@ A implementação da função `PTH_MULTZ` é apresentada abaixo:
 
 ```bash
 # Rotina da Thread.
-# Cada thread realiza a multiplicação de uma fatia da matriz "fator_a".
+# Cada thread realiza a multiplicação de uma fatia da matriz "fator_a" pela matriz "fator_b".
 void *PTH_MULTZ(void *arg)
 {
   int i, j, k;            # Variáveis auxiliáres
@@ -239,15 +237,15 @@ void *PTH_MULTZ(void *arg)
 
 ```
 
-**Obs.:** Note que o algoritmo paralelo utiliza o **princípio da localidade** também implementado no código serial 01
+**Obs.:** Note que o algoritmo paralelo utiliza o **princípio da localidade** também implementado no código serial 01.
 
 ## Desenvolvimento
 
-Para esta análise, serão realizadas **5 execuções** com tamanhos de problema **1.408**, **1.664**, **1.920** e **2.176** - definidos empiricamente de modo a atingir os limites mínimos determinados pela [referência](https://github.com/ozielalves/prog-paralela/tree/master/referencia) da análise - em **5 quantidades de threads** (1, 4, 8, 16 e 32). Se espera que a eficiência do algoritmo paralelo quanto à multiplicação das matrizes seja maior para um mesmo tamanho de problema quando se altera apenas o número de threads utilizadas. Uma descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
+Para esta análise, serão realizadas **10 execuções** com tamanhos de problema **1.408**, **1.664**, **1.920** e **2.176**, em **5 quantidades de threads** (1, 4, 8, 16 e 32). Se espera que o código paralelo consiga valores de speedup relevantes em relação ao tempo de execução para os códigos serias. Além disso, também é esperado que a eficiência do algoritmo paralelo, quanto à multiplicação das matrizes, apresente valores parecidos para as demais quantidades de threads utilizadas quando é aumentado somente o tamanho do problema. Uma descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
 
 ### Corretude
 
-Para validar a corretude dos algoritmos implementados foi realizado um teste utilizando **6** como tamanho de problema para os 3 códigos:
+Para validar a corretude dos algoritmos implementados foi realizado um teste utilizando **6** como tamanho de problema para para ambos os códigos seriais e para o código paralelo:
 
 ![Alt Corretude S1](./data/corretude_s1.PNG)
 
@@ -255,13 +253,13 @@ Para validar a corretude dos algoritmos implementados foi realizado um teste uti
 
 ![Alt Corretude P](./data/corretude_p.PNG)
 
-Como é possível perceber nos prints, todos os códigos conseguem realizar corretamente a multiplicação das matrizes geradas.<br><br>
+Como é possível perceber através dos prints de execução em terminal, todos os códigos conseguem realizar corretamente a multiplicação das matrizes geradas.<br><br>
 
 ### Gráficos
 
 ![Alt Tempo Serial x problema](./data/tempo_s_x_problema.PNG)
 
-Através do gráfico de tempos por problema para os códigos seriais, é possível observar que o código serial 1 consegue resolver o problema em um menor tempo para todos os tamanhos de problema quando comparado ao código serial 2. Isso acontece porque o Sistema de Memória tende a manter dados e instruções próximos aos que estão sendo executados no topo da Hierarquia de Memória, dessa forma vetores e matrizes são armazenados em sequência de acordo com seus índices. Por isso, ao utilizar o **Principio da Localidade Espacial**, o código serial 1 ganha vantagem em cima do código serial 2 - que acessa os índices das matrizes de forma aleatória - quando gasta um tempo bem menor para acessar os índices consecutivos das matrizes.<br><br>
+Através do gráfico de tempos por problema para os códigos seriais, é possível observar que o código serial 1 consegue resolver o problema em um menor tempo para todos os tamanhos de problema quando comparado ao código serial 2. Isso acontece porque o Sistema de Memória tende a manter dados e instruções próximos aos que estão sendo executados no topo da Hierarquia de Memória, dessa forma, vetores e matrizes são armazenados em sequência de acordo com seus índices. Por isso, ao utilizar o **Principio da Localidade Espacial**, o código serial 1 ganha vantagem em cima do código serial 2 - que acessa os índices das matrizes de forma aleatória - quando gasta um tempo bem menor para acessar os índices consecutivos das matrizes.<br><br>
 
 Observe agora o gráfico que compara o tempo de execução por problema para cada número de threads utilizadas.
 
@@ -281,28 +279,28 @@ Observe agora o speedup do código paralelo relativo ao código serial com acess
 
 ![Alt Speedup Otimizado x Cores](./data/speedup_s2_x_threads.PNG)
 
-O código paralelo consegue resultados em termos de performance ainda melhores dos que foram observados na comparação anterior. No entanto, chega a ser injusta a comparação destes códigos tendo em vista, primeiramente, o uso da estratégia de acesso a memória que coaduna com o princípio da localidade espacial, e de maneira secundária mas mais importante, o uso do paralelismo. A combinação destas implementações junto ao comportamento do código paralelo para tamanhos de fatia próximos ao número de threads em utilização - explicados anteriormente - traduz a disparidade demonstrada no gráfico.<br>
+O código paralelo consegue resultados ainda melhores em termos de performance do que os observados na comparação anterior. O motivo dessa melhora expressiva está relacionado não somente ao paralelização do algoritmo, como também ao uso da mesma estratégia de acesso a memória utilizado no código serial 01 (**Princípio da localidade espacial**), que por sí só obteve resultados superiores em performance quando comparado ao código serial 02. A combinação dessess fatores junto ao comportamento do código paralelo para tamanhos de fatia próximos ao número de threads em utilização - explicados anteriormente - traduz a grande disparidade que o gráfico apresenta.<br>
 
 A tabela abaixo apresenta uma comparação mais detalhada do speedup relativo ao código serial utilizando o princípio da localidade espacial e ao código serial utilizando acesso de memória aleatório.
 
 | Cores | Tamanho do Problema | Speedup (S01) | Speedup (S02) |
 | ----- | ------------------- | ------------- | ------------- |
-| 4     | 1408                | 5.87          | 1.33          |
-| 4     | 1664                | 6.06          | 1.76          |
-| 4     | 1920                | 6.16          | 2.30          |
-| 4     | 2176                | 6.01          | 2.45          |
-| 8     | 1408                | 1.16          | 2.63          |
-| 8     | 1664                | 1.20          | 3.48          |
-| 8     | 1920                | 1.21          | 4.53          |
-| 8     | 2176                | 1.19          | 4.85          |
-| 16    | 1408                | 2.25          | 5.12          |
-| 16    | 1664                | 2.35          | 6.83          |
-| 16    | 1920                | 2.39          | 8.90          |
-| 16    | 2176                | 2.35          | 9.56          |
-| 32    | 1408                | 1.57          | 6.41          |
-| 32    | 1664                | 9.81          | 4.00          |
-| 32    | 1920                | 6.55          | 2.67          |
-| 32    | 2176                | 4.50          | 1.83          |
+| 4     | 1408                | 5.87E+00      | 1.33E+01      |
+| 4     | 1664                | 6.06E+00      | 1.76E+01      |
+| 4     | 1920                | 6.16E+00      | 2.30E+01      |
+| 4     | 2176                | 6.01E+00      | 2.45E+01      |
+| 8     | 1408                | 1.16E+01      | 2.63E+01      |
+| 8     | 1664                | 1.20E+01      | 3.48E+01      |
+| 8     | 1920                | 1.21E+01      | 4.53E+01      |
+| 8     | 2176                | 1.19E+01      | 4.85E+01      |
+| 16    | 1408                | 2.25E+01      | 5.12E+01      |
+| 16    | 1664                | 2.35E+01      | 6.83E+01      |
+| 16    | 1920                | 2.39E+01      | 8.90E+01      |
+| 16    | 2176                | 2.35E+01      | 9.56E+01      |
+| 32    | 1408                | 1.57E+02      | 6.41E+02      |
+| 32    | 1664                | 9.81E+01      | 4.00E+02      |
+| 32    | 1920                | 6.55E+01      | 2.67E+02      |
+| 32    | 2176                | 4.50E+01      | 1.83E+02      |
 
 ### Análise de Eficiência
 
@@ -310,7 +308,7 @@ Através do cálculo do speedup, é possível obter a eficiência do algoritmo q
 
 ![Alt Eficiêcia x Tamanhos do Problema](./data/eficiencia_s1_x_threads.PNG)
 
-Observando as linhas que representam a eficiência para todas as quantidades de threads, é possível identificar uma manutenção da eficiência para um mesmo tamanho de problema conforme aumentamos somente o número de threads. Para **32 threads**, em especial, é possível identificar uma queda na eficiência conforme aumentado o tamanho do problema. Todavia, vale salientar o grande aumento da eficiência de maneira inversamente proporcional ao crescimento do problema para esta quantidade, para os 3 primeiros tamanhos de problema a eficiência em 32 threads ficou acima da média se comparada às demais quantidades de threads. Apesar da redução da eficiência para 32 threads conforme aumentado o tamanho do problema, a linha que representa esta quantidade de threads no gráfico tende a se estabilzar em valores bem próximos aos observados para as outras quantidades de threads. Em consequência disto, é possível definir o algoritmo paralelo como **fortemente escalável** quando comparado ao algoritmo serial que reproduz a mesma estratégia de acesso a memória na multiplicação.<br>
+Observando as linhas que representam a eficiência para todas as quantidades de threads, é possível identificar uma manutenção da eficiência para um mesmo tamanho de problema conforme aumentamos somente o número de threads. Para **32 threads**, em especial, é possível identificar uma queda na eficiência conforme aumentado o tamanho do problema. Todavia, vale salientar o grande aumento da eficiência de maneira inversamente proporcional ao crescimento do problema para esta quantidade, para os 3 primeiros tamanhos de problema, a eficiência em 32 threads ficou acima da média se comparada às demais quantidades de threads. Apesar da redução da eficiência para 32 threads conforme aumentado o tamanho do problema, a linha que representa esta quantidade de threads no gráfico tende a se estabilzar em valores bem próximos aos observados para as outras quantidades de threads. Em consequência disto, é possível definir o algoritmo paralelo como **fortemente escalável** quando comparado ao algoritmo serial que reproduz a mesma estratégia de acesso a memória na multiplicação.<br>
 
 Observe agora o gráfico de eficiência do código paralelo em relação ao código serial que utiliza acesso de memória aleatório.
 
@@ -322,22 +320,22 @@ A tabela abaixo apresenta a eficiência calculada através dos valores de speedu
 
 | Cores | Tamanho do Problema | Eficiência (S01) | Eficiência (S02) |
 | ----- | ------------------- | ---------------- | ---------------- |
-| 4     | 1408                | 1.47             | 3.33             |
-| 4     | 1664                | 1.52             | 4.40             |
-| 4     | 1920                | 1.54             | 5.74             |
-| 4     | 2176                | 1.50             | 6.12             |
-| 8     | 1408                | 1.45             | 3.28             |
-| 8     | 1664                | 1.50             | 4.35             |
-| 8     | 1920                | 1.52             | 5.66             |
-| 8     | 2176                | 1.49             | 6.06             |
-| 16    | 1408                | 1.41             | 3.20             |
-| 16    | 1664                | 1.47             | 4.27             |
-| 16    | 1920                | 1.49             | 5.56             |
-| 16    | 2176                | 1.47             | 5.98             |
-| 32    | 1408                | 4.91             | 2.00             |
-| 32    | 1664                | 3.06             | 1.25             |
-| 32    | 1920                | 2.05             | 8.35             |
-| 32    | 2176                | 1.41             | 5.73             |
+| 4     | 1408                | 1.47E+00         | 3.33E+00         |
+| 4     | 1664                | 1.52E+00         | 4.40E+00         |
+| 4     | 1920                | 1.54E+00         | 5.74E+00         |
+| 4     | 2176                | 1.50E+00         | 6.12E+00         |
+| 8     | 1408                | 1.45E+00         | 3.28E+00         |
+| 8     | 1664                | 1.50E+00         | 4.35E+00         |
+| 8     | 1920                | 1.52E+00         | 5.66E+00         |
+| 8     | 2176                | 1.49E+00         | 6.06E+00         |
+| 16    | 1408                | 1.41E+00         | 3.20E+00         |
+| 16    | 1664                | 1.47E+00         | 4.27E+00         |
+| 16    | 1920                | 1.49E+00         | 5.56E+00         |
+| 16    | 2176                | 1.47E+00         | 5.98E+00         |
+| 32    | 1408                | 4.91E+00         | 2.00E+01         |
+| 32    | 1664                | 3.06E+00         | 1.25E+01         |
+| 32    | 1920                | 2.05E+00         | 8.35E+00         |
+| 32    | 2176                | 1.41E+00         | 5.73E+00         |
 
 **Obs.:** Os valores superlineares encontrados para eficiência do algoritmo paralelo podem ser explicados pela utilização de algoritmos seriais não ótimos.
 
@@ -345,7 +343,7 @@ A tabela abaixo apresenta a eficiência calculada através dos valores de speedu
 
 ### Considerações Finais
 
-Por meio dos resultados coletados após a execução de todos os códigos, foi possível obter resultados bastante satisfatórios quanto a comparação do algoritmo paralelo em relação aos dois algoritmos seriais. O código paralelo se mostrou ser mais do que eficiente quando comparado em performance geral jusnto aos dois seriais, o que já era esperado. No entanto, foram encontrados valores de eficiência superlineares, mesmo na comparação com o código serial que implementa a mesma estrátegia de acesso a memória. Isto denuncia a não otimização dos códigos seriais utilizados na análise. Apesar disso, foi interessante perceber a diferença no desempenho dos algoritmos seriais utilizando os diferentes tipos de acesso a memória, a exploração do **Princípio da localidade espacial** foi ponto chave na conquista de performance para o código serial 01. Além disso, o comportamento singular da linha de eficiência para 32 threads obsevado nos gráficos foi importante para destacar a relação inversamente proporcional que existe entre o tamanho do problema e o speedup para este caso específico. Por fim, diante do comportamento da eficiência do código paralelo quando aumentado o número de threads para um mesmo tamanho de problema, foi possível classificar o algoritmo paralelo como **fortemente escalável** em ambos os casos de comparação.
+Por meio dos resultados coletados após a execução de todos os códigos, foi possível obter resultados bastante satisfatórios quanto a comparação do algoritmo paralelo em relação aos dois algoritmos seriais. O código paralelo se mostrou ser mais do que eficiente quando comparado em performance geral junto aos dois seriais, o que já era esperado. No entanto, foram encontrados valores de eficiência superlineares, mesmo na comparação com o código serial que implementa a mesma estrátegia de acesso a memória. Isto denuncia a não otimização dos códigos seriais utilizados para esta análise. Apesar disso, foi interessante perceber a diferença no desempenho dos algoritmos seriais utilizando os diferentes tipos de acesso a memória, a exploração do **Princípio da localidade espacial** foi ponto chave na conquista de performance para o código serial 01. Além disso, o comportamento singular da linha de eficiência para 32 threads obsevado nos gráficos foi importante para destacar a relação inversamente proporcional que existe entre o tamanho do problema e o speedup para este caso específico. Por fim, diante do comportamento da eficiência do código paralelo quando aumentado o número de threads para um mesmo tamanho de problema, foi possível classificar o algoritmo paralelo como **fortemente escalável** em ambos os casos de comparação.
 
 ### Softwares utilizados
 
