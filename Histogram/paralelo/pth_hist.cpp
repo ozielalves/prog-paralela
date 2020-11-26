@@ -1,4 +1,5 @@
 #include <pthread.h>
+#include <semaphore.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -7,6 +8,10 @@
 
 using namespace std;
 
+sem_t semaphore;    // Semáforo para exclusão mútua
+int *histogram;     // A soma de todos os histogramas locais
+pthread_t *threads; // Array de Threads
+
 typedef struct calc_hist_numbers_arr_t
 {
     float *numbers_arr_start; // Início do intervalo de números
@@ -14,10 +19,11 @@ typedef struct calc_hist_numbers_arr_t
     int min, max;             // Mínimo e Máximo do intervalo
     int n_bins;               // Número de bins no histograma
     float interval;           // Passo de um bin para outro
+    int thread_id;            // ID da thread
 } calc_hist_numbers_arr_t;
 
 // Calcula um histograma com base em um bloco de números
-void *HIST(void *hist_numbers_arr)
+void *PTH_HIST(void *hist_numbers_arr)
 {
     calc_hist_numbers_arr_t *arg = (calc_hist_numbers_arr_t *)hist_numbers_arr;
 
@@ -31,14 +37,27 @@ void *HIST(void *hist_numbers_arr)
         local_histogram[bin_index] += 1;
     }
 
+    /************************ INÍCIO DA AREA CRÍTICA ************************/
+
+    sem_wait(&semaphore);
+
     // Garante a saída da thread e passa o histograma local ao pthread_join
-    pthread_exit(local_histogram);
+    /* pthread_exit(local_histogram); */
+    pthread_join(threads[arg->thread_id], (void **)&local_histogram);
+    for (int i = 0; i < (arg->n_bins); ++i)
+    {
+        histogram[i] += local_histogram[i];
+    }
+
+    sem_post(&semaphore);
+
+    /************************** FIM DA AREA CRÍTICA **************************/
 }
 
 int main(int argc, char *argv[])
 {
-    // Seed dinâmica
-    /* srand((unsigned int)time(NULL)); */
+    // Seed dinâmica para o número de Bins
+    srand((unsigned int)time(NULL));
 
     /*
      * Valores próximos a média são mais prováveis
@@ -56,23 +75,27 @@ int main(int argc, char *argv[])
     int left_over_n_numbers; // Tamanho extra que será divido entre as threads depois
     float *numbers_arr;      // Sequencia de números gerados randomicamente no range [min, max]
     float *chunk_start;      // Início do bloco para a iteração
-    int *histogram;          // A soma de todos os histogramas locais
+    int mean;                // Média utilizada na distribuição gaussiana
+    int standard_deviation;  // Desvio padrão utilizado na distribuição gaussiana
 
     // Tratamento para entradas insuficiente
-    if (argc != 6)
+    if (argc != 3)
     {
-        fprintf(stderr, "Modelo de parâmetros: <n_threads> <min> <max> <n_numbers> <n_bins>\n", argv[0]);
+        fprintf(stderr, "Modelo de parâmetros: <n_threads> <n_numbers>\n", argv[0]);
         return -1;
     }
 
     // Atribuição dos parâmetros
     n_threads = atoi(argv[1]);
-    min = atof(argv[2]);
-    max = atof(argv[3]);
-    n_numbers = atoi(argv[4]);
-    n_bins = atoi(argv[5]);
+    min = 1200.00;
+    max = 2000.00;
+    n_numbers = atoi(argv[2]);
+    mean = 3232 / 2;
+    standard_deviation = 72;
 
-    normal_distribution<> normal_dist{(max / 2), 100};
+    normal_distribution<> normal_dist{mean, standard_deviation};
+
+    n_bins = rand() % 1000 + 1;
 
     // Definição do intervalo entre cada Bin
     interval = (max - min) / (float)n_bins;
@@ -89,11 +112,14 @@ int main(int argc, char *argv[])
     // Gera a sequencia de números randômicos
     for (int i = 0; i < n_numbers; ++i)
     {
-        numbers_arr[i] = round(normal_dist(gen)); /* (float)rand() / (float)RAND_MAX * (max - min) + min; */
+        numbers_arr[i] = round(normal_dist(gen));
     }
 
+    // Inicialização do semáforo. Apenas 1 thread acessará a região crítica por vez
+    sem_init(&semaphore, 0, 1);
+
     // Vetor de threads de tamanho passado por argv
-    pthread_t threads[n_threads];
+    threads = (pthread_t *)malloc(n_threads * sizeof(pthread_t));
 
     // Inicializa o espaço referente aos dados base para cada bloco
     calc_hist_numbers_arr_t *args = (calc_hist_numbers_arr_t *)calloc(n_threads, sizeof(*args));
@@ -122,6 +148,7 @@ int main(int argc, char *argv[])
             .max = max,
             .n_bins = n_bins,
             .interval = interval,
+            .thread_id = i,
         };
 
         // Avança o início do bloco para a próxima iteração
@@ -131,25 +158,12 @@ int main(int argc, char *argv[])
             --left_over_n_numbers;
 
         // Instancia a thread para calcular o histograma deste bloco
-        pthread_create(&threads[i], NULL, HIST,
+        pthread_create(&threads[i], NULL, PTH_HIST,
                        (void *)&args[i]);
     }
 
-    // Concatenação de todos os histogramas locais
-    for (long i = 0; i < n_threads; ++i)
-    {
-        int *local_histogram = NULL;
-        /*
-         * Aguarda a conclusão do job para a thread "i" e soma o histograma local
-         * ao histograma global 
-         */
-        pthread_join(threads[i], (void **)&local_histogram);
-        for (int i = 0; i < n_bins; ++i)
-        {
-            histogram[i] += local_histogram[i];
-        }
-        free(local_histogram);
-    }
+    // Adeus semáforo :c
+    sem_destroy(&semaphore);
 
     // Impressão do histograma
     {
@@ -166,8 +180,10 @@ int main(int argc, char *argv[])
         printf(
             "\nIntervalo da sequencia: [%.2f, %.2f]\nTamanho da sequencia: %d\nNumero de "
             "Bins: %d\n"
-            "Intervalo: %.2f\n\n",
-            min, max, n_numbers, n_bins, interval);
+            "Intervalo: %.2f\n"
+            "Media da distribuicao: %d\n"
+            "Desvio padrao da distribuicao: %d\n\n",
+            min, max, n_numbers, n_bins, interval, mean, standard_deviation);
         for (int i = 0; i < n_bins; ++i)
         {
             float bin_index = (float)i * interval + min;
@@ -186,7 +202,8 @@ int main(int argc, char *argv[])
     free(numbers_arr);
     free(args);
     free(histogram);
+    free(threads);
 
-    // Fim !!!
+    // Fim :)
     pthread_exit(NULL);
 }
