@@ -13,7 +13,7 @@ sem_t semaphore;    // Semáforo para exclusão mútua
 int *histogram;     // A soma de todos os histogramas locais
 pthread_t *threads; // Array de Threads
 
-typedef struct calc_hist_numbers_arr_t
+typedef struct histogram_data
 {
     float *numbers_arr_start; // Início do intervalo de números
     float *numbers_arr_end;   // Início do intervalo de números
@@ -21,12 +21,12 @@ typedef struct calc_hist_numbers_arr_t
     int n_bins;               // Número de bins no histograma
     float interval;           // Passo de um bin para outro
     int thread_id;            // ID da thread
-} calc_hist_numbers_arr_t;
+} histogram_data;
 
 // Calcula um histograma com base em um bloco de números
 void *PTH_HIST(void *hist_numbers_arr)
 {
-    calc_hist_numbers_arr_t *arg = (calc_hist_numbers_arr_t *)hist_numbers_arr;
+    histogram_data *arg = (histogram_data *)hist_numbers_arr;
     int i;
 
     // Alloca espaço para o histograma local (Array)
@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
     threads = (pthread_t *)malloc(n_threads * sizeof(pthread_t));
 
     // Inicializa o espaço referente aos dados base para cada bloco
-    calc_hist_numbers_arr_t *args = (calc_hist_numbers_arr_t *)calloc(n_threads, sizeof(*args));
+    histogram_data *args = (histogram_data *)calloc(n_threads, sizeof(*args));
 
     // Alocação do espaço referente a todos os histogramas locais
     histogram = (int *)calloc(n_bins, sizeof(*histogram));
@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
         int chunk_start_length = local_n_numbers + !!left_over_n_numbers;
 
         // Atribuição do bloco de sequência para a thread processar
-        args[i] = (calc_hist_numbers_arr_t){
+        args[i] = (histogram_data){
             .numbers_arr_start = chunk_start,
             .numbers_arr_end = chunk_start + chunk_start_length,
             .min = min,
