@@ -1,6 +1,6 @@
 # Análise de Algoritmos Paralelos e Seriais
 
-## Multiplicação de Matrizes
+## Histograma - Distribuição Gaussiana
 
 Universidade Federal do Rio Grande do Norte ([UFRN](http://http://www.ufrn.br)), 2020.
 
@@ -10,7 +10,7 @@ Análise por:
 
 Esta análise se encontra disponível em:
 
-`https://github.com/ozielalves/prog-paralela/tree/master/Multz`
+`https://github.com/ozielalves/prog-paralela/tree/master/Histogram`
 
 ## Sumário
 
@@ -49,7 +49,7 @@ Esta análise se encontra disponível em:
 
 ### Objetivos
 
-Esta analise tem como propósito a avaliação do comportamento de códigos seriais e de um código paralelo referentes a implementação do algoritmo de **Multiplicação de matrizes**. Será destacado o speedud e a eficiência do código paralelo em relação a 2 códigos seriais, levando em consideração os tempos de execução e tamanhos de problema para composição dos resultados finais da análise. Os cenários irão simular a execução dos programas para 1 (serial), 4, 8, 16 e 32 threads, com 4 tamanhos de problema, definidos empiricamente com o objetivo de atingir o tempo mínimo de execução determinado pela [referência](https://github.com/ozielalves/prog-paralela/tree/master/referencia) desta análise para os limites do intervalo de tamanhos.
+Esta análise tem como propósito a avaliação do comportamento de um código seriais e um código paralelo referentes a implementação do algoritmo de produção do **histograma** para geração de números utilizando a **distribuição gaussiana** (normal). Será destacado o speedud e a eficiência do código paralelo em relação ao código serial, levando em consideração os tempos de execução e tamanhos de problema para composição dos resultados finais da análise. Os cenários irão simular a execução dos programas para 1 (serial), 4, 8, 16 e 32 threads, com 4 tamanhos de problema, definidos empiricamente com o objetivo de atingir o tempo mínimo de execução determinado pela [referência](https://github.com/ozielalves/prog-paralela/tree/master/referencia) desta análise para os limites do intervalo de tamanhos.
 
 ### Dependência
 
@@ -68,18 +68,13 @@ Instalada a dependência, basta executar o shellscript determinado para a devida
 Serão realizadas **10 execuções** com **4 tamanhos de problema** , em **5 quantidades de threads** (1, 4, 8, 16 e 32).
 
 ```bash
-# Para o algoritmo serial de multiplicação de matrizes usando o princípio da localidade
-./multz1_serial_start.sh
+# Para o algoritmo serial de produção do histograma
+./hist_start.sh
 ```
 
 ```bash
-# Para o algoritmo serial de multiplicação de matrizes com acesso de memória aleatório
-./multz2_serial_start.sh
-```
-
-```bash
-# Para o algoritmo paralelo de multiplicação de matrizes
-./multz_paralelo_start.sh
+# Para o algoritmo paralelo de produção do histograma
+./pth_hist_start.sh
 ```
 
 **Obs.:** Caso seja necessário conceder permissão máxima para os scripts, execute `chmod 777 [NOME DO SCRIPT].sh`.
@@ -104,171 +99,139 @@ Após o termino das execuções do script é possível ter acesso aos arquivos d
 
 ### Apresentação do Algoritmo
 
-#### Multiplicação de Matrizes Quadradas
+#### Produção de histograma
 
-O produto de duas matrizes é definido somente quando o número de colunas da primeira matriz é igual ao número de linhas da segunda matriz. Se a matriz `A` é uma matriz **m**×**n** e `B` é uma matriz **n**×**p**, então a matriz `produto` resultante da multiplicação de `A` por `B` é uma matriz **m**×**p**. O elemento de cada entrada da matriz `produto` é dado pelo produto da **i**-ésima linha de `A` com a **j**-ésima coluna de `B`, ou seja:
+O histograma, também conhecido como distribuição de frequências, é a representação gráfica em colunas ou em barras (bins) de um conjunto de dados previamente tabulado e dividido em classes uniformes ou não uniformes. A base de cada retângulo representa uma classe. A altura de cada retângulo representa a quantidade ou a frequência absoluta com que o valor da classe ocorre no conjunto de dados para classes uniformes ou a densidade de frequência para classes não uniformes.
 
-![Alt Matrix Multiplication](./data/formula.png)
+Ambos os algoritmos desenvolvidos tem o propósito de clusterizar **n** números, gerados utilizando a distribuição gaussiana, em uma quantidade de grupos(bins) randômica, em um intervalo definido empiricamente com base nos limites da distribuição utilizada. A imagem abaixo demonstra simbolicamente a representação gráfica de um histograma qualquer.
 
-O algoritmo desenvolvido para esta análise realiza a multiplicação de matrizes **m**×**m**. A imagem abaixo representa de maneira intuitiva o procedimento de multiplicação de duas matrizes.
+![Alt Matrix Multiplication](./data/histogram-ex-1.png)
 
-![Alt Matrix Multiplication](./data/matrix_mult.png)
+**Referência**: Zvirtes, Leandro. Ferramentas da Qualidade. p. 2.
 
-**Referência**: José Ruy, Giovanni (2002). Matemática fundamental: uma nova abordagem. São Paulo: FTD.
+#### **Código serial**
 
-#### **Código serial usando o princípio da localidade (01)**
+Dado um número `n` de números a serem gerados e categorizados, a seguinte sub-rotina é implementada:
 
-Dado um número `size` de tamanho de matriz para criação das matrizes quadradas, a seguinte sub-rotina é implementada:
+1. `n_numbers` recebe o valor de `n` passado.
 
-1. A matriz `fator_a` é alocada com `size` linhas e colunas e inicializada com inteiros semi-randômicos.
+2. O número de bins(clusters) `n_bins` é gerado randomicamente.
 
-2. Em seguida, a matriz `fator_b` é também inicializada a partir de uma cópia da matriz `fator_a` utilizando `memcpy`.
+3. A partir de valores de intervalo máximo e mínimo, previamente determinados, e do número de bins, é então calculado o intervalo entre cada bin.
 
-3. Feito isto, a matriz `produto` é também alocada com `size` linhas e colunas.
+4. Posteriormente, é alocado espaço para o array `histograma` que armazenará a contagem de números gerados por bins.
 
-4. Após a fase de inicialização das matrizes é então chamada a função que realiza a multiplicação da matriz `fator_a` pela matriz `fator_b`.
+5. Em seguida são atribuídos os dados do histograma a ser calculado à _Struct_ `arg`.
 
-A implementação da função `MULTZ` é apresentada abaixo:
-
-```bash
-# Multiplica duas matrizes contemplando o princípio da localidade
-void MULTZ(int size, int **fator_a, int **fator_b, int **produto)
-{
-    int i, j, k;            # Variáveis auxiliares
-    int row_start, row_end; # Inicio e fim da linha da matriz
-    int sum;                # Armazena o produto da multiplicação
-
-    row_start = 0;
-    row_end = size;
-
-    # Para cada linha na matriz "fator_a"
-    for (i = row_start; i < row_end; i++)
-    {
-        # Para cada coluna na matriz "fator_b"
-        for (j = 0; j < size; j++)
-        {
-            sum = 0;
-            for (k = 0; k < size; k++)
-            {
-                sum += fator_a[i][k] * fator_b[k][j];
-            }
-            produto[i][j] = sum;
-        }
-    }
-}
-```
-
-#### **Código serial com acesso de memória aleatório (02)**
-
-Dado um número `size` de tamanho de matriz para criação das matrizes quadradas, uma rotina idêntica a anterior é implementada, a alteração está somente na implementação da função `MULTZ`:
+A implementação da função `HIST` é apresentada abaixo:
 
 ```bash
-# Multiplica duas matrizes não contemplando o princípio da
-void MULTZ(int size, int **fator_a, int **fator_b, int **produto)
+# Calcula um histograma com base em um bloco de números
+void HIST(histogram_data arg)
 {
-    int i, j, k;                           # Variáveis auxiliares
-    vector<int> rows(size), columns(size); # Vetor de Linhas e de Colunas da matriz
-    int sum = 0;                           # Armazena o produto da multiplicação
+    unsigned long long i; # Variável auxiliar
+    float num;            # Número randômico gerado (Distribuição Gaussiana)
+    int bin_index;        # Identificador de bin
 
-    # Populando vectors de linhas e colunas
-    for (i = 0; i < size; i++)
+
+    # Determina seed dinâmica para geração de números
+    srand((unsigned int)(time(NULL)));
+
+    for (i = 0; i < arg.n_numbers; i++)
     {
-        rows[i] = i;
-        columns[i] = i;
-    }
-
-    # Aleatorizando as linhas e colunas
-    random_shuffle(rows.begin(), rows.end());
-    random_shuffle(columns.begin(), columns.end());
-
-    # Para cada linha na matriz "fator_a"
-    for (i = 0; i < size; i++)
-    {
-        # Para cada coluna na matriz "fator_b"
-        for (j = 0; j < size; j++)
-        {
-            sum = 0;
-            for (k = 0; k < size; k++)
-            {
-                sum += fator_a[rows[i]][k] * fator_b[k][columns[j]];
-            }
-            produto[rows[i]][columns[j]] = sum;
-        }
+        num = gaussDistribution(arg.mean, arg.standard_deviation);
+        bin_index = floor((num - arg.min) / arg.interval);
+        histogram[bin_index] += 1;
     }
 }
 ```
 
 #### **Código paralelo**
 
-Ainda sendo `size` o tamanho de matriz para criação das matrizes quadradas e `num_threads` o número de threads que serão utilizadas na execução do programa, a seguinte sub-rotina é implementada:
+Ainda sendo `n` a quantidade de números a serem gerados e categorizados, uma sub-rotina similar a anterior é implementada:
 
-1. O vetor de threads é alocado de acordo com o número de threads `num_threads` fornecido.
+1. `n_numbers` recebe o valor de `n` passado. e `n_threads` recebe o número de threads que serão utilizados nesta execução.
 
-2. As matrizes `fator_a`, `fator_b` e `produto` são alocadas com `size` linhas e colunas.
+2. O número de bins(clusters) `n_bins` é gerado randomicamente.
 
-3. Em seguida, as matrizes `fator_a` e `fator_b` são inicializadas com inteiros semi-randômicos.
+3. A partir de valores de intervalo máximo e mínimo, previamente determinados, e do número de bins, é então calculado o intervalo entre cada bin.
 
-4. Após a fase de inicialização das matrizes é então iniciado o processo de multiplicação usando multithreading, a função chamada para cada thread é a `PTH_MULTZ` que irá realizar a multiplicação de uma fatia da matriz `fator_a` pela matriz `fator_b` em cada thread.
+4. `local_n_numbers` recebe a fração de números que cada thread será responsável por gerar e categorizar.
 
-A implementação da função `PTH_MULTZ` é apresentada abaixo:
+5. O semáforo da execução paralela é inicializado permitindo a entrada de apenas 1 thread por vez na área crítica.
+
+6. O vetor de threads é alocado de acordo com o número de threads `n_threads` fornecido.
+
+7. O array de dados do histograma `args`, de tipo _histogram_data_, é alocado de acordo com o número de threads fornecidos para a execução.
+
+8. Posteriormente, é alocado espaço para o array `histograma` que armazenará a contagem de números gerados por bins.
+
+9. Em seguida, é dado início a parte paralela do algoritmo. Porém, antes que seja chamada a função `PTH_HIST`, em cada thread, são atribuídos os dados da fatia de histograma a ser calculado no array de dados `args` de acordo com o id da thread.
+
+A implementação da função `PTH_HIST` é apresentada abaixo:
 
 ```bash
-# Rotina da Thread.
-# Cada thread realiza a multiplicação de uma fatia da matriz "fator_a" pela matriz "fator_b".
-void *PTH_MULTZ(void *arg)
+# Calcula um histograma com base em um bloco de números
+void *PTH_HIST(void *hist_numbers_arr)
 {
-  int i, j, k;            # Variáveis auxiliáres
-  int thread_id;          # Thread ID
-  int slice;              # Fatia de multiplicação de cada thread
-  int row_start, row_end; # Inicio e fim da fatia
-  long sum;               # Armazena o produto da multiplicação
+    histogram_data *arg = (histogram_data *)hist_numbers_arr;
+    unsigned long long i; # Variável auxiliar
+    float num;            # Número gerado randomicamente (Distribuição Gaussiana)
+    int bin_index;        # Identificador do bin
 
-  thread_id = *(int *)(arg); # Recebe o ID da thread alocada sequencialmente.
-  slice = size / num_threads;
-  row_start = thread_id * slice;
-  row_end = (thread_id + 1) * slice;
+    # Determina seed dinâmica para geração de números
+    SEED = (unsigned int)(time(NULL));
 
-  # Para cada linha na matriz "fator_a"
-  for (i = row_start; i < row_end; ++i)
-  {
-    # Para cada coluna na matriz "fator_b"
-    for (j = 0; j < size; ++j)
+    # Alloca espaço para o histograma local (Array)
+    int *local_histogram = (int *)calloc(arg->n_bins, sizeof(int));
+
+    # Calcula o histograma para o bloco de dados
+    for (i = 0; i < arg->n_numbers; i++)
     {
-      sum = 0;
-      for (k = 0; k < size; ++k)
-      {
-        sum += fator_a[i][k] * fator_b[k][j];
-      }
-      produto[i][j] = sum;
+        num = gaussDistribution(arg->mean, arg->standard_deviation);
+        bin_index = floor((num - arg->min) / arg->interval);
+        local_histogram[bin_index] += 1;
     }
-  }
-}
 
+    /************************ INÍCIO DA ÁREA CRÍTICA ************************/
+
+    sem_wait(&semaphore);
+
+    for (i = 0; i < (arg->n_bins); ++i)
+    {
+        histogram[i] += local_histogram[i];
+    }
+
+    sem_post(&semaphore);
+
+    /************************** FIM DA ÁREA CRÍTICA **************************/
+
+    free(local_histogram);
+}
 ```
 
-**Obs.:** Note que o algoritmo paralelo utiliza o **princípio da localidade** também implementado no código serial 01.
+**Obs.:** Para fins de segurança no processo paralelo foi utilizada a função `rand_r()` em substituição à função `rand()` utilizada no código paralelo para geração de números randômicos.
 
 ## Desenvolvimento
 
-Para esta análise, serão realizadas **10 execuções** com tamanhos de problema **1.408**, **1.664**, **1.920** e **2.176**, em **5 quantidades de threads** (1, 4, 8, 16 e 32). Se espera que o código paralelo consiga valores de speedup relevantes em relação ao tempo de execução para os códigos serias. Além disso, também é esperado que a eficiência do algoritmo paralelo, quanto à multiplicação das matrizes, apresente valores parecidos para as demais quantidades de threads utilizadas quando é aumentado somente o tamanho do problema. Uma descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
+Para esta análise, serão realizadas **10 execuções** com tamanhos de problema **1.024.000.000**, **2.048.000.000**, **3.072.000.000** e **4.096.000.000**, em **5 quantidades de threads** (1, 4, 8, 16 e 32). Como limites de intervalo mínimo e máximo foram selecionados respectivamente **1.500** e **1.700**, de modo a cobrir todos os números gerados pela distruibuição gaussiana utilizando **1616** como média de distruição e desvio padrão de **72**, o número de bins serão definidos randomicamente em tempo de execução, como requisito destacado na [referência desta análise](https://github.com/ozielalves/prog-paralela/tree/master/referencia). Se espera que o código paralelo consiga valores de speedup relevantes em relação ao tempo de execução para o código serial. Além disso, também é esperado que a eficiência do algoritmo paralelo, quanto ao cálculo do histograma, apresente valores parecidos para as demais quantidades de threads utilizadas quando é aumentado somente o tamanho do problema. Uma descrição completa da máquina de testes pode ser encontrada no tópico [Condições de Testes](#condições-de-testes).
 
 ### Corretude
 
-Para validar a corretude dos algoritmos implementados foi realizado um teste utilizando **6** como tamanho de problema para para ambos os códigos seriais e para o código paralelo:
+Para validar a corretude dos algoritmos implementados foi realizado um teste utilizando **1000** como tamanho de problema para o código serial e para o código paralelo. Note que foi fixado o número de bins em **50** para que pudesse haver uma comparação apropriada entre os dois códigos, e uma impressão visível em tela.
 
-![Alt Corretude S1](./data/corretude_s1.PNG)
-![Alt Corretude S2](./data/corretude_s2.PNG)
-![Alt Corretude P](./data/corretude_p.PNG)
+![Alt Corretude](./data/corretude.png)
 
-Como é possível perceber através dos prints de execução em terminal, todos os códigos conseguem realizar corretamente a multiplicação das matrizes geradas.<br><br>
+Como é possível perceber através dos prints de execução em terminal, ambos os códigos calculam o histograma com precisão, é possível observar ainda que o histograma gerado respeita a **distruibuição gaussiana** - utilizada para a geração dos números randômicos -, valores proximos a média de distribuição são mais prováveis.<br><br>
+
+### Histogramas
+
+Após a execução dos códigos foi possível recuperar os dados referentes a cada histograma gerado, alguns dos histogramas coletados serão apresentados abaixo.
+
+
+
 
 ### Gráficos
-
-![Alt Tempo Serial x problema](./data/tempo_s_x_problema.PNG)
-
-Através do gráfico de tempos por problema para os códigos seriais, é possível observar que o código serial 1 consegue resolver o problema em um menor tempo para todos os tamanhos de problema quando comparado ao código serial 2. Isso acontece porque o Sistema de Memória tende a manter dados e instruções próximos aos que estão sendo executados no topo da Hierarquia de Memória, dessa forma, vetores e matrizes são armazenados em sequência de acordo com seus índices. Por isso, ao utilizar o **Principio da Localidade Espacial**, o código serial 1 ganha vantagem em cima do código serial 2 - que acessa os índices das matrizes de forma aleatória - quando gasta um tempo bem menor para acessar os índices consecutivos das matrizes.<br><br>
-
-Observe agora o gráfico que compara o tempo de execução por problema para cada número de threads utilizadas.
 
 ![Alt Tempo Paralelo x problema](./data/tempo_p_x_problema.PNG)
 
@@ -290,24 +253,24 @@ O código paralelo consegue resultados ainda melhores em termos de performance d
 
 A tabela abaixo apresenta uma comparação mais detalhada do speedup relativo ao código serial utilizando o princípio da localidade espacial e ao código serial utilizando acesso de memória aleatório.
 
-| Cores | Tamanho do Problema | Speedup (S01) | Speedup (S02) |
-| ----- | ------------------- | ------------- | ------------- |
-| 4     | 1408                | 5.87E+00      | 1.33E+01      |
-| 4     | 1664                | 6.06E+00      | 1.76E+01      |
-| 4     | 1920                | 6.16E+00      | 2.30E+01      |
-| 4     | 2176                | 6.01E+00      | 2.45E+01      |
-| 8     | 1408                | 1.16E+01      | 2.63E+01      |
-| 8     | 1664                | 1.20E+01      | 3.48E+01      |
-| 8     | 1920                | 1.21E+01      | 4.53E+01      |
-| 8     | 2176                | 1.19E+01      | 4.85E+01      |
-| 16    | 1408                | 2.25E+01      | 5.12E+01      |
-| 16    | 1664                | 2.35E+01      | 6.83E+01      |
-| 16    | 1920                | 2.39E+01      | 8.90E+01      |
-| 16    | 2176                | 2.35E+01      | 9.56E+01      |
-| 32    | 1408                | 1.57E+02      | 6.41E+02      |
-| 32    | 1664                | 9.81E+01      | 4.00E+02      |
-| 32    | 1920                | 6.55E+01      | 2.67E+02      |
-| 32    | 2176                | 4.50E+01      | 1.83E+02      |
+| Cores | Tamanho do Problema | Speedup  |
+| ----- | ------------------- | -------- |
+| 4     | 1024000000          | 5.87E+00 |
+| 4     | 2048000000          | 6.06E+00 |
+| 4     | 3072000000          | 6.16E+00 |
+| 4     | 4096000000          | 6.01E+00 |
+| 8     | 1024000000          | 1.16E+01 |
+| 8     | 2048000000          | 1.20E+01 |
+| 8     | 3072000000          | 1.21E+01 |
+| 8     | 4096000000          | 1.19E+01 |
+| 16    | 1024000000          | 2.25E+01 |
+| 16    | 2048000000          | 2.35E+01 |
+| 16    | 3072000000          | 2.39E+01 |
+| 16    | 4096000000          | 2.35E+01 |
+| 32    | 1024000000          | 1.57E+02 |
+| 32    | 2048000000          | 9.81E+01 |
+| 32    | 3072000000          | 6.55E+01 |
+| 32    | 4096000000          | 4.50E+01 |
 
 ### Análise de Eficiência
 
@@ -325,24 +288,24 @@ De maneira ainda mais surpreendente, na maioria dos casos, as linhas no gráfico
 
 A tabela abaixo apresenta a eficiência calculada através dos valores de speedup anteriormente fornecidos.
 
-| Cores | Tamanho do Problema | Eficiência (S01) | Eficiência (S02) |
-| ----- | ------------------- | ---------------- | ---------------- |
-| 4     | 1408                | 1.47E+00         | 3.33E+00         |
-| 4     | 1664                | 1.52E+00         | 4.40E+00         |
-| 4     | 1920                | 1.54E+00         | 5.74E+00         |
-| 4     | 2176                | 1.50E+00         | 6.12E+00         |
-| 8     | 1408                | 1.45E+00         | 3.28E+00         |
-| 8     | 1664                | 1.50E+00         | 4.35E+00         |
-| 8     | 1920                | 1.52E+00         | 5.66E+00         |
-| 8     | 2176                | 1.49E+00         | 6.06E+00         |
-| 16    | 1408                | 1.41E+00         | 3.20E+00         |
-| 16    | 1664                | 1.47E+00         | 4.27E+00         |
-| 16    | 1920                | 1.49E+00         | 5.56E+00         |
-| 16    | 2176                | 1.47E+00         | 5.98E+00         |
-| 32    | 1408                | 4.91E+00         | 2.00E+01         |
-| 32    | 1664                | 3.06E+00         | 1.25E+01         |
-| 32    | 1920                | 2.05E+00         | 8.35E+00         |
-| 32    | 2176                | 1.41E+00         | 5.73E+00         |
+| Cores | Tamanho do Problema | Eficiência |
+| ----- | ------------------- | ---------- |
+| 4     | 1024000000          | 1.47E+00   |
+| 4     | 2048000000          | 1.52E+00   |
+| 4     | 3072000000          | 1.54E+00   |
+| 4     | 4096000000          | 1.50E+00   |
+| 8     | 1024000000          | 1.45E+00   |
+| 8     | 2048000000          | 1.50E+00   |
+| 8     | 3072000000          | 1.52E+00   |
+| 8     | 4096000000          | 1.49E+00   |
+| 16    | 1024000000          | 1.41E+00   |
+| 16    | 2048000000          | 1.47E+00   |
+| 16    | 3072000000          | 1.49E+00   |
+| 16    | 4096000000          | 1.47E+00   |
+| 32    | 1024000000          | 4.91E+00   |
+| 32    | 2048000000          | 3.06E+00   |
+| 32    | 3072000000          | 2.05E+00   |
+| 32    | 4096000000          | 1.41E+00   |
 
 **Obs.:** Os valores superlineares encontrados para eficiência do algoritmo paralelo podem ser explicados pela utilização de algoritmos seriais não ótimos.
 
@@ -350,7 +313,7 @@ A tabela abaixo apresenta a eficiência calculada através dos valores de speedu
 
 ### Considerações Finais
 
-Por meio dos resultados coletados após a execução de todos os códigos, foi possível obter resultados bastante satisfatórios quanto a comparação do algoritmo paralelo em relação aos dois algoritmos seriais. O código paralelo se mostrou ser mais do que eficiente quando comparado em performance geral junto aos dois seriais, o que já era esperado. No entanto, foram encontrados valores de eficiência superlineares, mesmo na comparação com o código serial que implementa a mesma estrátegia de acesso a memória. Isto denuncia a não otimização dos códigos seriais utilizados para esta análise. Apesar disso, foi interessante perceber a diferença no desempenho dos algoritmos seriais utilizando os diferentes tipos de acesso a memória, a exploração do **Princípio da localidade espacial** foi ponto chave na conquista de performance para o código serial 01. Além disso, o comportamento singular da linha de eficiência para 32 threads obsevado nos gráficos foi importante para destacar a relação inversamente proporcional que existe entre o tamanho do problema e o speedup para este caso específico. Por fim, diante do comportamento da eficiência do código paralelo quando aumentado o número de threads para um mesmo tamanho de problema, foi possível classificar o algoritmo paralelo como **fortemente escalável** em ambos os casos de comparação.
+Por meio dos resultados coletados após a execução de todos os códigos, foi possível obter resultados bastante satisfatórios quanto a comparação do algoritmo paralelo em relação ao código serial. O código paralelo demonstrou uma eficiencia bastante  quando comparado em, o que já era esperado. No entanto, foram encontrados valores de eficiência superlineares, mesmo na comparação com o código serial que implementa a mesma estrátegia de acesso a memória. Isto denuncia a não otimização dos códigos seriais utilizados para esta análise. Apesar disso, foi interessante perceber a diferença no desempenho dos algoritmos seriais utilizando os diferentes tipos de acesso a memória, a exploração do **Princípio da localidade espacial** foi ponto chave na conquista de performance para o código serial 01. Além disso, o comportamento singular da linha de eficiência para 32 threads obsevado nos gráficos foi importante para destacar a relação inversamente proporcional que existe entre o tamanho do problema e o speedup para este caso específico. Por fim, diante do comportamento da eficiência do código paralelo quando aumentado o número de threads para um mesmo tamanho de problema, foi possível classificar o algoritmo paralelo como **fortemente escalável** em ambos os casos de comparação.
 
 ### Softwares utilizados
 
