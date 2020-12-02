@@ -110,7 +110,7 @@ Ambos os algoritmos desenvolvidos tem o propósito de clusterizar **n** números
 
 **Referência**: Zvirtes, Leandro. Ferramentas da Qualidade. p. 2.
 
-#### **Modelo de distruibuição**
+#### **Modelo de distribuição**
 
 A implementação do modelo tem por objetivo a concentração de 100% dos valores gerados dentro do intervalo definido para a análise.
 
@@ -345,7 +345,7 @@ A tabela abaixo apresenta de maneira mais detalahda a eficiência calculada atra
 
 ### Considerações Finais
 
-Por meio dos resultados coletados após a execução de todos os códigos, foi possível obter resultados bastante satisfatórios quanto a comparação do algoritmo paralelo em relação ao código serial. O código paralelo demonstrou uma eficiencia bastante significativa em relação ao código serial, o que já era esperado. No decorrer da análise, foi interessante perceber o impacto causado pela utilização do método `rand()` no processo paralelo. Após as primeiras execuções com o modelo de aleatorização não seguro para threads foi identificado que o tempo de de execução para o código paralelo não estava reduzindo, mas aumentando, conforme incrementado o tamanho do problema e a quantidade de threads. Como solução, o método `rand()` foi substituído pelo `rand_r()` mais adequado para o uso de multiplas threads. Por fim, diante do comportamento da eficiência do código paralelo quando aumentado o número de threads para um mesmo tamanho de problema, foi possível classificar o algoritmo paralelo como **fortemente escalável**.
+Por meio dos resultados coletados após a execução de todos os códigos, foi possível obter resultados bastante satisfatórios quanto a comparação do algoritmo paralelo em relação ao código serial. O código paralelo demonstrou uma eficiencia bastante significativa em relação ao código serial, o que já era esperado. No decorrer da análise, foi interessante perceber o impacto causado pela utilização do método `rand()` no processo paralelo. Após as primeiras execuções com o modelo de aleatorização não seguro para threads foi identificado que o tempo de de execução para o código paralelo não estava reduzindo, mas aumentando, conforme incrementado o tamanho do problema e a quantidade de threads. Como solução, o método `rand()` foi substituído pelo `rand_r()`, mais adequado para o uso de multiplas threads. Por fim, diante do comportamento da eficiência do código paralelo quando aumentado o número de threads para um mesmo tamanho de problema, foi possível classificar o algoritmo paralelo como **fortemente escalável**.
 
 ### **Softwares utilizados**
 
