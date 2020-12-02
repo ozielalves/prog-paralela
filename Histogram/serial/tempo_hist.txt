@@ -1,59 +1,52 @@
 
 Tamanho do Problema: 1024000000
 
-	Tempo: 1.75e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 752 	Intervalo: 0.27 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 1.75e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 446 	Intervalo: 0.45 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 1.75e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 923 	Intervalo: 0.22 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 1.74e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 515 	Intervalo: 0.39 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 1.74e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 118 	Intervalo: 1.69 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 1.74e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 370 	Intervalo: 0.54 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 1.73e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 400 	Intervalo: 0.50 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 1.74e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 380 	Intervalo: 0.53 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 1.74e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 690 	Intervalo: 0.29 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 1.74e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 415 	Intervalo: 0.48 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 1.63e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 937 	Intervalo: 0.21 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 1.63e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 980 	Intervalo: 0.20 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 1.63e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 951 	Intervalo: 0.21 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 1.64e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 333 	Intervalo: 0.60 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 1.65e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 720 	Intervalo: 0.28 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 1.63e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 763 	Intervalo: 0.26 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 1.63e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 534 	Intervalo: 0.37 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 1.63e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 649 	Intervalo: 0.31 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 1.64e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 962 	Intervalo: 0.21 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 1.64e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1024000000 	Numero de Bins: 70 	Intervalo: 2.86 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
 
 Tamanho do Problema: 2048000000
 
-	Tempo: 3.51e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 746 	Intervalo: 0.27 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 3.48e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 314 	Intervalo: 0.64 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 3.48e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 230 	Intervalo: 0.87 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 3.52e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 882 	Intervalo: 0.23 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 3.49e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 760 	Intervalo: 0.26 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 3.48e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 165 	Intervalo: 1.21 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 3.48e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 602 	Intervalo: 0.33 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 3.47e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 36 	Intervalo: 5.56 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 3.48e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 125 	Intervalo: 1.60 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 3.48e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 238 	Intervalo: 0.84 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 3.27e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 488 	Intervalo: 0.41 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 3.27e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 15 	Intervalo: 13.33 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 3.27e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 44 	Intervalo: 4.55 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 3.27e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 573 	Intervalo: 0.35 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 3.27e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 869 	Intervalo: 0.23 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 3.27e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 886 	Intervalo: 0.23 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 3.27e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 889 	Intervalo: 0.22 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 3.27e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 632 	Intervalo: 0.32 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 3.31e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 918 	Intervalo: 0.22 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 3.27e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 2048000000 	Numero de Bins: 99 	Intervalo: 2.02 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
 
 Tamanho do Problema: 3072000000
 
-	Tempo: 5.24e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 382 	Intervalo: 0.52 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 5.22e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 128 	Intervalo: 1.56 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 5.30e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 548 	Intervalo: 0.36 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 5.22e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 98 	Intervalo: 2.04 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 5.21e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 496 	Intervalo: 0.40 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 5.22e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 132 	Intervalo: 1.52 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 5.22e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 896 	Intervalo: 0.22 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 5.22e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 724 	Intervalo: 0.28 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 5.23e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 670 	Intervalo: 0.30 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 5.24e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 368 	Intervalo: 0.54 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 4.90e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 336 	Intervalo: 0.60 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 4.90e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 449 	Intervalo: 0.45 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 4.98e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 115 	Intervalo: 1.74 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 4.92e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 483 	Intervalo: 0.41 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 4.90e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 640 	Intervalo: 0.31 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 4.91e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 65 	Intervalo: 3.08 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 4.90e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 323 	Intervalo: 0.62 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 4.91e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 88 	Intervalo: 2.27 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 4.90e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 510 	Intervalo: 0.39 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 4.90e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 3072000000 	Numero de Bins: 348 	Intervalo: 0.57 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
 
 Tamanho do Problema: 4096000000
 
-	Tempo: 6.95e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 393 	Intervalo: 0.51 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 6.95e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 993 	Intervalo: 0.20 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 7.05e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 554 	Intervalo: 0.36 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 6.95e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 275 	Intervalo: 0.73 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 6.96e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 834 	Intervalo: 0.24 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 7.00e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 786 	Intervalo: 0.25 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 6.93e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 800 	Intervalo: 0.25 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 6.95e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 376 	Intervalo: 0.53 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 6.95e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 629 	Intervalo: 0.32 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 6.94e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 41 	Intervalo: 4.88 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 6.95e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 732 	Intervalo: 0.27 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-
-	Tempo: 7.58e-04 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1000 	Numero de Bins: 148 	Intervalo: 1.35 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 9.90e-05 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1000 	Numero de Bins: 894 	Intervalo: 0.22 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 1.99e-04 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1000 	Numero de Bins: 100 	Intervalo: 2.00 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 1.03e-04 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 1000 	Numero de Bins: 100 	Intervalo: 2.00 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
-	Tempo: 7.93e-03 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 100000 	Numero de Bins: 881 	Intervalo: 0.23 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 6.54e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 68 	Intervalo: 2.94 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 6.54e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 706 	Intervalo: 0.28 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 6.54e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 999 	Intervalo: 0.20 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 6.54e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 428 	Intervalo: 0.47 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 6.54e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 75 	Intervalo: 2.67 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 6.54e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 404 	Intervalo: 0.50 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 6.54e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 476 	Intervalo: 0.42 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 6.54e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 48 	Intervalo: 4.17 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 6.54e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 68 	Intervalo: 2.94 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72
+	Tempo: 6.63e+02 	Intervalo: [1500.00, 1700.00] 	Tamanho da sequencia: 4096000000 	Numero de Bins: 114 	Intervalo: 1.75 	Media da distribuicao: 1616 	Desvio padrao da distribuicao: 72

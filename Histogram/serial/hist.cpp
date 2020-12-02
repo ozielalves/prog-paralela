@@ -15,16 +15,15 @@ typedef struct histogram_data
     int min, max;                 // Mínimo e Máximo do intervalo
     int n_bins;                   // Número de bins no histograma
     float interval;               // Passo de um bin para outro
-    int mean;                     // Média utilizada na distribuição gaussiana
-    int standard_deviation;       // Desvio padrão utilizado na distribuição gaussiana
+    int mean;                     // Média utilizada na distribuição 
+    int standard_deviation;       // Desvio padrão utilizado na distribuição 
 } histogram_data;
 
 /*
-* Gera um número randômico de acordo com a distribuição normal
 * Valores próximos a média são mais prováveis
 * O desvio padrão afeta a dispersão de valores gerados pela média
 */
-float gaussDistribution(int mean, int standard_deviation)
+float newDistribution(int mean, int standard_deviation)
 {
 
     float r, v1, v2, random_number;
@@ -55,7 +54,7 @@ int genBins(int seed)
 void HIST(histogram_data arg)
 {
     unsigned long long i; // Variável auxiliar
-    float num;            // Número randômico gerado (Distribuição Gaussiana)
+    float num;            // Número randômico gerado (Distribuição )
     int bin_index;        // Identificador de bin
 
     // Determina seed dinâmica para geração de números
@@ -64,7 +63,7 @@ void HIST(histogram_data arg)
     // Calcula o histograma
     for (i = 0; i < arg.n_numbers; i++)
     {   
-        num = gaussDistribution(arg.mean, arg.standard_deviation);
+        num = newDistribution(arg.mean, arg.standard_deviation);
         bin_index = floor((num - arg.min) / arg.interval);
         histogram[bin_index] += 1;
     }
@@ -78,8 +77,8 @@ int main(int argc, char *argv[])
     unsigned long long n_numbers; // Tamanho da sequência de números aleatórios.
     int n_bins;                   // Número de bins no histograma
     float interval;               // Intervalo entre cada Bin do histograma
-    int mean;                     // Média utilizada na distribuição gaussiana
-    int standard_deviation;       // Desvio padrão utilizado na distribuição gaussiana
+    int mean;                     // Média utilizada na distribuição 
+    int standard_deviation;       // Desvio padrão utilizado na distribuição 
     unsigned long long i, j;      // Variáveis auxiliares
 
     // Tratamento para entradas insuficiente

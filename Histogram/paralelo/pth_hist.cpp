@@ -21,16 +21,15 @@ typedef struct histogram_data
     int min, max;                 // Mínimo e Máximo do intervalo
     int n_bins;                   // Número de bins no histograma
     float interval;               // Passo de um bin para outro
-    int mean;                     // Média utilizada na distribuição gaussiana
-    int standard_deviation;       // Desvio padrão utilizado na distribuição gaussiana
+    int mean;                     // Média utilizada na distribuição 
+    int standard_deviation;       // Desvio padrão utilizado na distribuição
 } histogram_data;
 
 /*
-* Gera um número randômico de acordo com a distribuição normal
 * Valores próximos a média são mais prováveis
 * O desvio padrão afeta a dispersão de valores gerados pela média
 */
-float gaussDistribution(int mean, int standard_deviation)
+float newDistribution(int mean, int standard_deviation)
 {
 
     float r, v1, v2, random_number;
@@ -62,7 +61,7 @@ void *PTH_HIST(void *hist_numbers_arr)
 {
     histogram_data *arg = (histogram_data *)hist_numbers_arr;
     unsigned long long i; // Variável auxiliar
-    float num;            // Número gerado randomicamente (Distribuição Gaussiana)
+    float num;            // Número gerado randomicamente 
     int bin_index;        // Identificador do bin
 
     // Determina seed dinâmica para geração de números
@@ -74,7 +73,7 @@ void *PTH_HIST(void *hist_numbers_arr)
     // Calcula o histograma para o bloco de dados
     for (i = 0; i < arg->n_numbers; i++)
     {
-        num = gaussDistribution(arg->mean, arg->standard_deviation);
+        num = newDistribution(arg->mean, arg->standard_deviation);
         bin_index = floor((num - arg->min) / arg->interval);
         local_histogram[bin_index] += 1;
     }
@@ -105,8 +104,8 @@ int main(int argc, char *argv[])
     int n_threads;                      // Número de threads
     float interval;                     // Intervalo entre cada Bin do histograma
     unsigned long long local_n_numbers; // Bloco para cada Thread
-    int mean;                           // Média utilizada na distribuição gaussiana
-    int standard_deviation;             // Desvio padrão utilizado na distribuição gaussiana
+    int mean;                           // Média utilizada na distribuição 
+    int standard_deviation;             // Desvio padrão utilizado na distribuição
     unsigned long long i, j;            // Variáveis auxiliares
 
     // Tratamento para entradas insuficiente
