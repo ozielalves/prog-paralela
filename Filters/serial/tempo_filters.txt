@@ -1,0 +1,52 @@
+
+Imagem: 1
+
+	Tempo: 8.18e+01 
+	Tempo: 8.18e+01 
+	Tempo: 8.19e+01 
+	Tempo: 8.18e+01 
+	Tempo: 8.19e+01 
+	Tempo: 8.20e+01 
+	Tempo: 8.19e+01 
+	Tempo: 8.20e+01 
+	Tempo: 8.18e+01 
+	Tempo: 8.19e+01 
+
+Imagem: 2
+
+	Tempo: 1.13e+02 
+	Tempo: 1.13e+02 
+	Tempo: 1.13e+02 
+	Tempo: 1.13e+02 
+	Tempo: 1.13e+02 
+	Tempo: 1.13e+02 
+	Tempo: 1.13e+02 
+	Tempo: 1.13e+02 
+	Tempo: 1.13e+02 
+	Tempo: 1.13e+02 
+
+Imagem: 3
+
+	Tempo: 1.39e+02 
+	Tempo: 1.39e+02 
+	Tempo: 1.39e+02 
+	Tempo: 1.39e+02 
+	Tempo: 1.39e+02 
+	Tempo: 1.39e+02 
+	Tempo: 1.39e+02 
+	Tempo: 1.39e+02 
+	Tempo: 1.39e+02 
+	Tempo: 1.39e+02 
+
+Imagem: 4
+
+	Tempo: 2.27e+02 
+	Tempo: 2.30e+02 
+	Tempo: 2.26e+02 
+	Tempo: 2.26e+02 
+	Tempo: 2.26e+02 
+	Tempo: 2.27e+02 
+	Tempo: 2.26e+02 
+	Tempo: 2.27e+02 
+	Tempo: 2.26e+02 
+	Tempo: 2.26e+02 
